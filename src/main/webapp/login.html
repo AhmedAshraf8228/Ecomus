@@ -42,19 +42,17 @@
         <header id="header" class="header-default">
             <div class="px_15 lg-px_40">
                 <div class="row wrapper-header align-items-center">
-                    <div class="col-md-4 col-3 tf-lg-hidden">
-                    </div>
-                    <div class="col-xl-3 col-md-4 col-6">
+                    <div class="col-xl-3 col-md-3 col-3">
                         <a href="home.html" class="logo-header">
                             <img src="images/logo/BordMaster.svg" alt="logo" class="logo">
                         </a>
                     </div>
-                    <div class="col-xl-6 tf-md-hidden">
+                    <div class="col-xl-6 col-md-6 col-6">
                     </div>
-                    <div class="col-xl-3 col-md-4 col-3">
+                    <div class="col-xl-3 col-md-3 col-3">
                         <ul class="nav-icon d-flex justify-content-end align-items-center gap-20">
                             <li class="nav-search">
-                                <a href="#canvasSearch" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft" class="nav-icon-item">
+                                <a href="#search" class="nav-icon-item text-decoration-none search-box search icon">
                                     <i class="icon icon-search"></i>
                                 </a>
                             </li>
@@ -66,6 +64,14 @@
                 </div>
             </div>
         </header>
+
+        <!-- Search Form -->
+        <div id="search" class="">
+            <span class="close">X</span>
+            <form role="search" id="searchform" method="get">
+                <input value="" name="q" type="search" placeholder="Type to Search">
+            </form>
+        </div>
         <!-- /header -->
 
         <!-- page-title -->
@@ -314,6 +320,8 @@
     <script type="text/javascript" src="js/wow.min.js"></script>   
     <script type="text/javascript" src="js/multiple-modal.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/search.js"></script>
+
 </body>
 
 
