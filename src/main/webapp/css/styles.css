@@ -17012,7 +17012,6 @@ blockquote .text {
   .footer.background-black .footer-heading-moblie::after, .footer.background-black .footer-heading-moblie::before {
     background-color: var(--white);
   }
-
   .mega-menu .row-demo {
     grid-template-columns: 1fr;
   }
