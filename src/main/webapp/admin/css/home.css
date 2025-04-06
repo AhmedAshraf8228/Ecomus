@@ -1,0 +1,36 @@
+/* Card Container */
+.dashboard-cards {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Individual Cards */
+.card {
+    background: #f8f8f8;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: 270px;
+    text-align: left;
+    border: 1px solid #e0e0e0;
+}
+
+/* Card Title */
+.card-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: #6c757d;
+    margin-bottom: 8px;
+}
+
+/* Card Value */
+.card-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #19224a; /* Dark blue */
+    margin-bottom: 10px;
+}
+
+
+
