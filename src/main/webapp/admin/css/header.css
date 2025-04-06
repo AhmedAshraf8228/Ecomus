@@ -1,0 +1,130 @@
+/* Navbar - Thinner Header */
+.navbar {
+    background: #f8f8f8;
+    color: #0e111f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px; /* Reduced height */
+    margin-top: 0px;
+    position: fixed;
+    width: 100%;
+    border-bottom: 1px solid #d6d8db; /* Light gray bottom border */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
+}
+
+/* Logo */
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    color :#19224a;
+}
+
+.logo span {
+    color: yellow;
+}
+
+.user-profile {
+    font-weight: bold;
+}
+
+/* Container */
+.container {
+    display: flex;
+    flex: 1;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    position: fixed; /* Keeps it in place */
+    left: 0;
+    top: 43px;
+    bottom: 0;
+    color: white;
+    /*background: #f8f8f8; !* Same as page background *!*/
+    background: #f8f8f8;
+    padding: 15px;
+    font-family: Arial, sans-serif;
+    border-right: 1px solid #bcc1c4; /* Dark gray separator line */
+}
+
+/* Sidebar List */
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Sidebar Items */
+.sidebar ul li {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold; /* Bold Font */
+    color: #5a5d60; /* Gray Text */
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    background: transparent; /* No background color by default */
+}
+
+/* Sidebar Hover Effect (applies to all items, even active ones) */
+.sidebar ul li:hover {
+    background: #e4e7eb !important; /* Light gray on hover */
+}
+
+/* Ensure the active tab does not block hover */
+.sidebar ul li.active {
+    background: #d6d8db !important; /* Light gray */
+}
+
+/* New Icons Using FontAwesome (Recommended) */
+.sidebar ul li#home .icon::before {
+    content: "\f015"; /* Home Icon */
+    font-family: FontAwesome;
+}
+
+.sidebar ul li#customers .icon::before {
+    content: "\f500"; /* Users Icon */
+    font-family: FontAwesome;
+}
+
+.sidebar ul li#orders .icon::before {
+    content: "\f46c"; /* Clipboard List (Orders) */
+    font-family: FontAwesome;
+}
+
+.sidebar ul li#products .icon::before {
+    content: "\f07c"; /* Box (Products) */
+    font-family: FontAwesome;
+}
+
+.sidebar ul li#category .icon::before {
+    content: "\f02c"; /* Tags (Category) */
+    font-family: FontAwesome;
+}
+
+/* Hide submenu by default */
+.submenu {
+    display: none;
+    list-style: none;
+    padding-left: 20px;
+}
+
+/* Show submenu when parent is hovered */
+.menu-item:hover .submenu {
+    display: block;
+}
+
+/* Style submenu items */
+.submenu li {
+    background: #f4f4f4;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.submenu li:hover {
+    background: #ddd;
+}

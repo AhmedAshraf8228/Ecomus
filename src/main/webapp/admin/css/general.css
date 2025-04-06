@@ -1,0 +1,136 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+}
+
+.content {
+    background: #f8f8f8; /* For testing, you can change it */
+    padding: 20px 35px;
+    margin-left: 220px; /* Push content to the right of sidebar */
+    width: calc(100% - 220px); /* Make it take the remaining space */
+    height: 100vh; /* Full screen height */
+    flex-grow: 1; /* Takes full remaining space */
+}
+
+.main{
+    background-color: white;
+    /*border-radius: 10px;*/
+    padding: 30px 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 60px 20px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.dashboard-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #19224a;
+}
+
+.add-button {
+    background-color: #31cb67;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    float: right;
+    margin-bottom: 10px;
+    width: 150px;
+    height: 35px;
+}
+
+.add-button:hover {
+    background-color: #249a4d;
+}
+
+#search-input {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+}
+
+thead {
+    background-color: #f1f3f5;
+    text-align: left;
+}
+
+thead th {
+    padding: 12px;
+    font-size: 14px;
+}
+
+tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+tbody td {
+    padding: 10px;
+    vertical-align: middle;
+}
+
+tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Image Styling */
+td img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Styling */
+td .edit-button {
+    background-color: #5c6bc0;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+    width: 60px;
+    height: 25px;
+}
+
+td .edit-button:hover {
+    background-color: #3f51b5;
+}
+
+td .delete-button {
+    background-color: #e53935;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 60px;
+    height: 25px;
+}
+
+td .delete-button:hover {
+    background-color: #c62828;
+}
+
+

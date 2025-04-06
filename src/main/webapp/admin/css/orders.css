@@ -1,0 +1,33 @@
+.status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+
+.status.CREDIT {
+    color: #6c757d;
+}
+
+.status.COD {
+    color: #b4b5b7;
+}
+
+.fulfillment {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.fulfillment.completed {
+    background: green;
+}
+
+.fulfillment.Canceled {
+    background: #a12222;
+}
+
+.fulfillment.processed {
+    background: orange;
+}

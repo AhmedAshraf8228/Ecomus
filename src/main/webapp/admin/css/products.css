@@ -1,0 +1,107 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.main {
+    flex: 3; /* Takes 3 parts of the space */
+}
+
+.add-category-container {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 60px 20px;
+    height: fit-content;
+    color: #19224a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-category-container h3 {
+    margin-bottom: 15px;
+    text-align: center;
+    width: 100%;
+}
+
+.add-category-container input {
+    width: 90%;
+    max-width: 250px;
+    padding: 10px;
+    margin-bottom: 15px; /* Adds spacing between input and button */
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    text-align: left; /* Align text to the left */
+}
+
+.add-category-container button {
+    width: 100%;
+    max-width: 250px;
+    padding: 10px;
+    border: none;
+    border-radius: 2px;
+    background: #28a745;
+    color: white;
+    cursor: pointer;
+}
+
+.add-category-container button:hover {
+    background: #218838;
+}
+
+.categories-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: Arial, sans-serif;
+}
+
+.category-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 16px;
+}
+.category-item input {
+    width: 18px;
+    height: 18px;
+}
+
+.category-item i {
+    color: #19224a;
+    font-size: 18px;
+}
+
+.image-preview-box {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.image-preview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.remove-image-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.remove-image-btn:hover {
+    background-color: darkred;
+}
