@@ -29,34 +29,34 @@
                 <th>Action</th>
             </tr>
             </thead>
-            <tbody>
-            <tr>
-                <td>1</td>
-                <td>Electronics</td>
-                <td>120</td>
-                <td>
-                    <button class="edit-button">Edit</button>
-                    <button class="delete-button">Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Clothing</td>
-                <td>200</td>
-                <td>
-                    <button class="edit-button">Edit</button>
-                    <button class="delete-button">Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Home Appliances</td>
-                <td>80</td>
-                <td>
-                    <button class="edit-button">Edit</button>
-                    <button class="delete-button">Delete</button>
-                </td>
-            </tr>
+            <tbody id="category-tbody">
+<%--            <tr>--%>
+<%--                <td>1</td>--%>
+<%--                <td>Electronics</td>--%>
+<%--                <td>120</td>--%>
+<%--                <td>--%>
+<%--                    <button class="edit-button">Edit</button>--%>
+<%--                    <button class="delete-button">Delete</button>--%>
+<%--                </td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--                <td>2</td>--%>
+<%--                <td>Clothing</td>--%>
+<%--                <td>200</td>--%>
+<%--                <td>--%>
+<%--                    <button class="edit-button">Edit</button>--%>
+<%--                    <button class="delete-button">Delete</button>--%>
+<%--                </td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--                <td>3</td>--%>
+<%--                <td>Home Appliances</td>--%>
+<%--                <td>80</td>--%>
+<%--                <td>--%>
+<%--                    <button class="edit-button">Edit</button>--%>
+<%--                    <button class="delete-button">Delete</button>--%>
+<%--                </td>
+            </tr>--%>
             </tbody>
         </table>
     </div>

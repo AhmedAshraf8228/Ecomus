@@ -22,7 +22,7 @@ function loadCustomers() {
         type: "GET",
         dataType: "json",
         success: function (users) {
-            let tableBody = $("table tbody");
+            let tableBody = $("#customer-tbody");
             tableBody.empty(); // Clear existing rows
 
             users.forEach(user => {

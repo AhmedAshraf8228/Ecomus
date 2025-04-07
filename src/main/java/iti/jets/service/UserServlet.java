@@ -2,6 +2,7 @@ package iti.jets.service;
 
 import com.google.gson.Gson;
 import iti.jets.dao.impl.GenericRepoImpl;
+import iti.jets.dao.impl.UserRepoImpl;
 import iti.jets.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -21,13 +22,14 @@ import java.util.List;
 public class UserServlet extends HttpServlet {
 
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpa-mysql");
-    private EntityManager entityManager = emf.createEntityManager();
-    private GenericRepoImpl<User, Integer> userRepo = new GenericRepoImpl<>(entityManager, User.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+
+         EntityManager entityManager = emf.createEntityManager();
+         GenericRepoImpl<User, Integer> userRepo = new GenericRepoImpl<>(entityManager, User.class);
 
         try {
             List<User> users = userRepo.findAll();
@@ -45,6 +47,8 @@ public class UserServlet extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("{\"error\": \"An error occurred\"}");
             e.printStackTrace();
+        }finally {
+            entityManager.close();
         }
     }
 
@@ -66,5 +70,10 @@ public class UserServlet extends HttpServlet {
 //    }
 
 
-
+    @Override
+    public void destroy() {
+            if (emf.isOpen()) {
+                emf.close();
+            }
+    }
 }
