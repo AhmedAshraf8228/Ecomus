@@ -1,15 +1,15 @@
 package iti.jets.dao.impl;
 
+import java.util.List;
+
 import iti.jets.dao.repo.GenericRepo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
-import java.util.List;
-
 public class GenericRepoImpl<T,ID> implements GenericRepo<T,ID> {
 
 
-    private final EntityManager entityManager ;
+    protected final EntityManager entityManager ;
     private final Class<T> entityClass;
 
     public GenericRepoImpl(EntityManager entityManager, Class<T> entityClass ){
@@ -55,6 +55,7 @@ public class GenericRepoImpl<T,ID> implements GenericRepo<T,ID> {
         }
         entityManager.getTransaction().commit();
     }
+    
 
     @Override
     public void delete(T t) {

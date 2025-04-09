@@ -13,6 +13,8 @@ public class CartPK implements Serializable {
         this.productId = productId;
     }
 
+    public CartPK() {
+    }
     // Getters, setters, equals() and hashCode()
 
     public int getUserId() {

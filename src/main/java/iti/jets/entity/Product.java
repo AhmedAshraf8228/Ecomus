@@ -1,7 +1,13 @@
 package iti.jets.entity;
 
-import jakarta.persistence.*;
 import java.io.Serializable;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "product")
@@ -24,6 +30,8 @@ public class Product implements Serializable {
     @Column(name = "price", nullable = false)
     private int price;
 
+
+
     public Product() {
     }
 
@@ -32,6 +40,7 @@ public class Product implements Serializable {
         this.description = description;
         this.quantity = quantity;
         this.price = price;
+      
     }
 
     // Getters and setters
@@ -75,4 +84,6 @@ public class Product implements Serializable {
     public void setPrice(int price) {
         this.price = price;
     }
+  
+    
 }

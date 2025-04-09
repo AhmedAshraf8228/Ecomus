@@ -8,24 +8,20 @@
 
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>iti.jets.entity.User</class>
-        <!-- Remove this line if you want Hibernate to scan for entities automatically -->
-<!--        <exclude-unlisted-classes>true</exclude-unlisted-classes>-->
-
-
-
-
+        <class>iti.jets.entity.Cart</class>
+        <class>iti.jets.entity.Product</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mindmaze" />
             <property name="jakarta.persistence.jdbc.user" value="root" />
-            <property name="jakarta.persistence.jdbc.password" value="password" />
-
+            <property name="jakarta.persistence.jdbc.password" value="1234" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect" />
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" />
-            <property name="hibernate.boot.allow_jdbc_metadata_access" value="true" />
-            <property name="hibernate.hbm2ddl.auto" value="update" /> <!-- Change if needed -->
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+          
+    <property name="hibernate.use_sql_comments" value="true"/>
         </properties>
     </persistence-unit>
 

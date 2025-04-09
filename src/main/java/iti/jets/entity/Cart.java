@@ -1,7 +1,14 @@
 package iti.jets.entity;
 
-import jakarta.persistence.*;
 import java.io.Serializable;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "cart")
@@ -37,6 +44,13 @@ public class Cart implements Serializable {
         this.user = user;
     }
     // Getters and setters
+    public Cart(User user, Product product, int quantity) {
+        this.userId = user.getUserId();
+        this.productId = product.getProductId();
+        this.quantity = quantity;
+        this.user = user;
+        this.product = product;
+    }
 
     public int getUserId() {
         return userId;
@@ -77,5 +91,7 @@ public class Cart implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
+
 }
+
 

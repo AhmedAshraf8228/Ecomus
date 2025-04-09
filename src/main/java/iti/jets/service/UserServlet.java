@@ -1,6 +1,12 @@
 package iti.jets.service;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.hibernate.Hibernate;
+
 import com.google.gson.Gson;
+
 import iti.jets.dao.impl.GenericRepoImpl;
 import iti.jets.entity.User;
 import jakarta.persistence.EntityManager;
@@ -11,11 +17,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.hibernate.Hibernate;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 
 @WebServlet("/admin/users")
 public class UserServlet extends HttpServlet {
