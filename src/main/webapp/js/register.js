@@ -8,8 +8,12 @@ $(document).ready(function () {
 
         // Iterate through all the validation functions and await them
         for (let i = 0; i < validationFunctions.length; i++) {
-            let validationResult = await validationFunctions[i](); // Wait for each validation function's result
-            console.log(validationFunctions[i] + ": " + validationResult);
+            let validationResult;
+            if (validationFunctions[i] === validateEmail) {
+                validationResult = await validateEmail(true);
+            } else {
+                validationResult = await validationFunctions[i](); // Wait for each validation function's result
+            }
             if (!validationResult) {
                 isFormValid = false; // If any validation fails, set the form to invalid
                 break; // Stop checking further validations if any one fails
@@ -25,7 +29,9 @@ $(document).ready(function () {
     });
 
     // Email blur event (triggered when the email field loses focus)
-    $('#email').on('blur', validateEmail);
+    $('#email').on('blur', function() {
+        validateEmail(false);  // Pass false to prevent focusing on the field during blur
+    });
 
 });
 
@@ -43,7 +49,7 @@ function updateUnValid(field) {
     return false; // Invalid input
 }
 
-async function validateEmail() {
+async function validateEmail(flag) {
     let emailField = $('#email');
     $('#invalidStructure').hide();
     $('#invalidEmail').hide();
@@ -59,7 +65,7 @@ async function validateEmail() {
             let response = await $.ajax({
                 url: 'validate-email',  // Backend URL for email validation
                 method: 'GET',
-                data: { email: email },  // Send the email to the server
+                data: {email: email},  // Send the email to the server
             });
 
             // Handle the server response
@@ -70,26 +76,24 @@ async function validateEmail() {
             } else {
                 emailField.removeClass('is-valid').addClass('is-invalid');
                 $('#invalidEmail').show();
-                emailField.focus()
+                if (flag) emailField.focus();
                 return false;  // Email is invalid
             }
         } catch (error) {
             // Handle AJAX error
             $('#emailValidationMessage').text('Error occurred while validating email').css('color', 'red');
             emailField.addClass('is-invalid').removeClass('is-valid');
-            emailField.focus()
+            if (flag) emailField.focus();
             return false;  // If there's an error with the AJAX request
         }
     } else {
         // If the email structure is invalid, mark it as invalid
         $('#invalidStructure').show();
         emailField.addClass('is-invalid').removeClass('is-valid');
-        emailField.focus()
+        if (flag) emailField.focus();
         return false;  // Invalid email format
     }
 }
-
-
 
 
 function validateUserName() {
@@ -155,7 +159,7 @@ function validateBuildingNo() {
     let buildingNo = buildingNoField.val();
 
     // Check if the value is a valid positive number
-    if (buildingNo.trim() !=="" && (isNaN(buildingNo) || buildingNo <= 0)) {
+    if (buildingNo.trim() !== "" && (isNaN(buildingNo) || buildingNo <= 0)) {
         return updateUnValid(buildingNoField);
     } else {
         return updateValid(buildingNoField)
