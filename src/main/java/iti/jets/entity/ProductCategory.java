@@ -17,7 +17,7 @@ public class ProductCategory implements Serializable {
     private int categoryId;
 
     @ManyToOne
-    @JoinColumn(name = "productId", insertable = false, updatable = false)
+    @JoinColumn(name = "productId", insertable = false, updatable = false )
     private Product product;
 
     @ManyToOne

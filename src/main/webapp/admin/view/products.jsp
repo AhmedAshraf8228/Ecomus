@@ -33,34 +33,34 @@
                 <th>ID</th>
                 <th>Image</th>
                 <th>Product</th>
-                <th>Type</th>
                 <th>Inventory</th>
+                <th>Price</th>
                 <th>Actions</th>
             </tr>
             </thead>
-            <tbody>
-            <tr>
-                <td>1</td>
-                <td><img src="\MindMaze\admin\images\1.jpeg" alt="Product"></td>
-                <td>Super Extreme Nike Sports</td>
-                <td>Shoes</td>
-                <td>3</td>
-                <td>
-                    <button class="edit-button">Edit</button>
-                    <button class="delete-button">Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td><img src="\MindMaze\admin\images\1.jpeg" alt="Product"></td>
-                <td>Super Extreme Nike Sports</td>
-                <td>Shoes</td>
-                <td>3</td>
-                <td>
-                    <button class="edit-button">Edit</button>
-                    <button class="delete-button">Delete</button>
-                </td>
-            </tr>
+            <tbody id="product-tbody">
+<%--            <tr>--%>
+<%--                <td>1</td>--%>
+<%--                <td><img src="\MindMaze\admin\images\1.jpeg" alt="Product"></td>--%>
+<%--                <td>Super Extreme Nike Sports</td>--%>
+<%--                <td>Shoes</td>--%>
+<%--                <td>3</td>--%>
+<%--                <td>--%>
+<%--                    <button class="edit-button">Edit</button>--%>
+<%--                    <button class="delete-button">Delete</button>--%>
+<%--                </td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--                <td>2</td>--%>
+<%--                <td><img src="\MindMaze\admin\images\1.jpeg" alt="Product"></td>--%>
+<%--                <td>Super Extreme Nike Sports</td>--%>
+<%--                <td>Shoes</td>--%>
+<%--                <td>3</td>--%>
+<%--                <td>--%>
+<%--                    <button class="edit-button">Edit</button>--%>
+<%--                    <button class="delete-button">Delete</button>--%>
+<%--                </td>--%>
+<%--            </tr>--%>
             <!-- Add more rows dynamically here -->
             </tbody>
         </table>

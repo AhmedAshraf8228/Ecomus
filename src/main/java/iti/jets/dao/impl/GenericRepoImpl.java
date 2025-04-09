@@ -3,6 +3,7 @@ package iti.jets.dao.impl;
 import iti.jets.dao.repo.GenericRepo;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GenericRepoImpl<T,ID> implements GenericRepo<T,ID> {
@@ -18,8 +19,22 @@ public class GenericRepoImpl<T,ID> implements GenericRepo<T,ID> {
 
     @Override
     public List<T> findAll() {
-        TypedQuery<T> query = entityManager.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e", entityClass);
-        return query.getResultList();
+
+        List<T> resultList = null;
+        try {
+            entityManager.getTransaction().begin();
+            TypedQuery<T> query = entityManager.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e", entityClass);
+            resultList = query.getResultList();
+            entityManager.getTransaction().commit();
+
+        } catch (RuntimeException e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            System.out.println(e.getMessage());
+        }
+        return resultList != null ? resultList : new ArrayList<T>();
+
     }
 
     @Override

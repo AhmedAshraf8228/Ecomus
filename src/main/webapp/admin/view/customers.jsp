@@ -29,7 +29,7 @@
             <th>Action</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="customer-tbody">
 <%--        <tr>--%>
 <%--            <td>001</td>--%>
 <%--            <td>John Doe</td>--%>
