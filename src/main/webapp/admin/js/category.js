@@ -40,8 +40,8 @@ function loadCategories(){
                     <td>${cat.categoryName}</td>
                     <td>0</td>
                     <td>
-                        <button class="edit-button">Edit</button>
-                        <button class="delete-button">Delete</button>
+                        <button class="edit-button" onclick="loadDataToEdit(${cat.categoryId})">Edit</button>
+                        <button class="delete-button" onclick="deleteCategory(${cat.categoryId})">Delete</button>
                     </td>
                 </tr>
     `;
@@ -53,5 +53,63 @@ function loadCategories(){
             console.error("Error:", error);
         }
     });
+
+}
+
+function addCategory() {
+    let categoryName = $("#category-name").val().trim();
+
+    if (categoryName === "") {
+        alert("Category name cannot be empty!");
+        return;
+    }
+
+    $.ajax({
+        url: "/MindMaze/api/category",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ categoryName: categoryName }),
+        success: function (response) {
+            alert("Category added successfully!");
+            $("#category-name").val("");
+            loadCategories();
+        },
+        error: function () {
+            alert("Failed to add category.");
+        }
+    });
+}
+
+function deleteCategory(categoryId) {
+    if (confirm("Are you sure you want to delete this category?")) {
+        $.ajax({
+            url: `/MindMaze/api/category?categoryId=${categoryId}`,
+            type: "DELETE",
+            success: function () {
+                loadCategories();
+            },
+            error: function () {
+                alert("Failed to delete the category.");
+            }
+        });
+    }
+}
+
+function loadDataToEdit(categoryId){
+
+    $.ajax({
+        url: "/MindMaze/api/category/id=${categoryId}", // جلب بيانات الفئة من API
+        type: "GET",
+        dataType: "json",
+        success: function (category) {
+            $("#edit-category-name").val(category.categoryName); // وضع الاسم داخل الإدخال
+            $("#edit-category").attr("data-id", categoryId); // تخزين الـ ID لاستخدامه عند التعديل
+        },
+        error: function (xhr, status, error) {
+           alert("Error loading category:");
+        }
+    });
+}
+function editCategory(){
 
 }

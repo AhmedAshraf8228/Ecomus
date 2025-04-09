@@ -3,6 +3,7 @@ package iti.jets.entity;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -49,10 +50,16 @@ public class User implements Serializable {
     @Column(name = "phone")
     private String phone;
 
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true ,
+            fetch = FetchType.LAZY)
+    private List<Order> orders;
+
     public User() {
     }
 
-    public User( String userName, String email, String password, Date BD, String job, String city, String area, String street, String buildingNo, String creditNo, Integer creditLimit, String phone) {
+    public User( String userName, String email, String password, Date BD, String job, String city, String area, String street, String buildingNo, String creditNo, Integer creditLimit, String phone , List<Order> orders) {
         this.userName = userName;
         this.email = email;
         this.password = password;
@@ -65,6 +72,7 @@ public class User implements Serializable {
         this.creditNo = creditNo;
         this.creditLimit = creditLimit;
         this.phone = phone;
+        this.orders=orders;
     }
 
     // Getters and setters
@@ -171,6 +179,14 @@ public class User implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }
 

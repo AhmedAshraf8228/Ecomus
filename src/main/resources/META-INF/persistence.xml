@@ -26,6 +26,8 @@
             <property name="hibernate.format_sql" value="true" />
             <property name="hibernate.boot.allow_jdbc_metadata_access" value="true" />
             <property name="hibernate.hbm2ddl.auto" value="update" /> <!-- Change if needed -->
+
+
         </properties>
     </persistence-unit>
 

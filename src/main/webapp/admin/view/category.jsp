@@ -61,11 +61,24 @@
         </table>
     </div>
 
+
+
+
     <div class="add-category-container">
-        <h3>Add New Category</h3>
-        <input type="text" id="category-name" placeholder="Category Name">
-        <button>Add Category</button>
+            <div class="add-category">
+                <h3>Add New Category</h3>
+                <input type="text" id="category-name" placeholder="Category Name"
+                       required oninput="this.value = this.value.replace(/[^A-Za-z\s\d]|(?<=\d.*)[A-Za-z\s]/g, '')">
+                <button onclick="addCategory()">Add Category</button>
+            </div>
+
+        <div class="edit-category">
+            <h3>Edit Category</h3>
+            <input type="text" id="edit-category-name" placeholder="Edit Category Name">
+            <button onclick="editCategory()">Save Changes</button>
+        </div>
     </div>
+
 </div>
 
 

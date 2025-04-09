@@ -33,7 +33,7 @@ public class Order implements Serializable {
     private PayType payType;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
 
     public Order() {

@@ -50,7 +50,7 @@ function loadCustomers() {
 function deleteCustomer(userId) {
     if (confirm("Are you sure you want to delete this customer?")) {
         $.ajax({
-            url: `/MindMaze/users?userId=${userId}`,
+            url: `/MindMaze/admin/users?userId=${userId}`,
             type: "DELETE",
             success: function () {
                 loadCustomers(); // Reload the table after deletion

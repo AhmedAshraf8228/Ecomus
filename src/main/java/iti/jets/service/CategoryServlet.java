@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import iti.jets.dao.impl.GenericRepoImpl;
 import iti.jets.entity.Category;
 import iti.jets.entity.Order;
+import iti.jets.entity.Product;
+import iti.jets.entity.ProductCategory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -13,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 
@@ -27,14 +30,25 @@ public class CategoryServlet extends HttpServlet {
 
         EntityManager session = factory.createEntityManager();
         GenericRepoImpl<Category, Integer> repo = new GenericRepoImpl<>(session, Category.class);
+        Gson gson = new Gson();
 
+        String categoryIdParam = req.getParameter("id");
         try {
-            List<Category> cats = repo.findAll();
+            if (categoryIdParam != null) {
+                int categoryId = Integer.parseInt(categoryIdParam);
+                Category category = repo.findById(categoryId);
 
-            Gson gson = new Gson();
-            resp.getWriter().write(gson.toJson(cats));
+                if (category != null) {
+                    resp.getWriter().write(gson.toJson(category));
+                } else {
+                    resp.getWriter().write("{\"error\": \"Category not found\"}");
+                }
+            }else{
+                List<Category> cats = repo.findAll();
+                resp.getWriter().write(gson.toJson(cats));
+            }
 
-        } catch (Exception e) {
+        }catch (Exception e) {
             resp.getWriter().write("{\"error\": \"An error occurred in Category Servlet\"}");
             e.printStackTrace();
         }finally {
@@ -42,6 +56,47 @@ public class CategoryServlet extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        BufferedReader reader = request.getReader();
+        Gson gson = new Gson();
+        Category newCategory = gson.fromJson(reader, Category.class);
+
+        EntityManager entityManager = factory.createEntityManager();
+        GenericRepoImpl<Category, Integer> categoryRepo = new GenericRepoImpl<>(entityManager, Category.class);
+
+        try {
+            categoryRepo.insert(newCategory);
+
+            response.setStatus(HttpServletResponse.SC_CREATED);
+            response.getWriter().write("{\"message\": \"Category added successfully\"}");
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"error\": \"Failed to add category\"}");
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+
+        EntityManager entityManager = factory.createEntityManager();
+        GenericRepoImpl<Category, Integer> categoryRepo = new GenericRepoImpl<>(entityManager, Category.class);
+        GenericRepoImpl<ProductCategory, Integer> productCategoryRepo = new GenericRepoImpl<>(entityManager, ProductCategory.class);
+        categoryRepo.deleteById(categoryId);
+//      productCategoryRepo.deleteById(productIdId);
+
+        entityManager.close();
+        response.setStatus(200);
+    }
     @Override
     public void destroy() {
         if (factory.isOpen()) {

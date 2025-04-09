@@ -6,6 +6,15 @@
          metadata-complete= "false">
 
 
+<!--    <context-param>-->
+<!--        <param-name>removeAbandoned</param-name>-->
+<!--        <param-value>true</param-value>-->
+<!--    </context-param>-->
+<!--    <context-param>-->
+<!--        <param-name>removeAbandonedTimeout</param-name>-->
+<!--        <param-value>60</param-value>-->
+<!--    </context-param>-->
+
     <welcome-file-list>
         <welcome-file>admin/view/header.html</welcome-file>
     </welcome-file-list>
