@@ -1,32 +1,3 @@
-<!-- <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
-<head>
-    <title>Your Cart</title>
-</head>
-<body>
-    <h1>Your Cart</h1>
-    <table border="1">
-        <tr>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
-        </tr>
-
-        <c:forEach var="cartItem" items="${cartItems}">
-            <tr>
-                <td>${cartItem.product.productName}</td>
-                <td>${cartItem.quantity}</td>
-                <td>${cartItem.product.price}</td>
-                <td>${cartItem.quantity * cartItem.product.price}</td>
-            </tr>
-        </c:forEach>
-    </table>
-
-    <h2>Total: ${total}</h2>
-</body>
-</html> -->
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -97,6 +68,7 @@
                 <input value="" name="q" type="search" placeholder="Type to Search">
             </form>
         </div>
+    </div>
         <!-- /header -->
     <!-- page-title -->
     <div class="tf-page-title">
@@ -364,65 +336,5 @@
     }
 });
      </script>
-<!--     
-  <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Add click event to all remove buttons
-    const removeButtons = document.querySelectorAll('.productRemove');
-    
-    removeButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Get the product ID from the data attribute
-            const productId = this.getAttribute('data-product-id');
-            
-            // Find the cart item row to remove later
-            const cartItemRow = this.closest('.tf-cart-item');
-            
-            // Create the form data
-            const formData = new URLSearchParams();
-            formData.append('productId', productId);
-            
-            // Send the AJAX request
-            fetch('removeCartItem', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: formData.toString()
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    // Remove the item from the page
-                    cartItemRow.remove();
-                    
-                    // Update the total - using the correct ID from your HTML
-                    document.getElementById('cart-total').textContent = '$' + data.newTotal + ' USD';
-                    
-                    // Check if cart is empty and update UI if needed
-                    const remainingItems = document.querySelectorAll('.tf-cart-item');
-                    if (remainingItems.length === 0) {
-                        document.querySelector('.tf-cart-wrap').innerHTML = '<p>Your cart is empty</p>';
-                    }
-                } else {
-                    alert('Failed to remove item: ' + data.message);
-                }
-            })
-            // .catch(error => {
-            //     console.error('Error:', error);
-            //     alert('An error occurred while removing the item.');
-            // });
-        });
-    });
-});
- </script>  -->
-
- 
-
 </body>
 </html>
