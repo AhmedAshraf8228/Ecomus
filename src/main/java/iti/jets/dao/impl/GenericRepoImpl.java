@@ -1,14 +1,13 @@
 package iti.jets.dao.impl;
 
 import iti.jets.dao.repo.GenericRepo;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 
 import java.util.List;
 
 public class GenericRepoImpl<T,ID> implements GenericRepo<T,ID> {
 
-
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpa-mysql");
     private final EntityManager entityManager ;
     private final Class<T> entityClass;
 
@@ -30,11 +29,17 @@ public class GenericRepoImpl<T,ID> implements GenericRepo<T,ID> {
 
     @Override
     public T insert(T t) {
-        entityManager.getTransaction().begin();
-        entityManager.persist(t);
-        entityManager.getTransaction().commit();
-        entityManager.refresh(t);
-        return t;
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(t);
+             entityManager.getTransaction().commit();
+            entityManager.refresh(t);
+            return t;
+        }catch (Exception e){
+             entityManager.getTransaction().rollback();
+             System.out.println("************** Error inserting: " + e);
+             return null;
+        }
     }
 
     @Override
@@ -63,4 +68,10 @@ public class GenericRepoImpl<T,ID> implements GenericRepo<T,ID> {
         entityManager.getTransaction().commit();
 
     }
+
+    public static EntityManagerFactory getEntityManagerFactory() {
+        return emf;
+    }
+
+
 }

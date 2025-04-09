@@ -90,23 +90,39 @@
                         <p class="text_black-2">Sign up for early Sale access plus tailored new arrivals, trends and promotions. To opt out, click unsubscribe in our emails</p>
                     </div>
                     <div>
-                        <form class="" id="register-form" action="#" method="post" accept-charset="utf-8" data-mailchimp="true">
+                        <form class="needs-validation" id="register-form" action="register" method="post" accept-charset="utf-8" data-mailchimp="true" >
                             <div class="tf-field style-1 mb_15">
-                                <input class="tf-field-input tf-input" placeholder=" " type="text" id="name" name="name">
-                                <label class="tf-field-label fw-4 text_black-2" for="name">Full Name *</label>
+                                <input class="tf-field-input tf-input" placeholder=" " type="text" id="userName" name="userName" >
+                                <label class="tf-field-label fw-4 text_black-2" for="userName">Full Name *</label>
+                                <div class="invalid-feedback">Please enter your Name .</div>
+
+
                             </div>
 
                             <div class="tf-field style-1 mb_15">
-                                <input class="tf-field-input tf-input" placeholder=" " type="email" id="email" name="email">
+                                <input class="tf-field-input tf-input" placeholder=" " type="email" id="email" name="email" >
                                 <label class="tf-field-label fw-4 text_black-2" for="email">Email *</label>
+                                <div  id = "invalidStructure" class="invalid-feedback">Please enter a valid email address (e.g., aa@example.com)</div>
+                                <div  id = "invalidEmail" class="invalid-feedback">email address is token .</div>
+                                <div  id = "validEmail" class="valid-feedback">valid email address.</div>
                             </div>
                             <div class="tf-field style-1 mb_30">
-                                <input class="tf-field-input tf-input" placeholder=" " type="password" id="password" name="password">
+                                <input class="tf-field-input tf-input" placeholder=" " type="password"  id="password" name="password" >
                                 <label class="tf-field-label fw-4 text_black-2" for="password">Password *</label>
+                                <div class="invalid-feedback">Please enter 6 or more character.</div>
                             </div>
+
                             <div class="tf-field style-1 mb_30">
-                                <input class="tf-field-input tf-input" placeholder=" " type="date" id="birthday" name="birthday">
-                                <label class="tf-field-label fw-4 text_black-2" for="birthday">birthday </label>
+                                <input class="tf-field-input tf-input" placeholder=" " type="password"  id="confirmPassword" name="confirmPassword" >
+                                <label class="tf-field-label fw-4 text_black-2" for="confirmPassword">Password *</label>
+                                <div class="invalid-feedback">confirmPassword not as password .</div>
+                            </div>
+
+
+                            <div class="tf-field style-1 mb_30">
+                                <input class="tf-field-input tf-input" placeholder=" " type="date" id="BD" name="birthday" >
+                                <label class="tf-field-label fw-4 text_black-2" for="BD">birthday </label>
+                                <div class="invalid-feedback">Please enter valid birthday .</div>
                             </div>
                             <div class="tf-field style-1 mb_30">
                                 <input class="tf-field-input tf-input" placeholder=" " type="text" id="job" name="job">
@@ -125,20 +141,28 @@
                                 <label class="tf-field-label fw-4 text_black-2" for="street">street </label>
                             </div>
                             <div class="tf-field style-1 mb_30">
-                                <input class="tf-field-input tf-input" placeholder=" " type="text" id="buildingNo" name="buildingNo">
+                                <input class="tf-field-input tf-input" placeholder=" " type="number" id="buildingNo" name="buildingNo" min="0" >
                                 <label class="tf-field-label fw-4 text_black-2" for="buildingNo">buildingNo </label>
+                                <div class="invalid-feedback">Please enter a valid building number (positive number).</div>
                             </div>
                             <div class="tf-field style-1 mb_30">
                                 <input class="tf-field-input tf-input" placeholder=" " type="text" id="creditNo" name="creditNo">
                                 <label class="tf-field-label fw-4 text_black-2" for="creditNo">creditNo </label>
+                                <div id="invalidCreditNo" class="invalid-feedback">Please enter a valid credit number <br>
+                                    (format: XXXX XXXX XXXX XXXX or XXXX-XXXX-XXXX-XXXX).</div>
                             </div>
                             <div class="tf-field style-1 mb_30">
-                                <input class="tf-field-input tf-input" placeholder=" " type="text" id="creditLimit" name="creditLimit">
+                                <input class="tf-field-input tf-input" placeholder=" " type="number" id="creditLimit" name="creditLimit" >
                                 <label class="tf-field-label fw-4 text_black-2" for="creditLimit">creditLimit </label>
+                                <div class="invalid-feedback">Please enter a valid credit limit (greater than 0).</div>
                             </div>
                             <div class="tf-field style-1 mb_30">
-                                <input class="tf-field-input tf-input" placeholder=" " type="tel" id="phone" name="phone">
-                                <label class="tf-field-label fw-4 text_black-2" for="phone">phone </label>
+                                <input class="tf-field-input tf-input" placeholder=" " type="tel" id="phone2" name="phone" >
+                                <label class="tf-field-label fw-4 text_black-2" for="phone2">phone </label>
+                                <div  class="invalid-feedback">
+                                    Please enter a valid phone number.<br>
+                                    Format: 01[5, 2, 0, 1][8 digits]
+                                </div>
                             </div>
 
                             <div class="mb_20">
@@ -203,6 +227,7 @@
     <script type="text/javascript" src="js/multiple-modal.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/search.js"></script>
+    <script type="text/javascript" src="js/register.js"></script>
 
 </body>
 

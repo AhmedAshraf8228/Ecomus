@@ -1,8 +1,10 @@
 package iti.jets.entity;
 
+import iti.jets.service.PasswordUtils;
 import jakarta.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
+
 
 @Entity
 @Table(name = "user")
@@ -98,7 +100,7 @@ public class User implements Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = PasswordUtils.hashPassword(password);
     }
 
     public Date getBD() {
@@ -171,6 +173,25 @@ public class User implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", BD=" + BD +
+                ", job='" + job + '\'' +
+                ", city='" + city + '\'' +
+                ", area='" + area + '\'' +
+                ", street='" + street + '\'' +
+                ", buildingNo='" + buildingNo + '\'' +
+                ", creditNo='" + creditNo + '\'' +
+                ", creditLimit=" + creditLimit +
+                ", phone='" + phone + '\'' +
+                '}';
     }
 }
 
