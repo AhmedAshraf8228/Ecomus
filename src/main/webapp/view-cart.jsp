@@ -1,33 +1,3 @@
-<!-- <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
-<head>
-    <title>Your Cart</title>
-</head>
-<body>
-    <h1>Your Cart</h1>
-    <table border="1">
-        <tr>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
-        </tr>
-
-        <c:forEach var="cartItem" items="${cartItems}">
-            <tr>
-                <td>${cartItem.product.productName}</td>
-                <td>${cartItem.quantity}</td>
-                <td>${cartItem.product.price}</td>
-                <td>${cartItem.quantity * cartItem.product.price}</td>
-            </tr>
-        </c:forEach>
-    </table>
-
-    <h2>Total: ${total}</h2>
-</body>
-</html> -->
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -422,7 +392,7 @@
 });
  </script>  -->
 
- 
 
+</div>
 </body>
 </html>
