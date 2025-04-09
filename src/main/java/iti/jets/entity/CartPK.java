@@ -8,6 +8,9 @@ public class CartPK implements Serializable {
     private int userId;
     private int productId;
 
+    public CartPK() {
+    }
+
     public CartPK(int userId, int productId) {
         this.userId = userId;
         this.productId = productId;
