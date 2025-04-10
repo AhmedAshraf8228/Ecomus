@@ -7,6 +7,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin/view/orders.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin/view" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin/view/products.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin/view" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/home.html" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/login.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/register.html" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/view-cart.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
       </map>

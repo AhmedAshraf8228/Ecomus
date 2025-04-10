@@ -5,9 +5,7 @@ import iti.jets.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 import org.apache.commons.beanutils.*;
 
 
@@ -37,14 +35,18 @@ public class Register extends HttpServlet {
 
             User newUser = new User();
 
-            System.out.println(parameterMap);
             BeanUtils.populate(newUser, modifiableParameterMap);
             String bd = req.getParameter("birthday");
             if(bd != null && !bd.isEmpty()){
                 newUser.setBD(Date.valueOf(bd));
             }
-             if(userRepo.insert(newUser) != null){
-                resp.sendRedirect("register.html");
+            User user = userRepo.insert(newUser);
+             if(user != null){
+                 HttpSession session = req.getSession(true);
+                 session.setAttribute("login", true);
+                 session.setAttribute("id", user.getUserId());
+                 session.setAttribute("userName", user.getUserName());
+                 resp.sendRedirect("home.html");
              };
 
         } catch (InvocationTargetException | IllegalAccessException e) {

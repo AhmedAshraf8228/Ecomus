@@ -6,33 +6,23 @@ $(document).ready(function () {
 
         let isFormValid = true;
 
-        // Iterate through all the validation functions and await them
         for (let i = 0; i < validationFunctions.length; i++) {
-            let validationResult;
-            if (validationFunctions[i] === validateEmail) {
-                validationResult = await validateEmail(true);
-            } else {
-                validationResult = await validationFunctions[i](); // Wait for each validation function's result
-            }
+            let validationResult = await validationFunctions[i](true);
             if (!validationResult) {
-                isFormValid = false; // If any validation fails, set the form to invalid
-                break; // Stop checking further validations if any one fails
+                isFormValid = false;
+                break;
             }
         }
 
         // If all validations pass, submit the form
         if (isFormValid) {
-            $(this).off('submit').submit();  // Remove the submit handler and submit the form
+            $(this).off('submit').submit();
         } else {
             console.log("Form validation failed.");
         }
     });
 
-    // Email blur event (triggered when the email field loses focus)
-    $('#email').on('blur', function() {
-        validateEmail(false);  // Pass false to prevent focusing on the field during blur
-    });
-
+    addOnBlur();
 });
 
 
@@ -42,10 +32,12 @@ function updateValid(field) {
     return true; // Valid input
 }
 
-function updateUnValid(field) {
+function updateUnValid(field, flag) {
     field.addClass('is-invalid').removeClass('is-valid');
     field.siblings('.invalid-feedback').show();
-    field.focus();
+    if (flag) {
+        field.focus();
+    }
     return false; // Invalid input
 }
 
@@ -96,27 +88,27 @@ async function validateEmail(flag) {
 }
 
 
-function validateUserName() {
+function validateUserName(flag) {
     var userName = $('#userName');
     if (userName.val().trim() === "") {
-        return updateUnValid(userName);
+        return updateUnValid(userName, flag);
     } else {
         return updateValid(userName);
     }
 }
 
-function validatePassword() {
+function validatePassword(flag) {
     let passwordField = $('#password');
     let password = passwordField.val();
     let passwordRegex = /^[a-zA-Z0-9]{6,}$/; // Example regex for password
     if (password.trim() !== "" && passwordRegex.test(password)) {
         return updateValid(passwordField);
     } else {
-        return updateUnValid(passwordField);
+        return updateUnValid(passwordField, flag);
     }
 }
 
-function validateConfirmPassword() {
+function validateConfirmPassword(flag) {
     let passwordField = $('#password');
     let confirmPasswordField = $('#confirmPassword');
     let password = passwordField.val();
@@ -125,12 +117,12 @@ function validateConfirmPassword() {
         return updateValid(confirmPasswordField);
 
     } else {
-        return updateUnValid(confirmPasswordField);
+        return updateUnValid(confirmPasswordField, flag);
     }
 
 }
 
-function validateBirthday() {
+function validateBirthday(flag) {
     let birthdayField = $('#BD');
     if (birthdayField.val().trim() === "") {
         return updateValid(birthdayField);
@@ -139,34 +131,31 @@ function validateBirthday() {
         let today = new Date();
         let age = today.getFullYear() - birthday.getFullYear();
         let month = today.getMonth() - birthday.getMonth();
-
         if (month < 0 || (month === 0 && today.getDate() < birthday.getDate())) {
             age--;
         }
-
-        if (isNaN(birthday.getTime()) || age < 0) {
-            return updateUnValid(birthdayField);
+        if (isNaN(birthday.getTime()) || age < 0 || age >100) {
+            return updateUnValid(birthdayField, flag);
 
         } else {
             return updateValid(birthdayField);
-
         }
     }
 }
 
-function validateBuildingNo() {
+function validateBuildingNo(flag) {
     let buildingNoField = $('#buildingNo');
     let buildingNo = buildingNoField.val();
 
     // Check if the value is a valid positive number
     if (buildingNo.trim() !== "" && (isNaN(buildingNo) || buildingNo <= 0)) {
-        return updateUnValid(buildingNoField);
+        return updateUnValid(buildingNoField, flag);
     } else {
         return updateValid(buildingNoField)
     }
 }
 
-function validateCreditNo() {
+function validateCreditNo(flag) {
     let creditNoField = $('#creditNo');
     let creditNo = creditNoField.val().trim();
     // Pattern for credit number like 1234 5678 9876 5432 or 1234-5678-9876-5432
@@ -174,23 +163,23 @@ function validateCreditNo() {
     if (creditNo <= 0 || creditNoRegex.test(creditNo)) {
         return updateValid(creditNoField);
     } else {
-        return updateUnValid(creditNoField);
+        return updateUnValid(creditNoField, flag);
     }
 }
 
-function validateCreditLimit() {
+function validateCreditLimit(flag) {
     let creditLimitField = $('#creditLimit');
     let creditLimit = creditLimitField.val();
 
     // Check if the value is a valid number and greater than 0
     if (isNaN(creditLimit) || creditLimit < 0) {
-        return updateUnValid(creditLimitField); // Mark as invalid if not a number or <= 0
+        return updateUnValid(creditLimitField, flag); // Mark as invalid if not a number or <= 0
     } else {
         return updateValid(creditLimitField); // Mark as valid if it passes the conditions
     }
 }
 
-function validatePhone() {
+function validatePhone(flag) {
     let phoneField = $('#phone2');
     let phone = phoneField.val();
 
@@ -201,7 +190,7 @@ function validatePhone() {
     if (phone <= 0 || phoneRegex.test(phone)) {
         return updateValid(phoneField); // Mark as valid if it matches the pattern
     } else {
-        return updateUnValid(phoneField); // Mark as invalid if it doesn't match
+        return updateUnValid(phoneField, flag); // Mark as invalid if it doesn't match
     }
 }
 
@@ -218,3 +207,33 @@ const validationFunctions = [
     validatePhone
 ];
 
+function addOnBlur() {
+    $('#email').on('blur', function () {
+        validateEmail(false);  // Pass false to prevent focusing on the field during blur
+    });
+    $('#userName').on('blur', function () {
+        validateUserName(false);  // Pass false to prevent focusing on the field during blur
+    });
+    $('#password').on('blur', function () {
+        validatePassword(false);  // Pass false to prevent focusing on the field during blur
+    });
+    $('#confirmPassword').on('blur', function () {
+        validateConfirmPassword(false);  // Pass false to prevent focusing on the field during blur
+    });
+    $('#BD').on('blur', function () {
+        validateBirthday(false);  // Pass false to prevent focusing on the field during blur
+    });
+    $('#buildingNo').on('blur', function () {
+        validateBuildingNo(false);  // Pass false to prevent focusing on the field during blur
+    });
+    $('#creditNo').on('blur', function () {
+        validateCreditNo(false);  // Pass false to prevent focusing on the field during blur
+    });
+    $('#creditLimit').on('blur', function () {
+        validateCreditLimit(false);  // Pass false to prevent focusing on the field during blur
+    });
+    $('#phone2').on('blur', function () {
+        validatePhone(false);  // Pass false to prevent focusing on the field during blur
+    });
+
+}

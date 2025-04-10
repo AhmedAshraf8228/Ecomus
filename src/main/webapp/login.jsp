@@ -1,11 +1,18 @@
 
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%
+    Boolean log = (Boolean) session.getAttribute("login");
+
+    if (log != null && log) {
+        response.sendRedirect("home.html");
+        return;
+    }
+%>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
 
-
-<!-- Mirrored from themesflat.co/html/ecomus/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 02 Sep 2024 12:28:04 GMT -->
 <head>
     <meta charset="utf-8">
     <title>Ecomus - Ultimate HTML</title>
@@ -57,8 +64,8 @@
                                 </a>
                             </li>
                             <li class="nav-account"><a href="login.html" class="nav-icon-item"><i class="icon icon-account"></i></a></li>
-                            <li class="nav-wishlist"><a href="wishlist.html" class="nav-icon-item"><i class="icon icon-heart"></i><span class="count-box">0</span></a></li>
-                            <li class="nav-cart"><a href="shoppingCart.html" class="nav-icon-item"><i class="icon icon-bag"></i><span class="count-box">0</span></a></li>
+                            <li class="nav-wishlist"><a href="my-account-wishlist.html" class="nav-icon-item"><i class="icon icon-heart"></i><span class="count-box">0</span></a></li>
+                            <li class="nav-cart"><a href="view-cart.jsp" class="nav-icon-item"><i class="icon icon-bag"></i><span class="count-box">0</span></a></li>
                         </ul>
                     </div>
                 </div>
@@ -88,7 +95,7 @@
                     <div class="tf-login-form">
                         <div id="recover">
                             <h5 class="mb_24">Reset your password</h5>
-                            <p class="mb_30">We will send you an email to reset your password</p>
+                            <p class="mb_30">We will email you to reset your password</p>
                             <div>
                                 <form class="" id="Reset-password-form" action="#" method="post" accept-charset="utf-8" data-mailchimp="true">
                                     <div class="tf-field style-1 mb_15">
@@ -99,7 +106,7 @@
                                         <a href="#login" class="tf-btn btn-line">Cancel</a>
                                     </div>
                                     <div class="">
-                                        <button type="submit" class="tf-btn w-100 radius-3 btn-fill animate-hover-btn justify-content-center">Reset password</button>
+                                        <button type="submit" class="tf-btn w-100 radius-3 btn-fill animate-hover-btn justify-content-center" >Reset password</button>
                                     </div>
                                 </form>
                             </div>
@@ -108,7 +115,7 @@
                         <div id="login">
                             <h5 class="mb_36">Log in</h5>
                             <div>
-                                <form class="" id="login-form" action="https://themesflat.co/html/ecomus/my-account.html" accept-charset="utf-8">
+                                <form class="" id="login-form"  accept-charset="utf-8" method="post">
                                     <div class="tf-field style-1 mb_15">
                                         <input class="tf-field-input tf-input" placeholder="" type="email" id="email" name="email" required>
                                         <label class="tf-field-label fw-4 text_black-2" for="email">Email *</label>
@@ -116,6 +123,7 @@
                                     <div class="tf-field style-1 mb_30">
                                         <input class="tf-field-input tf-input" placeholder="" type="password" id="password" name="password" required>
                                         <label class="tf-field-label fw-4 text_black-2" for="password">Password *</label>
+                                        <div id="invalidLogin" class="invalid-feedback">invalid email or password</div>
                                     </div>
                                     <div class="mb_20">
                                         <a href="#recover" class="tf-btn btn-line">Forgot your password?</a>
@@ -184,9 +192,8 @@
     <script type="text/javascript" src="js/multiple-modal.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/search.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
 
 </body>
 
-
-<!-- Mirrored from themesflat.co/html/ecomus/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 02 Sep 2024 12:28:04 GMT -->
 </html>
