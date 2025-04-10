@@ -30,7 +30,7 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         entityManager.clear();
-        int userId = 4;
+        int userId = 1;
         User user = entityManager.find(User.class, userId);
         
         List<Cart> cartItems = cartRepo.getCartItemsByUserId(userId);
