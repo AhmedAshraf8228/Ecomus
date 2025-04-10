@@ -2,6 +2,7 @@ package iti.jets.dao.impl;
 
 import iti.jets.dao.repo.GenericRepo;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 public class GenericRepoImpl<T,ID> implements GenericRepo<T,ID> {
 
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpa-mysql");
+    @Getter
     private final EntityManager entityManager ;
     private final Class<T> entityClass;
 

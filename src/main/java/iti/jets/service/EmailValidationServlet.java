@@ -1,6 +1,7 @@
 package iti.jets.service;
 
 import iti.jets.dao.impl.UserRepoImpl;
+import iti.jets.entity.User;
 import jakarta.persistence.*;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,10 +16,11 @@ public class EmailValidationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         EntityManager entityManager = UserRepoImpl.getEntityManagerFactory().createEntityManager();
+        UserRepoImpl userRepo = new UserRepoImpl(entityManager, User.class);
         String email = request.getParameter("email");
         try {
             // Query to check if email exists in the database
-            Long count = UserRepoImpl.checkValidEmail(entityManager, email);
+            Long count = userRepo.checkValidEmail(email);
             response.setContentType("text/plain");
             if (count > 0) {
                 response.getWriter().write("invalid");  // Email exists
