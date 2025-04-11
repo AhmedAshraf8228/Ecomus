@@ -38,7 +38,7 @@ function loadOrders(){
                 if (order.status === "COMPLETED") {
                     statusClass = "fulfillment completed";
                 } else if (order.status === "CANCELED") {
-                    statusClass = "fulfillment canceled";
+                    statusClass = "fulfillment Canceled";
                 } else if (order.status === "PROCESSING") {
                     statusClass = "fulfillment processed";
                 }

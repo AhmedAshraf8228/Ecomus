@@ -36,6 +36,7 @@ public class CategoryServlet extends HttpServlet {
         try {
             if (categoryIdParam != null) {
                 int categoryId = Integer.parseInt(categoryIdParam);
+                System.out.println("\n\n\t"+categoryId+"\n\n\t");
                 Category category = repo.findById(categoryId);
 
                 if (category != null) {
@@ -96,6 +97,46 @@ public class CategoryServlet extends HttpServlet {
 
         entityManager.close();
         response.setStatus(200);
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+
+        EntityManager session = factory.createEntityManager();
+        GenericRepoImpl<Category, Integer> repo = new GenericRepoImpl<>(session, Category.class);
+        Gson gson = new Gson();
+
+        try {
+            BufferedReader reader = req.getReader();
+            Category updatedCategory = gson.fromJson(reader, Category.class);
+
+            if (updatedCategory.getCategoryId() <= 0 || updatedCategory.getCategoryName() == null) {
+                resp.getWriter().write("{\"error\": \"Invalid category data\"}");
+                return;
+            }
+
+//            session.getTransaction().begin();
+            Category existingCategory = repo.findById(updatedCategory.getCategoryId());
+
+            if (existingCategory != null) {
+                existingCategory.setCategoryName(updatedCategory.getCategoryName());
+                repo.update(existingCategory);
+               // session.merge(existingCategory);
+//                session.getTransaction().commit();
+                resp.getWriter().write("{\"message\": \"Category updated successfully\"}");
+            } else {
+                resp.getWriter().write("{\"error\": \"Category not found\"}");
+            }
+
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            resp.getWriter().write("{\"error\": \"An error occurred while updating category\"}");
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
     @Override
     public void destroy() {

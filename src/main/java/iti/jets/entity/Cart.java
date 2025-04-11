@@ -3,6 +3,8 @@ package iti.jets.entity;
 import jakarta.persistence.*;
 import java.io.Serializable;
 
+// todo --> add @Getter , @Setter , @NoArgsCon
+// todo --> alter FK in DB
 @Entity
 @Table(name = "cart")
 @IdClass(CartPK.class)

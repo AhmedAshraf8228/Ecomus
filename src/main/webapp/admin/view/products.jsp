@@ -66,47 +66,44 @@
         </table>
     </div>
 </div>
-    <div class="add-category-container">
 
-        <h3>Add New Product</h3>
-
-            <input type="text" id="product-name" placeholder="Product Name" required>
-            <input type="text" id="product-description" placeholder="Product Description" required>
-            <input type="number" id="product-quantity" placeholder="Product Quantity" required>
-            <input type="number" id="product-price" placeholder="Product Price" required>
-
-        <div class="categories-container">
-            <h3>Categories</h3>
-
-            <label class="category-item">
-                <input type="checkbox" name="Categories" value="Action">Action
-            </label>
-
-            <label class="category-item">
-                <input type="checkbox" name="Categories" value="Adventure">Adventure
-            </label>
-            <label class="category-item">
-                <input type="checkbox" name="Categories" value="RPG">RPG
-            </label>
-
-            <label class="category-item">
-                <input type="checkbox" name="Categories" value="Shooter">Shooter
-            </label>
-
-            <label class="category-item">
-                <input type="checkbox" name="Categories" value="VR">VR
-            </label>
+    <div class="add-product-container">
+        <!-- Div #1: Add Product Info -->
+        <div id="product-info-container">
+            <form id="product-info-form" method="post">
+                <h3>Add Product Info</h3>
+                <input type="text" id="product-name" placeholder="Product Name" name="name" required>
+                <input type="text" id="product-description" placeholder="Product Description" name="description" required>
+                <input type="number" id="product-quantity" placeholder="Product Quantity" name="quantity" required>
+                <input type="number" id="product-price" placeholder="Product Price" name="price" required>
+                <button type="button" onclick="addProductInfo()">Save Product Info</button>
+            </form>
         </div>
 
-        <div class="image-upload-container">
+        <!-- Div #2: Add Category to Product -->
+        <div id="category-container">
+            <h3>Categories</h3>
+            <div class="categories-container">
+                <!-- Example categories (checkboxes) -->
+                <label><input type="checkbox" name="Categories" value="Category1"> Category 1</label>
+                <label><input type="checkbox" name="Categories" value="Category2"> Category 2</label>
+                <label><input type="checkbox" name="Categories" value="Category3"> Category 3</label>
+            </div>
+            <button type="button" onclick="addCategories()">Save Categories</button>
+        </div>
+
+        <!-- Div #3: Add Images (Multiple) for Product -->
+        <div id="image-upload-container">
             <h3>Choose Images (up to 5)</h3>
             <input type="file" id="product-images" accept="image/*" multiple>
-
             <div id="image-preview-box" class="image-preview-box"></div>
+            <button type="button" onclick="addImages()">Save Images</button>
         </div>
-
-        <button>Add Product</button>
     </div>
+
+
+
+
 </div>
 </body>
 </html>

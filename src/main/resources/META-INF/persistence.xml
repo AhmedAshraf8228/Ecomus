@@ -8,6 +8,7 @@
 
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>iti.jets.entity.User</class>
+        <class>iti.jets.entity.Order</class>
         <class>iti.jets.entity.Cart</class>
         <class>iti.jets.entity.Product</class>
 

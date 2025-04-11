@@ -72,10 +72,10 @@
                 <button onclick="addCategory()">Add Category</button>
             </div>
 
-        <div class="edit-category">
+        <div class="edit-category" id="edit-category">
             <h3>Edit Category</h3>
             <input type="text" id="edit-category-name" placeholder="Edit Category Name">
-            <button onclick="editCategory()">Save Changes</button>
+            <button id="save-edit-btn" onclick="editCategory()" disabled>Save Changes</button>
         </div>
     </div>
 
