@@ -1,9 +1,8 @@
 package iti.jets.service;
 
 
-import iti.jets.dao.impl.*;
+import iti.jets.dao.impl.CartRepoImpl;
 import iti.jets.entity.Cart;
-import jakarta.persistence.EntityManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -26,6 +25,7 @@ public class AddToCartServlet extends HttpServlet {
             return;
         }
 
+        CartRepoImpl cartRepo = new CartRepoImpl();
         try {
             int userId = (int) session.getAttribute("id");
             int productId = Integer.parseInt(request.getParameter("productId"));
@@ -36,9 +36,6 @@ public class AddToCartServlet extends HttpServlet {
                 response.getWriter().write("{\"error\":\"Quantity must be greater than zero\"}");
                 return;
             }
-
-            EntityManager em = GenericRepoImpl.getEntityManagerFactory().createEntityManager();
-            CartRepoImpl cartRepo = new CartRepoImpl(em);
 
             Cart sortedCart = cartRepo.getCartByUserAndProduct(userId, productId);
             boolean flag = false;
@@ -54,7 +51,6 @@ public class AddToCartServlet extends HttpServlet {
                 cartRepo.update(sortedCart);
                 flag = true;
             }
-
             if (flag) {
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().write("{\"message\":\"Item added to cart\"}");
@@ -62,11 +58,14 @@ public class AddToCartServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write("{\"error\":\"Failed to insert item to cart\"}");
             }
-
         } catch (Exception e) {
-            e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("{\"error\":\"An internal error occurred\"}");
+            e.printStackTrace();
+        } finally {
+            if (cartRepo.getEntityManager().isOpen()) {
+                cartRepo.getEntityManager().close();
+            }
         }
     }
 }

@@ -5,7 +5,6 @@ import java.sql.Date;
 
 import iti.jets.dao.impl.UserRepoImpl;
 import iti.jets.entity.User;
-import jakarta.persistence.EntityManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -35,8 +34,7 @@ public class UpdateProfileServlet extends HttpServlet {
             String creditNo = req.getParameter("creditNo");
             Integer creditLimit = Integer.valueOf(req.getParameter("creditLimit"));
             
-            EntityManager em = UserRepoImpl.getEntityManagerFactory().createEntityManager();
-            UserRepoImpl userRepo = new UserRepoImpl(em, User.class);
+            UserRepoImpl userRepo = new UserRepoImpl();
             
             try {
                 User user = userRepo.findById(userId);
@@ -77,7 +75,9 @@ public class UpdateProfileServlet extends HttpServlet {
                 req.setAttribute("messageType", "error");
                 req.getRequestDispatcher("/my-account-edit.jsp").forward(req, resp);
             } finally {
-                em.close();
+                if (userRepo.getEntityManager() != null && userRepo.getEntityManager().isOpen()) {
+                    userRepo.getEntityManager().close();
+                }
             }
         } else {
             resp.sendRedirect("login.jsp");

@@ -2,7 +2,7 @@ package iti.jets.service;
 
 import iti.jets.dao.impl.*;
 import iti.jets.entity.*;
-import jakarta.persistence.*;
+
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -12,16 +12,11 @@ import java.util.*;
 
 @WebServlet("/home")
 public class Home extends HttpServlet {
-    private ProductRepoImpl productRepo;
-
-    @Override
-    public void init() throws ServletException {
-        EntityManager entityManager = GenericRepoImpl.getEntityManagerFactory().createEntityManager();
-        productRepo = new ProductRepoImpl(entityManager, Product.class);
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ProductRepoImpl productRepo = new ProductRepoImpl();
+
         List<Product> products = productRepo.findAll();
         request.setAttribute("products", products);
 
@@ -48,11 +43,8 @@ public class Home extends HttpServlet {
         request.setAttribute("productsImages", productsImages);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
         dispatcher.forward(request, response);
-    }
 
-    @Override
-    public void destroy() {
-        if (productRepo != null && productRepo.getEntityManager().isOpen()) {
+        if (productRepo.getEntityManager().isOpen()) {
             productRepo.getEntityManager().close();
         }
     }

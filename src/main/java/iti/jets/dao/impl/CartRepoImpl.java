@@ -9,9 +9,9 @@ import jakarta.persistence.TypedQuery;
 public class CartRepoImpl extends GenericRepoImpl<Cart, Integer> {
     private EntityManager entityManager;
 
-    public CartRepoImpl(EntityManager em) {
-        super(em, Cart.class);
-        this.entityManager = em;
+    public CartRepoImpl() {
+        super(Cart.class);
+        this.entityManager = getEntityManager();
     }
 
     public List<Cart> getCartItemsByUserId(int userId) {

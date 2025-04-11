@@ -14,8 +14,8 @@ public class GenericRepoImpl<T,ID> implements GenericRepo<T,ID> {
     private final EntityManager entityManager ;
     private final Class<T> entityClass;
 
-    public GenericRepoImpl(EntityManager entityManager, Class<T> entityClass ){
-        this.entityManager = entityManager;
+    public GenericRepoImpl( Class<T> entityClass ){
+        this.entityManager = emf.createEntityManager();
         this.entityClass = entityClass;
     }
 
@@ -61,10 +61,16 @@ public class GenericRepoImpl<T,ID> implements GenericRepo<T,ID> {
 
     @Override
     public T update(T t) {
-        entityManager.getTransaction().begin();
-        t = entityManager.merge(t);
-        entityManager.getTransaction().commit();
-        return t;
+        try {
+            entityManager.getTransaction().begin();
+            t = entityManager.merge(t);
+            entityManager.getTransaction().commit();
+            return t;
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            System.out.println("************** Error inserting: " + e);
+            throw e;
+        }
     }
 
     @Override
@@ -89,6 +95,5 @@ public class GenericRepoImpl<T,ID> implements GenericRepo<T,ID> {
     public static EntityManagerFactory getEntityManagerFactory() {
         return emf;
     }
-
 
 }

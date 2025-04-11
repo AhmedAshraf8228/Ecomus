@@ -21,15 +21,13 @@ import java.util.List;
 
 @WebServlet("/api/category")
 public class CategoryServlet extends HttpServlet {
-    private EntityManagerFactory factory = Persistence.createEntityManagerFactory("jpa-mysql");
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
 
-        EntityManager session = factory.createEntityManager();
-        GenericRepoImpl<Category, Integer> repo = new GenericRepoImpl<>(session, Category.class);
+        GenericRepoImpl<Category, Integer> repo = new GenericRepoImpl<>(Category.class);
         Gson gson = new Gson();
 
         String categoryIdParam = req.getParameter("id");
@@ -53,95 +51,88 @@ public class CategoryServlet extends HttpServlet {
             resp.getWriter().write("{\"error\": \"An error occurred in Category Servlet\"}");
             e.printStackTrace();
         }finally {
-            session.close();
+            if (repo.getEntityManager().isOpen()) {
+                repo.getEntityManager().close();
+            }
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
         BufferedReader reader = request.getReader();
         Gson gson = new Gson();
         Category newCategory = gson.fromJson(reader, Category.class);
-
-        EntityManager entityManager = factory.createEntityManager();
-        GenericRepoImpl<Category, Integer> categoryRepo = new GenericRepoImpl<>(entityManager, Category.class);
-
+        GenericRepoImpl<Category, Integer> categoryRepo = new GenericRepoImpl<>(Category.class);
         try {
             categoryRepo.insert(newCategory);
-
             response.setStatus(HttpServletResponse.SC_CREATED);
             response.getWriter().write("{\"message\": \"Category added successfully\"}");
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("{\"error\": \"Failed to add category\"}");
             e.printStackTrace();
         } finally {
-            entityManager.close();
+            if (categoryRepo.getEntityManager().isOpen()) {
+                categoryRepo.getEntityManager().close();
+            }
         }
     }
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int categoryId = Integer.parseInt(request.getParameter("categoryId"));
-
-        EntityManager entityManager = factory.createEntityManager();
-        GenericRepoImpl<Category, Integer> categoryRepo = new GenericRepoImpl<>(entityManager, Category.class);
-        GenericRepoImpl<ProductCategory, Integer> productCategoryRepo = new GenericRepoImpl<>(entityManager, ProductCategory.class);
-        categoryRepo.deleteById(categoryId);
-//      productCategoryRepo.deleteById(productIdId);
-
-        entityManager.close();
-        response.setStatus(200);
+            GenericRepoImpl<Category, Integer> categoryRepo = new GenericRepoImpl<>(Category.class);
+            GenericRepoImpl<ProductCategory, Integer> productCategoryRepo = new GenericRepoImpl<>(ProductCategory.class);
+        try {
+            categoryRepo.deleteById(categoryId);
+            response.setStatus(200);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"error\": \"Failed to add category\"}");
+            e.printStackTrace();
+        } finally {
+            if (categoryRepo.getEntityManager().isOpen()) {
+                categoryRepo.getEntityManager().close();
+            }
+            if (productCategoryRepo.getEntityManager().isOpen()) {
+                productCategoryRepo.getEntityManager().close();
+            }
+        }
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-
-        EntityManager session = factory.createEntityManager();
-        GenericRepoImpl<Category, Integer> repo = new GenericRepoImpl<>(session, Category.class);
+        GenericRepoImpl<Category, Integer> repo = new GenericRepoImpl<>(Category.class);
         Gson gson = new Gson();
-
         try {
             BufferedReader reader = req.getReader();
             Category updatedCategory = gson.fromJson(reader, Category.class);
-
             if (updatedCategory.getCategoryId() <= 0 || updatedCategory.getCategoryName() == null) {
                 resp.getWriter().write("{\"error\": \"Invalid category data\"}");
+                if (repo.getEntityManager().isOpen()) {
+                    repo.getEntityManager().close();
+                }
                 return;
             }
-
-//            session.getTransaction().begin();
             Category existingCategory = repo.findById(updatedCategory.getCategoryId());
-
             if (existingCategory != null) {
                 existingCategory.setCategoryName(updatedCategory.getCategoryName());
                 repo.update(existingCategory);
-               // session.merge(existingCategory);
-//                session.getTransaction().commit();
                 resp.getWriter().write("{\"message\": \"Category updated successfully\"}");
             } else {
                 resp.getWriter().write("{\"error\": \"Category not found\"}");
             }
-
         } catch (Exception e) {
-            session.getTransaction().rollback();
             resp.getWriter().write("{\"error\": \"An error occurred while updating category\"}");
             e.printStackTrace();
         } finally {
-            session.close();
-        }
-    }
-    @Override
-    public void destroy() {
-        if (factory.isOpen()) {
-            factory.close();
+            if (repo.getEntityManager().isOpen()) {
+                repo.getEntityManager().close();
+            }
         }
     }
 }

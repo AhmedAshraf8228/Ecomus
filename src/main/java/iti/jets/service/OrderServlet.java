@@ -17,15 +17,13 @@ import java.util.List;
 @WebServlet("/api/orders")
 public class OrderServlet extends HttpServlet {
 
-    private EntityManagerFactory factory = Persistence.createEntityManagerFactory("jpa-mysql");
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
 
-        EntityManager session = factory.createEntityManager();
-        GenericRepoImpl<Order, Integer> repo = new GenericRepoImpl<>(session, Order.class);
+        GenericRepoImpl<Order, Integer> repo = new GenericRepoImpl<>(Order.class);
 
         try {
             List<Order> orders = repo.findAll();
@@ -37,14 +35,9 @@ public class OrderServlet extends HttpServlet {
             resp.getWriter().write("{\"error\": \"An error occurred in Order Servlet\"}");
             e.printStackTrace();
         }finally {
-            session.close();
-        }
-    }
-
-    @Override
-    public void destroy() {
-        if (factory.isOpen()) {
-            factory.close();
+            if (repo.getEntityManager() != null && repo.getEntityManager().isOpen()) {
+                repo.getEntityManager().close();
+            }
         }
     }
 }

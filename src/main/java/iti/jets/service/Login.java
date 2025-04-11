@@ -14,8 +14,7 @@ public class Login extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        EntityManager em = GenericRepoImpl.getEntityManagerFactory().createEntityManager();
-        UserRepoImpl userRepo = new UserRepoImpl(em, User.class);
+        UserRepoImpl userRepo = new UserRepoImpl();
 
         String email = req.getParameter("email");
         String password = req.getParameter("password");
@@ -41,7 +40,9 @@ public class Login extends HttpServlet {
             e.printStackTrace();
             resp.getWriter().write("error");
         }finally {
-            em.close();
+            if (userRepo.getEntityManager() != null && userRepo.getEntityManager().isOpen()) {
+                userRepo.getEntityManager().close();
+            }
         }
     }
 }

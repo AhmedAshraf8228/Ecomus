@@ -17,13 +17,12 @@ public class AccountDetailsServlet extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        EntityManager em = UserRepoImpl.getEntityManagerFactory().createEntityManager();
         HttpSession session = req.getSession(false);
         
         if (session != null && session.getAttribute("login") != null && (boolean) session.getAttribute("login")) {
             int userId = (int) session.getAttribute("id");
             
-            UserRepoImpl userRepo = new UserRepoImpl(em, User.class);
+            UserRepoImpl userRepo = new UserRepoImpl();
             
             try {
                 User user = userRepo.findById(userId);
@@ -40,7 +39,9 @@ public class AccountDetailsServlet extends HttpServlet {
                 e.printStackTrace();
                 resp.getWriter().write("Error fetching profile data: " + e.getMessage());
             } finally {
-                em.close();
+                if (userRepo.getEntityManager().isOpen()) {
+                    userRepo.getEntityManager().close();
+                }
             }
         } else {
             resp.sendRedirect("login.jsp");

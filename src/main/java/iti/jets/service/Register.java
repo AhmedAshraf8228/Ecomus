@@ -24,9 +24,8 @@ public class Register extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        EntityManager entityManager = UserRepoImpl.getEntityManagerFactory().createEntityManager();
+        UserRepoImpl userRepo = new UserRepoImpl();
         try {
-            UserRepoImpl userRepo = new UserRepoImpl(entityManager, User.class);
             Map<String, String[]> parameterMap = req.getParameterMap();
             Map<String, String[]> modifiableParameterMap = new HashMap<>(parameterMap);
             modifiableParameterMap.forEach((key, value) -> {
@@ -56,8 +55,8 @@ public class Register extends HttpServlet {
         } catch (InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException(e);
         } finally {
-            if (entityManager != null && entityManager.isOpen()) {
-                entityManager.close();
+            if (userRepo.getEntityManager() != null && userRepo.getEntityManager().isOpen()) {
+                userRepo.getEntityManager().close();
             }
         }
     }

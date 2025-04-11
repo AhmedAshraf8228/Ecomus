@@ -17,16 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/updateCart")
 public class CartUpdateServlet extends HttpServlet {
-    
-    private CartRepoImpl cartRepo;
-    private EntityManager entityManager;
-    
-    @Override
-    public void init() throws ServletException {
-        entityManager = Persistence.createEntityManagerFactory("jpa-mysql").createEntityManager();
-        cartRepo = new CartRepoImpl(entityManager);
-    }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
@@ -34,16 +25,12 @@ public class CartUpdateServlet extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         JsonObject jsonResponse = new JsonObject();
-        
+        CartRepoImpl cartRepo = new CartRepoImpl();
         try {
-        
             int userId = Integer.parseInt(request.getParameter("userId"));
             int productId = Integer.parseInt(request.getParameter("productId"));
             String action = request.getParameter("action");
-            
-       
             Cart cartItem = cartRepo.getCartByUserAndProduct(userId, productId);
-            
             if (cartItem == null) {
                 jsonResponse.addProperty("success", false);
                 jsonResponse.addProperty("message", "Cart item not found");
@@ -104,15 +91,13 @@ public class CartUpdateServlet extends HttpServlet {
             jsonResponse.addProperty("success", false);
             jsonResponse.addProperty("message", "Error: " + e.getMessage());
             e.printStackTrace();
+        }finally {
+            if (cartRepo.getEntityManager().isOpen()) {
+                cartRepo.getEntityManager().close();
+            }
         }
         
         out.print(jsonResponse);
     }
-    
-    @Override
-    public void destroy() {
-        if (entityManager != null && entityManager.isOpen()) {
-            entityManager.close();
-        }
-    }
+
 }

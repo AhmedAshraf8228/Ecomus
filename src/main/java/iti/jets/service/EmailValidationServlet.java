@@ -15,8 +15,7 @@ public class EmailValidationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        EntityManager entityManager = UserRepoImpl.getEntityManagerFactory().createEntityManager();
-        UserRepoImpl userRepo = new UserRepoImpl(entityManager, User.class);
+        UserRepoImpl userRepo = new UserRepoImpl();
         String email = request.getParameter("email");
         try {
             // Query to check if email exists in the database
@@ -30,6 +29,10 @@ public class EmailValidationServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             response.getWriter().write("error");  // Error occurred
+        }finally {
+            if (userRepo.getEntityManager().isOpen()) {
+                userRepo.getEntityManager().close();
+            }
         }
     }
 }

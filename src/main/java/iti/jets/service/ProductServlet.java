@@ -2,47 +2,29 @@ package iti.jets.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import iti.jets.dao.impl.GenericRepoImpl;
-import iti.jets.entity.Category;
+import iti.jets.dao.impl.*;
 import iti.jets.entity.Product;
-import iti.jets.entity.ProductCategory;
-import iti.jets.entity.User;
-import jakarta.json.JsonObject;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
-import org.eclipse.tags.shaded.org.apache.xpath.operations.Number;
-import org.hibernate.Hibernate;
+import jakarta.servlet.http.*;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @WebServlet("/admin/products")
 
 public class ProductServlet extends HttpServlet {
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpa-mysql");
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        EntityManager entityManager = emf.createEntityManager();
-        GenericRepoImpl<Product, Integer> userRepo = new GenericRepoImpl<>(entityManager, Product.class);
+        EntityManager entityManager = GenericRepoImpl.getEntityManagerFactory().createEntityManager();
+        ProductRepoImpl productRepo = new ProductRepoImpl();
 
         try {
-            List<Product> products = userRepo.findAll();
+            List<Product> products = productRepo.findAll();
 
             Gson gson = new Gson();
             String json = gson.toJson(products);
@@ -52,7 +34,7 @@ public class ProductServlet extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("{\"error\": \"An error occurred\"}");
             e.printStackTrace();
-        }finally {
+        } finally {
             entityManager.close();
         }
     }
@@ -60,15 +42,22 @@ public class ProductServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int productIdId = Integer.parseInt(request.getParameter("productId"));
+        ProductRepoImpl productRepo = new ProductRepoImpl();
+        try {
+            productRepo.deleteById(productIdId);
+            if (productRepo.getEntityManager() != null && productRepo.getEntityManager().isOpen()) {
+                productRepo.getEntityManager().close();
+            }
+            response.setStatus(200);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"error\": \"Invalid JSON format\"}");
+        } finally {
+            if (productRepo.getEntityManager() != null && productRepo.getEntityManager().isOpen()) {
+                productRepo.getEntityManager().close();
+            }
+        }
 
-        EntityManager entityManager = emf.createEntityManager();
-        GenericRepoImpl<Product, Integer> productRepo = new GenericRepoImpl<>(entityManager, Product.class);
-        GenericRepoImpl<ProductCategory, Integer> productCategoryRepo = new GenericRepoImpl<>(entityManager, ProductCategory.class);
-        productRepo.deleteById(productIdId);
-//        productCategoryRepo.deleteById(productIdId);
-
-        entityManager.close();
-        response.setStatus(200);
     }
 
 
@@ -78,8 +67,7 @@ public class ProductServlet extends HttpServlet {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        EntityManager entityManager = emf.createEntityManager();
-        GenericRepoImpl<Product, Integer> productRepo = new GenericRepoImpl<>(entityManager, Product.class);
+        ProductRepoImpl productRepo = new ProductRepoImpl();
 
         try {
             Product product = objectMapper.readValue(request.getReader(), Product.class);
@@ -95,7 +83,7 @@ public class ProductServlet extends HttpServlet {
 
             Product insertedProduct = productRepo.insert(product);
 
-            if (insertedProduct!=null) {
+            if (insertedProduct != null) {
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().write("{\"message\": \"Product added successfully!\"}");
             } else {
@@ -106,13 +94,11 @@ public class ProductServlet extends HttpServlet {
         } catch (IOException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("{\"error\": \"Invalid JSON format\"}");
+        } finally {
+            if (productRepo.getEntityManager() != null && productRepo.getEntityManager().isOpen()) {
+                productRepo.getEntityManager().close();
+            }
         }
 
-    }
-    @Override
-    public void destroy() {
-        if (emf.isOpen()) {
-            emf.close();
-        }
     }
 }
