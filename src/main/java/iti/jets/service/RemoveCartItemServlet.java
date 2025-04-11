@@ -11,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/removeCartItem")
 public class RemoveCartItemServlet extends HttpServlet {
@@ -23,73 +24,32 @@ public class RemoveCartItemServlet extends HttpServlet {
         entityManager = Persistence.createEntityManagerFactory("jpa-mysql").createEntityManager();
         cartRepo = new CartRepoImpl(entityManager);
     }
-    
-    // @Override
-    // protected void doPost(HttpServletRequest request, HttpServletResponse response) 
-    //         throws ServletException, IOException {
-        
-    //     response.setContentType("application/json;charset=UTF-8");
-    //     PrintWriter out = response.getWriter();
-        
-    //     try {
-    //         // Get product ID from request
-    //         int productId = Integer.parseInt(request.getParameter("productId"));
-    //         int userId = 1; // Fixed user ID for now
-            
-    //         // Call the removeCartItem method
-    //         boolean removed = cartRepo.deleteByUserIdAndProductId(userId, productId);
-            
-    //         if (removed) {
-    //             // Calculate the new total
-    //             int newTotal = cartRepo.calculateCartTotal(userId);
-                
-    //             // Return success response with new total
-    //             out.println("{\"success\": true, \"newTotal\": " + newTotal + "}");
-    //         } else {
-    //             out.println("{\"success\": false, \"message\": \"Item not found in cart\"}");
-    //         }
-            
-    //     } catch (NumberFormatException e) {
-    //         out.println("{\"success\": false, \"message\": \"Invalid product ID\"}");
-    //         e.printStackTrace();
-    //     } catch (Exception e) {
-    //         out.println("{\"success\": false, \"message\": \"" + e.getMessage() + "\"}");
-    //         e.printStackTrace();
-    //     }
-    // }
-    
-    // @Override
-    // public void destroy() {
-    //     if (entityManager != null && entityManager.isOpen()) {
-    //         entityManager.close();
-    //     }
-    // }
-    @Override
+
+  
+  @Override
 protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
     
     response.setContentType("application/json;charset=UTF-8");
     PrintWriter out = response.getWriter();
-    
+
     try {
-        // Get product ID from request
-        int productId = Integer.parseInt(request.getParameter("productId"));
-        int userId = 1; // Fixed user ID for now
-        
-        // Call the removeCartItem method
-        boolean removed = cartRepo.deleteByUserIdAndProductId(userId, productId);
-        
-        // Give time for the database to process
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+       
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("login") == null || !(Boolean)session.getAttribute("login")) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
         }
-        
-        // Calculate the new total regardless of removal status
+
+        int userId = (Integer) session.getAttribute("id");
+        int productId = Integer.parseInt(request.getParameter("productId"));
+
+        boolean removed = cartRepo.deleteByUserIdAndProductId(userId, productId);
+
+        Thread.sleep(100);
+
         int newTotal = cartRepo.calculateCartTotal(userId);
-        
-        // Return success response with new total
+
         out.println("{\"success\": true, \"newTotal\": " + newTotal + "}");
         
     } catch (NumberFormatException e) {
@@ -103,4 +63,5 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
         out.close();
     }
 }
+
 }

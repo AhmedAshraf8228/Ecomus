@@ -37,22 +37,23 @@ import java.util.List;
 
 import iti.jets.entity.Cart;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 
 public class CartRepoImpl extends GenericRepoImpl<Cart, Integer> {
+    private EntityManager entityManager;
 
-    private EntityManager entityManager = GenericRepoImpl.getEntityManagerFactory().createEntityManager();
     public CartRepoImpl(EntityManager em) {
         super(em, Cart.class);
+        this.entityManager = em;
     }
-    
+
     public List<Cart> getCartItemsByUserId(int userId) {
         TypedQuery<Cart> query = entityManager.createQuery(
             "SELECT c FROM Cart c WHERE c.user.userId = :userId", Cart.class);
         query.setParameter("userId", userId);
         return query.getResultList();
     }
+    
     
     public Cart getCartByUserAndProduct(int userId, int productId) {
         TypedQuery<Cart> query = entityManager.createQuery(
@@ -62,24 +63,6 @@ public class CartRepoImpl extends GenericRepoImpl<Cart, Integer> {
         return query.getResultList().stream().findFirst().orElse(null);
     }
     
-    // public boolean deleteByUserIdAndProductId(int userId, int productId) {
-    //     try {
-    //         entityManager.getTransaction().begin();
-    //         int deletedCount = entityManager.createQuery(
-    //             "DELETE FROM Cart c WHERE c.user.userId = :userId AND c.product.productId = :productId")
-    //             .setParameter("userId", userId)
-    //             .setParameter("productId", productId)
-    //             .executeUpdate();
-    //         entityManager.getTransaction().commit();
-    //         return deletedCount > 0;
-    //     } catch (Exception e) {
-    //         if (entityManager.getTransaction().isActive()) {
-    //             entityManager.getTransaction().rollback();
-    //         }
-    //         e.printStackTrace();
-    //         return false;
-    //     }
-    // }
     public boolean deleteByUserIdAndProductId(int userId, int productId) {
         boolean isActive = false;
         try {

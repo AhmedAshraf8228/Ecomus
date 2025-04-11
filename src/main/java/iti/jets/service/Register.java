@@ -1,18 +1,22 @@
 package iti.jets.service;
 
-import iti.jets.dao.impl.*;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.beanutils.BeanUtils;
+
+import iti.jets.dao.impl.UserRepoImpl;
 import iti.jets.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
-import org.apache.commons.beanutils.*;
-
-
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.Date;
-import java.util.*;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 
 @WebServlet("/register")
@@ -46,7 +50,7 @@ public class Register extends HttpServlet {
                  session.setAttribute("login", true);
                  session.setAttribute("id", user.getUserId());
                  session.setAttribute("userName", user.getUserName());
-                 resp.sendRedirect("home.html");
+                 resp.sendRedirect("login.jsp");
              };
 
         } catch (InvocationTargetException | IllegalAccessException e) {
