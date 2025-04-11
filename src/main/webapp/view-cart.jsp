@@ -38,7 +38,7 @@
             <div class="px_15 lg-px_40">
                 <div class="row wrapper-header align-items-center">
                     <div class="col-xl-3 col-md-3 col-3">
-                        <a href="home.html" class="logo-header">
+                        <a href="home.jsp" class="logo-header">
                             <img src="images/logo/BordMaster.svg" alt="logo" class="logo">
                         </a>
                     </div>
@@ -107,7 +107,7 @@
                                         <tr class="tf-cart-item file-delete">
                                             <td class="tf-cart-item_product">
                                                 <a href="product-detail.html" class="img-box">
-                                                    <img src="images/products/black-4.jpg" alt="${cartItem.product.productName}">
+                                                    <img src="images/products/7/1.jpg" alt="${cartItem.product.productName}">
                                                 </a>
                                                 <div class="cart-info">
                                                     <a href="product-detail.html" class="cart-title link">${cartItem.product.productName}</a>

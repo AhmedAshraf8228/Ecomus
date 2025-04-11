@@ -28,7 +28,7 @@ $(document).ready(function () {
 function check(response) {
     if (response === 'valid') {
         $('#invalidLogin').hide();
-        window.location.href = "home.html";
+        window.location.href = "home";
     } else if (response === 'invalid') {
         $('#invalidLogin').show();
     } else if (response === 'error') {

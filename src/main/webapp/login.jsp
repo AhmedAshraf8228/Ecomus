@@ -4,7 +4,7 @@
     Boolean log = (Boolean) session.getAttribute("login");
 
     if (log != null && log) {
-        response.sendRedirect("home.html");
+        response.sendRedirect("home.jsp");
         return;
     }
 %>
@@ -50,7 +50,7 @@
             <div class="px_15 lg-px_40">
                 <div class="row wrapper-header align-items-center">
                     <div class="col-xl-3 col-md-3 col-3">
-                        <a href="home.html" class="logo-header">
+                        <a href="home.jsp" class="logo-header">
                             <img src="images/logo/BordMaster.svg" alt="logo" class="logo">
                         </a>
                     </div>
@@ -63,7 +63,7 @@
                                     <i class="icon icon-search"></i>
                                 </a>
                             </li>
-                            <li class="nav-account"><a href="login.html" class="nav-icon-item"><i class="icon icon-account"></i></a></li>
+                            <li class="nav-account"><a href="login.jsp" class="nav-icon-item"><i class="icon icon-account"></i></a></li>
                             <li class="nav-wishlist"><a href="my-account-wishlist.html" class="nav-icon-item"><i class="icon icon-heart"></i><span class="count-box">0</span></a></li>
                             <li class="nav-cart"><a href="view-cart.jsp" class="nav-icon-item"><i class="icon icon-bag"></i><span class="count-box">0</span></a></li>
                         </ul>

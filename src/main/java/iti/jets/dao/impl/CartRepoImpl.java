@@ -43,6 +43,7 @@ import jakarta.persistence.TypedQuery;
 public class CartRepoImpl extends GenericRepoImpl<Cart, Integer> {
 
     private EntityManager entityManager = GenericRepoImpl.getEntityManagerFactory().createEntityManager();
+
     public CartRepoImpl(EntityManager em) {
         super(em, Cart.class);
     }

@@ -46,7 +46,7 @@ public class Register extends HttpServlet {
                  session.setAttribute("login", true);
                  session.setAttribute("id", user.getUserId());
                  session.setAttribute("userName", user.getUserName());
-                 resp.sendRedirect("home.html");
+                 resp.sendRedirect("home.jsp");
              };
 
         } catch (InvocationTargetException | IllegalAccessException e) {
