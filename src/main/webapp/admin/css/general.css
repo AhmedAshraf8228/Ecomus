@@ -103,7 +103,7 @@ td img {
 
 /* Button Styling */
 td .edit-button {
-    background-color: #5c6bc0;
+    background-color: #007bff;
     color: white;
     border: none;
     padding: 5px 10px;
@@ -115,7 +115,7 @@ td .edit-button {
 }
 
 td .edit-button:hover {
-    background-color: #3f51b5;
+    background-color: #0368d9;
 }
 
 td .delete-button {

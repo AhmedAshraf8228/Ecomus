@@ -1,3 +1,6 @@
+//todo --> alter category to get it from DB
+// todo --> insert product
+// todo --> edit prouct
 function searchProduct() {
     let input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("search-input");
@@ -82,7 +85,7 @@ function loadProducts() {
                         <td>${product.quantity}</td>
                         <td>${product.price}</td>
                         <td>
-                            <button class="edit-button">Edit</button>
+                            <button class="edit-button" onclick="editProduct(${product.productId})">Edit</button>
                             <button class="delete-button" onclick="deleteProduct(${product.productId})">Delete</button>
                         </td>
                     </tr>
@@ -110,3 +113,61 @@ function deleteProduct(productId) {
         });
     }
 }
+
+$(document).ready(function () {
+    loadCategories();
+});
+
+function loadCategories() {
+    $.ajax({
+        url: "/MindMaze/api/category",
+        type: "GET",
+        dataType: "json",
+        success: function (categories) {
+            let container = $(".categories-container");
+            container.empty();
+
+
+            categories.forEach(category => {
+                let checkbox = `
+                    <label class="category-item">
+                        <input type="checkbox" name="Categories" value="${category.categoryName}"> ${category.categoryName}
+                    </label>
+                `;
+                container.append(checkbox);
+            });
+        },
+        error: function (xhr, status, error) {
+            alert("Error fetching categories");
+        }
+    });
+}
+
+function addProductInfo() {
+    let formData = {
+        productName: $("#product-name").val(),
+        description: $("#product-description").val(),
+        quantity: parseInt($("#product-quantity").val(), 10),
+        price: parseInt($("#product-price").val(), 10)
+    };
+
+    console.log("Sending JSON data:", formData);
+
+    $.ajax({
+        url: "/MindMaze/admin/products",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(formData),
+        success: function(response) {
+            alert("Product info saved successfully!");
+        },
+        error: function(xhr, status, error) {
+            console.error("Error saving product info:", error);
+            alert("Failed to save product info.");
+        }
+    });
+}
+
+
+
+

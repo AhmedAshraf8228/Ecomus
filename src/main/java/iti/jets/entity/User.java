@@ -57,11 +57,11 @@ public class User implements Serializable {
     @Column(name = "phone")
     private String phone;
 
-    @OneToMany(mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true ,
-            fetch = FetchType.LAZY)
-    private List<Order> orders;
+//    @OneToMany(mappedBy = "user",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true ,
+//            fetch = FetchType.LAZY)
+//    private List<Order> orders;
 
     public User() {
     }
@@ -79,7 +79,7 @@ public class User implements Serializable {
         this.creditNo = creditNo;
         this.creditLimit = creditLimit;
         this.phone = phone;
-        this.orders=orders;
+//        this.orders=orders;
     }
 
     // Getters and setters
@@ -188,30 +188,30 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
+//    public List<Order> getOrders() {
+//        return orders;
+//    }
+//
+//    public void setOrders(List<Order> orders) {
+//        this.orders = orders;
+//    }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", userName='" + userName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", BD=" + BD +
-                ", job='" + job + '\'' +
-                ", city='" + city + '\'' +
-                ", area='" + area + '\'' +
-                ", street='" + street + '\'' +
-                ", buildingNo='" + buildingNo + '\'' +
-                ", creditNo='" + creditNo + '\'' +
-                ", creditLimit=" + creditLimit +
-                ", phone='" + phone + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "User{" +
+//                "userId=" + userId +
+//                ", userName='" + userName + '\'' +
+//                ", email='" + email + '\'' +
+//                ", password='" + password + '\'' +
+//                ", BD=" + BD +
+//                ", job='" + job + '\'' +
+//                ", city='" + city + '\'' +
+//                ", area='" + area + '\'' +
+//                ", street='" + street + '\'' +
+//                ", buildingNo='" + buildingNo + '\'' +
+//                ", creditNo='" + creditNo + '\'' +
+//                ", creditLimit=" + creditLimit +
+//                ", phone='" + phone + '\'' +
+//                '}';
+//    }
 }

@@ -1,77 +1,130 @@
+/* General Styles */
 .container {
     display: flex;
     justify-content: space-between;
+    padding: 20px;
+    gap: 20px;
 }
 
 .main {
-    flex: 3; /* Takes 3 parts of the space */
+    flex: 3;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
-.add-category-container {
+/* Header Styles */
+.header-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.dashboard-title {
+    font-size: 24px;
+    color: #333;
+}
+
+/* Search Bar */
+.search-container {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#search-input {
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Table Styling */
+#products-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#products-table thead {
+    background-color: #007bff;
+    color: white;
+}
+
+#products-table th, #products-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+#products-table img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Buttons */
+button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.edit-button {
+    background-color: #ffc107;
+}
+
+.delete-button {
+    background-color: #dc3545;
+}
+
+/* Sidebar for Adding Products */
+.add-product-container {
     flex: 1;
     background: white;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 60px 20px;
-    height: fit-content;
-    color: #19224a;
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 20px;
 }
 
-.add-category-container h3 {
-    margin-bottom: 15px;
-    text-align: center;
+#product-info-container,
+#category-container,
+#image-upload-container {
+    background-color: #f4f4f4;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"] {
     width: 100%;
-}
-
-.add-category-container input {
-    width: 90%;
-    max-width: 250px;
-    padding: 10px;
-    margin-bottom: 15px; /* Adds spacing between input and button */
+    padding: 8px;
+    margin-bottom: 10px;
     border: 1px solid #ccc;
-    border-radius: 2px;
-    text-align: left; /* Align text to the left */
+    border-radius: 4px;
+    font-size: 14px;
 }
 
-.add-category-container button {
-    width: 100%;
-    max-width: 250px;
-    padding: 10px;
-    border: none;
-    border-radius: 2px;
-    background: #28a745;
-    color: white;
-    cursor: pointer;
-}
-
-.add-category-container button:hover {
-    background: #218838;
-}
-
-.categories-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    font-family: Arial, sans-serif;
-}
-
-.category-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    font-size: 16px;
-}
-.category-item input {
-    width: 18px;
-    height: 18px;
-}
-
-.category-item i {
-    color: #19224a;
-    font-size: 18px;
+.categories-container label {
+    display: block;
+    margin-bottom: 8px;
 }
 
 .image-preview-box {
@@ -81,27 +134,13 @@
     margin-top: 10px;
 }
 
-.image-container {
-    position: relative;
-    display: inline-block;
-}
-
 .image-preview {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #ddd;
 }
 
-.remove-image-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: red;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
 
-.remove-image-btn:hover {
-    background-color: darkred;
-}
+
