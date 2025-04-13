@@ -85,11 +85,11 @@
                     <div class="col-lg-3">
                         <ul class="my-account-nav">
                             <li><span class="my-account-nav-item active">Account Details</span></li>
-                            <li><a href="my-account-orders.html" class="my-account-nav-item">Orders</a></li>
+                            <li><a href="${pageContext.request.contextPath}/my-orders" class="my-account-nav-item">Orders</a></li>
                             <li><a href="my-account-address.html" class="my-account-nav-item">Addresses</a></li>
                             <li><a href="${pageContext.request.contextPath}/profile" class="my-account-nav-item">Update Account</a></li>
                             <li><a href="my-account-wishlist.html" class="my-account-nav-item">Wishlist</a></li>
-                            <li><a href="login.jsp" class="my-account-nav-item">Logout</a></li>
+                            <li><a href="${pageContext.request.contextPath}/logout" class="my-account-nav-item">Logout</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-9">
