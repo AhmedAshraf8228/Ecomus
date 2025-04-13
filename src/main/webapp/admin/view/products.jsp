@@ -39,28 +39,6 @@
             </tr>
             </thead>
             <tbody id="product-tbody">
-<%--            <tr>--%>
-<%--                <td>1</td>--%>
-<%--                <td><img src="\MindMaze\admin\images\1.jpeg" alt="Product"></td>--%>
-<%--                <td>Super Extreme Nike Sports</td>--%>
-<%--                <td>Shoes</td>--%>
-<%--                <td>3</td>--%>
-<%--                <td>--%>
-<%--                    <button class="edit-button">Edit</button>--%>
-<%--                    <button class="delete-button">Delete</button>--%>
-<%--                </td>--%>
-<%--            </tr>--%>
-<%--            <tr>--%>
-<%--                <td>2</td>--%>
-<%--                <td><img src="\MindMaze\admin\images\1.jpeg" alt="Product"></td>--%>
-<%--                <td>Super Extreme Nike Sports</td>--%>
-<%--                <td>Shoes</td>--%>
-<%--                <td>3</td>--%>
-<%--                <td>--%>
-<%--                    <button class="edit-button">Edit</button>--%>
-<%--                    <button class="delete-button">Delete</button>--%>
-<%--                </td>--%>
-<%--            </tr>--%>
             <!-- Add more rows dynamically here -->
             </tbody>
         </table>
@@ -68,41 +46,23 @@
 </div>
 
     <div class="add-product-container">
-        <!-- Div #1: Add Product Info -->
-        <div id="product-info-container">
             <form id="product-info-form" method="post">
                 <h3>Add Product Info</h3>
                 <input type="text" id="product-name" placeholder="Product Name" name="name" required>
                 <input type="text" id="product-description" placeholder="Product Description" name="description" required>
                 <input type="number" id="product-quantity" placeholder="Product Quantity" name="quantity" required>
                 <input type="number" id="product-price" placeholder="Product Price" name="price" required>
+                <h3>Categories</h3>
+                <div class="categories-container">
+
+                </div>
+                <h3>Choose Images</h3>
+                <input type="file" id="product-images" accept="image/*" multiple>
+                <div id="image-preview-box" class="image-preview-box"></div>
                 <button type="button" onclick="addProductInfo()">Save Product Info</button>
             </form>
-        </div>
 
-        <!-- Div #2: Add Category to Product -->
-        <div id="category-container">
-            <h3>Categories</h3>
-            <div class="categories-container">
-                <!-- Example categories (checkboxes) -->
-                <label><input type="checkbox" name="Categories" value="Category1"> Category 1</label>
-                <label><input type="checkbox" name="Categories" value="Category2"> Category 2</label>
-                <label><input type="checkbox" name="Categories" value="Category3"> Category 3</label>
-            </div>
-            <button type="button" onclick="addCategories()">Save Categories</button>
-        </div>
-
-        <!-- Div #3: Add Images (Multiple) for Product -->
-        <div id="image-upload-container">
-            <h3>Choose Images (up to 5)</h3>
-            <input type="file" id="product-images" accept="image/*" multiple>
-            <div id="image-preview-box" class="image-preview-box"></div>
-            <button type="button" onclick="addImages()">Save Images</button>
-        </div>
     </div>
-
-
-
 
 </div>
 </body>

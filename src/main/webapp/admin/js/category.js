@@ -27,7 +27,7 @@ $(document).ready(
 
 function loadCategories(){
     $.ajax({
-        url: "/MindMaze/api/category",
+        url: "/MindMaze/admin/category",
         type: "GET",
         dataType: "json",
         success: function (categories) {
@@ -66,7 +66,7 @@ function addCategory() {
     }
 
     $.ajax({
-        url: "/MindMaze/api/category",
+        url: "/MindMaze/admin/category",
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify({ categoryName: categoryName }),
@@ -85,7 +85,7 @@ function addCategory() {
 function deleteCategory(categoryId) {
     if (confirm("Are you sure you want to delete this category?")) {
         $.ajax({
-            url: `/MindMaze/api/category?categoryId=${categoryId}`,
+            url: `/MindMaze/admin/category?categoryId=${categoryId}`,
             type: "DELETE",
             success: function () {
                 loadCategories();
@@ -117,7 +117,7 @@ $(document).ready(function () {
 
     function loadDataToEdit(categoryId) {
         $.ajax({
-            url: `/MindMaze/api/category?id=${categoryId}`,
+            url: `/MindMaze/admin/category?id=${categoryId}`,
             type: "GET",
             dataType: "json",
             success: function (category) {
@@ -168,7 +168,7 @@ $(document).ready(function () {
         console.log("Updating category:", { categoryId, updatedName });
 
         $.ajax({
-            url: "/MindMaze/api/category",
+            url: "/MindMaze/admin/category",
             type: "PUT",
             contentType: "application/json",
             data: JSON.stringify({

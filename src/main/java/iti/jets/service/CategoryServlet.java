@@ -19,7 +19,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/api/category")
+@WebServlet("/admin/category")
 public class CategoryServlet extends HttpServlet {
 
     @Override
@@ -65,8 +65,13 @@ public class CategoryServlet extends HttpServlet {
         Gson gson = new Gson();
         Category newCategory = gson.fromJson(reader, Category.class);
         GenericRepoImpl<Category, Integer> categoryRepo = new GenericRepoImpl<>(Category.class);
+        EntityManager em = categoryRepo.getEntityManager();
         try {
+            em.getTransaction().begin();
             categoryRepo.insert(newCategory);
+            em.refresh(newCategory);
+            em.getTransaction().commit();
+
             response.setStatus(HttpServletResponse.SC_CREATED);
             response.getWriter().write("{\"message\": \"Category added successfully\"}");
         } catch (Exception e) {
@@ -74,8 +79,8 @@ public class CategoryServlet extends HttpServlet {
             response.getWriter().write("{\"error\": \"Failed to add category\"}");
             e.printStackTrace();
         } finally {
-            if (categoryRepo.getEntityManager().isOpen()) {
-                categoryRepo.getEntityManager().close();
+            if (em.isOpen()) {
+                em.close();
             }
         }
     }
@@ -84,9 +89,11 @@ public class CategoryServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int categoryId = Integer.parseInt(request.getParameter("categoryId"));
             GenericRepoImpl<Category, Integer> categoryRepo = new GenericRepoImpl<>(Category.class);
-            GenericRepoImpl<ProductCategory, Integer> productCategoryRepo = new GenericRepoImpl<>(ProductCategory.class);
+            EntityManager em = categoryRepo.getEntityManager();
         try {
+            em.getTransaction().begin();
             categoryRepo.deleteById(categoryId);
+            em.getTransaction().commit();
             response.setStatus(200);
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -96,9 +103,7 @@ public class CategoryServlet extends HttpServlet {
             if (categoryRepo.getEntityManager().isOpen()) {
                 categoryRepo.getEntityManager().close();
             }
-            if (productCategoryRepo.getEntityManager().isOpen()) {
-                productCategoryRepo.getEntityManager().close();
-            }
+
         }
     }
 
@@ -107,6 +112,7 @@ public class CategoryServlet extends HttpServlet {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         GenericRepoImpl<Category, Integer> repo = new GenericRepoImpl<>(Category.class);
+        EntityManager em = repo.getEntityManager();
         Gson gson = new Gson();
         try {
             BufferedReader reader = req.getReader();
@@ -118,6 +124,7 @@ public class CategoryServlet extends HttpServlet {
                 }
                 return;
             }
+            em.getTransaction().begin();
             Category existingCategory = repo.findById(updatedCategory.getCategoryId());
             if (existingCategory != null) {
                 existingCategory.setCategoryName(updatedCategory.getCategoryName());
@@ -126,12 +133,13 @@ public class CategoryServlet extends HttpServlet {
             } else {
                 resp.getWriter().write("{\"error\": \"Category not found\"}");
             }
+            em.getTransaction().commit();
         } catch (Exception e) {
             resp.getWriter().write("{\"error\": \"An error occurred while updating category\"}");
             e.printStackTrace();
         } finally {
-            if (repo.getEntityManager().isOpen()) {
-                repo.getEntityManager().close();
+            if (em.isOpen()) {
+                em.close();
             }
         }
     }

@@ -4,6 +4,7 @@ import java.util.List;
 
 public interface GenericRepo<T , ID> {
 
+    int countRows();
     List<T> findAll();
     T findById(int id);
     T insert(T t);

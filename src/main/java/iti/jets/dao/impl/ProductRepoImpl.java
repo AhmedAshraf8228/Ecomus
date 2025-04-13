@@ -9,4 +9,8 @@ public class ProductRepoImpl extends GenericRepoImpl<Product , Integer> {
         super(Product.class);
     }
 
+    public ProductRepoImpl(EntityManager em) {
+        super(Product.class, em);
+    }
+
 }

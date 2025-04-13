@@ -14,6 +14,11 @@ public class UserRepoImpl extends GenericRepoImpl<User, Integer>{
 
     }
 
+    public UserRepoImpl(EntityManager em ){
+        super(User.class , em);
+
+    }
+
     public Long checkValidEmail ( String email ){
             // Query to check if email exists in the database
             String query = "SELECT COUNT(u) FROM User u WHERE u.email = :email";

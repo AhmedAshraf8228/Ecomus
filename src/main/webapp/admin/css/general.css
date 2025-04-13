@@ -67,6 +67,9 @@ table {
     border-collapse: collapse;
     margin-top: 20px;
     background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
 }
 
 thead {
@@ -77,6 +80,7 @@ thead {
 thead th {
     padding: 12px;
     font-size: 14px;
+    border-bottom: 1px solid #ddd;
 }
 
 tbody tr {
@@ -86,6 +90,8 @@ tbody tr {
 tbody td {
     padding: 10px;
     vertical-align: middle;
+    border-bottom: 1px solid #ddd;
+
 }
 
 tbody tr:hover {
@@ -115,7 +121,7 @@ td .edit-button {
 }
 
 td .edit-button:hover {
-    background-color: #0368d9;
+    background-color: #0056b3;
 }
 
 td .delete-button {

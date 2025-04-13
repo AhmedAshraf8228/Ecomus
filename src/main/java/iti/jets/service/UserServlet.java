@@ -3,6 +3,7 @@ package iti.jets.service;
 import com.google.gson.Gson;
 import iti.jets.dao.impl.UserRepoImpl;
 import iti.jets.entity.User;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -54,17 +55,19 @@ public class UserServlet extends HttpServlet {
         int userId = Integer.parseInt(request.getParameter("userId"));
 
         UserRepoImpl userRepo = new UserRepoImpl();
-
+        EntityManager em = userRepo.getEntityManager();
         try {
+            em.getTransaction().begin();
             userRepo.deleteById(userId);
+            em.getTransaction().commit();
             response.setStatus(200);
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("{\"error\": \"An error occurred\"}");
             e.printStackTrace();
         } finally {
-            if (userRepo.getEntityManager() != null && userRepo.getEntityManager().isOpen()) {
-                userRepo.getEntityManager().close();
+            if (em != null && em.isOpen()) {
+                em.close();
             }
         }
 

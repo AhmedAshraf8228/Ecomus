@@ -1,64 +1,73 @@
 /* General Styles */
+/*.container {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    !*padding: 20px;*!*/
+/*    !*gap: 20px;*!*/
+/*}*/
+
+/*.main {*/
+/*    flex: 2;*/
+/*    background: white;*/
+/*    !*padding: 20px;*!*/
+/*    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+/*    !*border-radius: 8px;*!*/
+/*}*/
+
 .container {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
-    gap: 20px;
 }
 
 .main {
-    flex: 3;
-    background: white;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    flex: 3; /* Takes 3 parts of the space */
 }
 
 /* Header Styles */
-.header-container {
-    text-align: center;
-    margin-bottom: 20px;
-}
+/*.header-container {*/
+/*    text-align: center;*/
+/*    margin-bottom: 20px;*/
+/*}*/
 
-.dashboard-title {
-    font-size: 24px;
-    color: #333;
-}
+/*.dashboard-title {*/
+/*    font-size: 24px;*/
+/*    color: #333;*/
+/*}*/
 
 /* Search Bar */
-.search-container {
-    margin-bottom: 20px;
-    text-align: center;
-}
+/*.search-container {*/
+/*    margin-bottom: 20px;*/
+/*    text-align: center;*/
+/*}*/
 
-#search-input {
-    width: 50%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
+/*#search-input {*/
+/*    width: 50%;*/
+/*    padding: 10px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 4px;*/
+/*    font-size: 14px;*/
+/*}*/
 
 /* Table Styling */
-#products-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-}
+/*#products-table {*/
+/*    width: 100%;*/
+/*    border-collapse: collapse;*/
+/*    background: white;*/
+/*    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
+/*    border-radius: 8px;*/
+/*    overflow: hidden;*/
+/*}*/
 
-#products-table thead {
-    background-color: #007bff;
-    color: white;
-}
+/*#products-table thead {*/
+/*    background-color: #007bff;*/
+/*    color: white;*/
+/*}*/
 
-#products-table th, #products-table td {
-    padding: 12px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-}
+/*#products-table th, #products-table td {*/
+/*    padding: 12px;*/
+/*    text-align: center;*/
+/*    border-bottom: 1px solid #ddd;*/
+/*}*/
 
 #products-table img {
     width: 50px;
@@ -68,27 +77,27 @@
 }
 
 /* Buttons */
-button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-}
+/*button {*/
+/*    padding: 10px 15px;*/
+/*    background-color: #007bff;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    border-radius: 4px;*/
+/*    cursor: pointer;*/
+/*    font-size: 14px;*/
+/*}*/
 
-button:hover {
-    background-color: #0056b3;
-}
+/*button:hover {*/
+/*    background-color: #0056b3;*/
+/*}*/
 
-.edit-button {
-    background-color: #ffc107;
-}
+/*.edit-button {*/
+/*    background-color: #ffc107;*/
+/*}*/
 
-.delete-button {
-    background-color: #dc3545;
-}
+/*.delete-button {*/
+/*    background-color: #dc3545;*/
+/*}*/
 
 /* Sidebar for Adding Products */
 .add-product-container {
@@ -96,15 +105,19 @@ button:hover {
     background: white;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 100%;
+    max-width: 400px;
+    margin: 60px 20px;
+    height: fit-content;
+    align-items: center;
+
 }
 
 #product-info-container,
-#category-container,
-#image-upload-container {
+#category-container {
     background-color: #f4f4f4;
     padding: 15px;
     border-radius: 8px;
@@ -114,7 +127,7 @@ button:hover {
 input[type="text"],
 input[type="number"],
 input[type="file"] {
-    width: 100%;
+    width: 90%;
     padding: 8px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
@@ -140,6 +153,21 @@ input[type="file"] {
     object-fit: cover;
     border-radius: 4px;
     border: 1px solid #ddd;
+}
+
+.add-product-container button {
+    width: 100%;
+    max-width: 250px;
+    padding: 10px;
+    border: none;
+    border-radius: 2px;
+    background: #28a745;
+    color: white;
+    cursor: pointer;
+}
+
+.add-product-container button:hover {
+    background: #218838;
 }
 
 

@@ -1,23 +1,22 @@
 package iti.jets.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 
 @Entity
 @Table(name = "productcategory")
-@IdClass(ProductCategoryPK.class)
+@Setter
+@Getter
 public class ProductCategory implements Serializable {
 
-    @Id
-    @Column(name = "productId")
-    private int productId;
-
-    @Id
-    @Column(name = "categoryId")
-    private int categoryId;
+    @EmbeddedId
+    private ProductCategoryPK id;
 
     @ManyToOne
-    @JoinColumn(name = "productId", insertable = false, updatable = false )
+    @JoinColumn(name = "productId", insertable = false, updatable = false)
     private Product product;
 
     @ManyToOne
@@ -30,39 +29,10 @@ public class ProductCategory implements Serializable {
     public ProductCategory(Product product, Category category) {
         this.product = product;
         this.category = category;
+        this.id = new ProductCategoryPK(product.getProductId(), category.getCategoryId());
     }
 
-    // Getters and setters
 
-    public int getProductId() {
-        return productId;
-    }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 }
+

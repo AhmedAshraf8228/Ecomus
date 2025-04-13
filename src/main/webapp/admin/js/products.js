@@ -1,6 +1,6 @@
-//todo --> alter category to get it from DB
+//todo --> alter category to get it from DB (DONE)
 // todo --> insert product
-// todo --> edit prouct
+// todo --> edit product
 function searchProduct() {
     let input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("search-input");
@@ -116,11 +116,14 @@ function deleteProduct(productId) {
 
 $(document).ready(function () {
     loadCategories();
+    $('#save-product-info-button').on('click', function() {
+        addProductInfo();
+    });
 });
 
 function loadCategories() {
     $.ajax({
-        url: "/MindMaze/api/category",
+        url: "/MindMaze/admin/category",
         type: "GET",
         dataType: "json",
         success: function (categories) {
@@ -148,10 +151,8 @@ function addProductInfo() {
         productName: $("#product-name").val(),
         description: $("#product-description").val(),
         quantity: parseInt($("#product-quantity").val(), 10),
-        price: parseInt($("#product-price").val(), 10)
+        price: parseInt($("#product-price").val()),
     };
-
-    console.log("Sending JSON data:", formData);
 
     $.ajax({
         url: "/MindMaze/admin/products",
@@ -160,6 +161,68 @@ function addProductInfo() {
         data: JSON.stringify(formData),
         success: function(response) {
             alert("Product info saved successfully!");
+            let insertedProductId = response.productId;
+            console.log("insertedProductId:", insertedProductId);
+
+
+            //CATEGORIES
+            let catData = {
+                id: insertedProductId,
+                categories: []
+            };
+
+            $(".categories-container input[type='checkbox']:checked").each(function () {
+                console.log("Selected category:", $(this).val());
+                catData.categories.push($(this).val());
+            });
+
+            console.log("cat data:" , catData);
+            $.ajax({
+                url: "/MindMaze/admin/productCategory",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(catData),
+                success: function(response) {
+                    alert("Product is assigned to Categories successfully!");
+                    $(".categories-container input[type='checkbox']").prop("checked", false);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error saving category info:", error);
+                    alert("Failed to save category info.");
+                }
+            });
+
+
+            // IMAGES
+            let files = $("#product-images")[0].files;
+            if (files.length > 0) {
+                let imageData = new FormData();
+                for (let i = 0; i < files.length; i++) {
+                    imageData.append("images", files[i]);
+                }
+
+                $.ajax({
+                    url: "/MindMaze/admin/uploadProductImages?productId=" + insertedProductId,
+                    type: "POST",
+                    data: imageData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        alert("Images uploaded successfully!");
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error uploading images:", error);
+                        alert("Failed to upload images.");
+                    }
+                });
+            }
+
+            $("#product-name").val("");
+            $("#product-description").val("");
+            $("#product-quantity").val("");
+            $("#product-price").val("");
+            $(".categories-container input[type='checkbox']").prop("checked", false);
+            loadProducts();
         },
         error: function(xhr, status, error) {
             console.error("Error saving product info:", error);
@@ -167,6 +230,8 @@ function addProductInfo() {
         }
     });
 }
+
+
 
 
 

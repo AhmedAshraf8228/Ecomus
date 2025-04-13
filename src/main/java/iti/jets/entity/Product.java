@@ -2,6 +2,7 @@ package iti.jets.entity;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -23,6 +24,9 @@ public class Product implements Serializable {
 
     @Column(name = "price", nullable = false)
     private int price;
+
+    @Transient
+    private List<String> categories;
 
     public Product() {
     }
@@ -74,5 +78,13 @@ public class Product implements Serializable {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public List<String> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
     }
 }

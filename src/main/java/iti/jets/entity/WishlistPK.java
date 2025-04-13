@@ -1,8 +1,11 @@
 package iti.jets.entity;
 
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@NoArgsConstructor
 public class WishlistPK implements Serializable {
 
     private int userId;

@@ -1,12 +1,18 @@
 package iti.jets.entity;
 
+import jakarta.persistence.Embeddable;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@NoArgsConstructor
+@Embeddable
 public class ProductCategoryPK implements Serializable {
 
     private int productId;
     private int categoryId;
+
 
     public ProductCategoryPK(int productId, int categoryId) {
         this.productId = productId;
