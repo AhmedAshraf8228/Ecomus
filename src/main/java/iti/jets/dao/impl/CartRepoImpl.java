@@ -3,6 +3,7 @@ package iti.jets.dao.impl;
 import java.util.List;
 
 import iti.jets.entity.Cart;
+import iti.jets.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
@@ -12,6 +13,12 @@ public class CartRepoImpl extends GenericRepoImpl<Cart, Integer> {
     public CartRepoImpl() {
         super(Cart.class);
         this.entityManager = getEntityManager();
+    }
+
+    public CartRepoImpl(EntityManager em ){
+        super(Cart.class , em);
+        this.entityManager=em;
+
     }
 
     public List<Cart> getCartItemsByUserId(int userId) {
@@ -61,12 +68,22 @@ public class CartRepoImpl extends GenericRepoImpl<Cart, Integer> {
     // Add this method to calculate the total cart value
     public int calculateCartTotal(int userId) {
         int total = 0;
-        List<Cart> cartItems = getCartItemsByUserId(userId);
+        List<Cart> cartItentityManagers = getCartItemsByUserId(userId);
         
-        for (Cart cart : cartItems) {
+        for (Cart cart : cartItentityManagers) {
             total += cart.getProduct().getPrice() * cart.getQuantity();
         }
         
         return total;
+    }
+
+    @Override
+    public Cart insert(Cart cart){
+        entityManager.getTransaction().begin();
+        entityManager.persist(cart);
+        //entityManager.flush();
+        entityManager.getTransaction().commit();
+        return cart;
+
     }
 }

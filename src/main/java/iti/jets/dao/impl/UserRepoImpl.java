@@ -16,6 +16,7 @@ public class UserRepoImpl extends GenericRepoImpl<User, Integer>{
 
     public UserRepoImpl(EntityManager em ){
         super(User.class , em);
+        this.em=em;
 
     }
 
@@ -38,5 +39,24 @@ public class UserRepoImpl extends GenericRepoImpl<User, Integer>{
         }else {
             return null;
         }
+    }
+
+    @Override
+    public User insert(User user){
+        em.getTransaction().begin();
+        em.persist(user);
+        //em.flush();
+        em.getTransaction().commit();
+        return user;
+
+    }
+
+    @Override
+    public User update(User user) {
+
+        em.getTransaction().begin();
+        user = em.merge(user);
+        em.getTransaction().commit();
+        return user;
     }
 }

@@ -4,16 +4,14 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import iti.jets.dao.impl.CartRepoImpl;
-import iti.jets.dao.impl.OrderDetailsRepoImpl;
-import iti.jets.dao.impl.OrderRepoImpl;
-import iti.jets.dao.impl.UserRepoImpl;
+import iti.jets.dao.impl.*;
 import iti.jets.entity.Cart;
 import iti.jets.entity.Order;
 import iti.jets.entity.OrderDetails;
 import iti.jets.entity.User;
 import iti.jets.enums.OrderStatus;
 import iti.jets.enums.PayType;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -28,23 +26,27 @@ public class ProcessCheckoutServlet extends HttpServlet {
 protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
     HttpSession session = request.getSession(false);
-    CartRepoImpl cartRepo = null;
-    UserRepoImpl userRepo = null;
-    OrderRepoImpl orderRepo = null;
-    OrderDetailsRepoImpl orderDetailsRepo = null;
+    
+    EntityManager entityManager = GenericRepoImpl.getEntityManagerFactory().createEntityManager();
+    CartRepoImpl cartRepo = new CartRepoImpl(entityManager);
+    UserRepoImpl userRepo = new UserRepoImpl(entityManager);
+    OrderRepoImpl orderRepo = new OrderRepoImpl(entityManager);
+    OrderDetailsRepoImpl orderDetailsRepo = new OrderDetailsRepoImpl(entityManager);
 
+    
     try {
 
+        entityManager.getTransaction().begin();
         if (session == null || session.getAttribute("login") == null ||
                 !(Boolean) session.getAttribute("login")) {
             response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }
 
-        cartRepo = new CartRepoImpl();
-        userRepo = new UserRepoImpl();
-        orderRepo = new OrderRepoImpl();
-        orderDetailsRepo = new OrderDetailsRepoImpl();
+//        cartRepo = new CartRepoImpl(entityManager);
+//        userRepo = new UserRepoImpl(entityManager);
+//        orderRepo = new OrderRepoImpl(entityManager);
+//        orderDetailsRepo = new OrderDetailsRepoImpl(entityManager);
 
         Integer userId = (Integer) session.getAttribute("id");
         if (userId == null) {
@@ -117,6 +119,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
             cartRepo.deleteByUserIdAndProductId(userId, cartItem.getProduct().getProductId());
         }
 
+        entityManager.getTransaction().commit();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write("{\"success\": true, \"message\": \"Order processed successfully\", \"orderId\": " + order.getOrderId() + "}");
@@ -132,25 +135,11 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
     } 
     finally {
        
-        if (cartRepo != null && cartRepo.getEntityManager() != null && 
-            cartRepo.getEntityManager().isOpen()) {
-            cartRepo.getEntityManager().close();
+        if (entityManager != null && entityManager.isOpen()) {
+           entityManager.close();
         }
-        
-        if (userRepo != null && userRepo.getEntityManager() != null && 
-            userRepo.getEntityManager().isOpen()) {
-            userRepo.getEntityManager().close();
-        }
-        
-        if (orderRepo != null && orderRepo.getEntityManager() != null && 
-            orderRepo.getEntityManager().isOpen()) {
-            orderRepo.getEntityManager().close();
-        }
-        
-        if (orderDetailsRepo != null && orderDetailsRepo.getEntityManager() != null && 
-            orderDetailsRepo.getEntityManager().isOpen()) {
-            orderDetailsRepo.getEntityManager().close();
-        }
+
     }
 }
-    }
+
+}

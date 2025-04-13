@@ -2,13 +2,23 @@ package iti.jets.dao.impl;
 
 import java.util.List;
 
+import iti.jets.entity.Order;
 import iti.jets.entity.OrderDetails;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
 public class OrderDetailsRepoImpl extends GenericRepoImpl<OrderDetails, Integer> {
-    
+
+    EntityManager entityManager;
     public OrderDetailsRepoImpl() {
         super(OrderDetails.class);
+        this.entityManager=getEntityManager();
+    }
+
+    public OrderDetailsRepoImpl(EntityManager em){
+        super(OrderDetails.class , em);
+        this.entityManager=em;
+
     }
     
     public List<OrderDetails> getOrderDetailsByOrderId(int orderId) {
