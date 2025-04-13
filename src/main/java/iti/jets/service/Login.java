@@ -29,6 +29,10 @@ public class Login extends HttpServlet {
                     session.setAttribute("login", true);
                     session.setAttribute("id", user.getUserId());
                     session.setAttribute("userName", user.getUserName());
+                    CartRepoImpl cartRepo = new CartRepoImpl();
+                    int size = cartRepo.getCartItemsByUserId(user.getUserId()).size();
+                    session.setAttribute("cart-size", size);
+                    System.out.println("cart-size"+ size);
                     resp.getWriter().write("valid");
                 }else {
                     resp.getWriter().write("invalid");

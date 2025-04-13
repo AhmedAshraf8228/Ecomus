@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$" libraries="{sweetalert2, toastr.js}" />
+    <file url="file://$PROJECT_DIR$" libraries="{noUiSlider, sweetalert2, toastr.js}" />
   </component>
 </project>

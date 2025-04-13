@@ -38,7 +38,6 @@ $(document).ready(function () {
 
 
         $('#quick-view-addToCart').off('click').on('click', function (e) {
-            console.log('clicked from view');
             e.preventDefault();
             addToCart(productId,"view");
         });
@@ -73,7 +72,6 @@ $(document).ready(function () {
         $('#quick-add-image').attr('src', `images/products/${productId}/${productImages.at(0)}`);
 
         $('#quick-add-addToCart').off('click').on('click', function (e) {
-            console.log('clicked from add');
             e.preventDefault();
             addToCart(productId,"add");
         });
@@ -81,12 +79,12 @@ $(document).ready(function () {
 });
 
 function addToCart(productId,type) {
-    // hideModal();
+    hideModal();
     if (!window.isLoggedIn) {
         swalFire()
     } else {
-        // $('#quick-add-addToCart').prop('disabled', true).text('Adding...');
-        // $('#quick-view-addToCart').prop('disabled', true).text('Adding...');
+        $('#quick-add-addToCart').prop('disabled', true).text('Adding...');
+        $('#quick-view-addToCart').prop('disabled', true).text('Adding...');
         let quantity = 1;
         if (type === "add") {
             quantity = parseInt($('#quick-add-quantity').val(), 10);
@@ -106,8 +104,8 @@ function addToCart(productId,type) {
                 },
             error: errorAddToCart,
             complete: function (){
-                // $('#quick-add-addToCart').prop('disabled', false).text('Add to cart');
-                // $('#quick-view-addToCart').prop('disabled', false).text('Add to cart');
+                $('#quick-add-addToCart').prop('disabled', false).text('Add to cart');
+                $('#quick-view-addToCart').prop('disabled', false).text('Add to cart');
             }
         });
     }
@@ -133,7 +131,6 @@ function errorAddToCart(xhr) {
 }
 
 function swalFire() {
-    hideModal();
     Swal.fire({
         title: 'Login Required',
         text: "You need to log in to add this item to your cart.",
@@ -166,13 +163,13 @@ function hideModal() {
 }
 
 function updateCartCount(newCount) {
-    // let currentCount = parseInt($('.nav-cart .count-box').text(), 10) || 0;
-    // let updatedCount = currentCount + newCount;
-    // $('.nav-cart .count-box')
-    //     .text(updatedCount)
-    //     .addClass('animate__animated animate__pulse');
-    //
-    // setTimeout(() => {
-    //     $('.nav-cart .count-box').removeClass('animate__animated animate__pulse');
-    // }, 500);
+    let currentCount = parseInt($('.nav-cart .count-box').text(), 10) || 0;
+    let updatedCount = currentCount + newCount;
+    $('.nav-cart .count-box')
+        .text(updatedCount)
+        .addClass('animate__animated animate__pulse');
+
+    setTimeout(() => {
+        $('.nav-cart .count-box').removeClass('animate__animated animate__pulse');
+    }, 500);
 }
