@@ -289,7 +289,7 @@
                 <div class="wrap">
                     <div class="tf-product-info-item">
                         <div class="image">
-                            <img id="quick-add-image" src="images/products/orange-1.jpg" alt="">
+                            <img id="quick-add-image" src="" alt="">
                         </div>
                         <div class="content">
                             <a id="quick-add-name" href="productDetail.html">name</a>
@@ -335,16 +335,7 @@
                     <div class="tf-product-media-wrap">
                         <div class="swiper tf-single-slide">
                             <div id="quick-view-images" class="swiper-wrapper" >
-                                <div class="swiper-slide">
-                                    <div class="item">
-                                        <img src="images/products/orange-1.jpg" alt="">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="item">
-                                        <img src="images/products/pink-1.jpg" alt="">
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="swiper-button-next button-style-arrow single-slide-prev"></div>
                             <div class="swiper-button-prev button-style-arrow single-slide-next"></div>

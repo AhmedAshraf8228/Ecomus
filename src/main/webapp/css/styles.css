@@ -5390,7 +5390,7 @@ header.header-bg {
 
 .offcanvas-backdrop {
   background-color: var(--backdrop);
-  cursor: url("../images/item/cursor-close.svg"), auto;
+  cursor: url("../images/cursor-close.svg"), auto;
 }
 .offcanvas-backdrop.show {
   opacity: 1;

@@ -25,7 +25,7 @@
 
 
     <welcome-file-list>
-        <welcome-file>admin/view/header.jsp</welcome-file>
+        <welcome-file>home</welcome-file>
     </welcome-file-list>
     
 </web-app>
