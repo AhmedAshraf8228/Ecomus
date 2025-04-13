@@ -17,7 +17,7 @@ public class Home extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ProductRepoImpl productRepo = new ProductRepoImpl();
 
-        List<Product> products = productRepo.findAll();
+        List<Product> products = productRepo.getInStock();
         request.setAttribute("products", products);
 
         Map<Integer, List<String>> productsImages = new HashMap<>();
@@ -42,6 +42,18 @@ public class Home extends HttpServlet {
 
         request.setAttribute("productsImages", productsImages);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
+
+        HttpSession session = request.getSession(false);
+        if (session != null && Boolean.TRUE.equals(session.getAttribute("login")) &&
+                session.getAttribute("id") != null) {
+
+            int userId = (int)session.getAttribute("id");
+            CartRepoImpl cartRepo = new CartRepoImpl();
+            int size = cartRepo.getCartItemsByUserId(userId).size();
+            session.setAttribute("cart-size", size);
+            System.out.println("cart-size"+ size);
+        }
+
         dispatcher.forward(request, response);
 
         if (productRepo.getEntityManager().isOpen()) {

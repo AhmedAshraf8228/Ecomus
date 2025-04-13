@@ -4,7 +4,7 @@
     Boolean log = (Boolean) session.getAttribute("login");
 
     if (log != null && log) {
-        response.sendRedirect("home.jsp");
+        response.sendRedirect("home");
         return;
     }
 %>

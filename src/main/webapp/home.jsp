@@ -27,7 +27,6 @@
     <link rel="apple-touch-icon-precomposed" href="images/logo/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
-
 </head>
 
 <body class="preload-wrapper">
@@ -38,7 +37,7 @@
         </div>
     </div>
     <!-- /preload -->
-    <div id="wrapper">
+    <div id="wrapper" >
         <!-- header -->
         <header id="header" class="header-default">
             <div class="px_15 lg-px_40">
@@ -57,9 +56,10 @@
                                     <i class="icon icon-search"></i>
                                 </a>
                             </li>
+                            <% Integer cartSize = (Integer) session.getAttribute("cart-size"); %>
                             <li class="nav-account"><a href="login.jsp" class="nav-icon-item"><i class="icon icon-account"></i></a></li>
                             <li class="nav-wishlist"><a href="my-account-wishlist.html" class="nav-icon-item"><i class="icon icon-heart"></i><span class="count-box">0</span></a></li>
-                            <li class="nav-cart"><a href="view-cart.jsp" class="nav-icon-item"><i class="icon icon-bag"></i><span class="count-box">0</span></a></li>
+                            <li class="nav-cart"><a href="view-cart.jsp" class="nav-icon-item"><i class="icon icon-bag"></i><span class="count-box"><%= cartSize != null ? cartSize : 0 %></span></a></li>
                         </ul>
                     </div>
                 </div>
@@ -154,25 +154,6 @@
 
                     </c:forEach>
                 </div>
-                <ul class="tf-pagination-wrap tf-pagination-list">
-                    <li class="active">
-                        <a href="#" class="pagination-link">1</a>
-                    </li>
-                    <li>
-                        <a href="#" class="pagination-link animate-hover-btn">2</a>
-                    </li>
-                    <li>
-                        <a href="#" class="pagination-link animate-hover-btn">3</a>
-                    </li>
-                    <li>
-                        <a href="#" class="pagination-link animate-hover-btn">4</a>
-                    </li>
-                    <li>
-                        <a href="#" class="pagination-link animate-hover-btn">
-                            <span class="icon icon-arrow-right"></span>
-                        </a>
-                    </li>
-                </ul>
             </div>
         </section>
         
@@ -248,11 +229,11 @@
                         <div id="availability" class="collapse show">
                             <ul class="tf-filter-group current-scrollbar mb_36">
                                 <li class="list-item d-flex gap-12 align-items-center">
-                                    <input type="radio" name="availability" class="tf-check" id="availability-1">
+                                    <input type="checkbox" name="availability" class="tf-check" id="availability-1">
                                     <label for="availability-1" class="label"><span>In stock</span>&nbsp;<span>(14)</span></label>
                                 </li>
                                 <li class="list-item d-flex gap-12 align-items-center">
-                                    <input type="radio" name="availability" class="tf-check" id="availability-2">
+                                    <input type="checkbox" name="availability" class="tf-check" id="availability-2">
                                     <label for="availability-2" class="label"><span>Out of stock</span>&nbsp;<span>(2)</span></label>
                                 </li>
                             </ul>
@@ -263,26 +244,33 @@
                             <span>Price</span>
                             <span class="icon icon-arrow-up"></span>
                         </div>
+
+
                         <div id="price" class="collapse show">
                             <div class="widget-price">
                                 <div id="slider-range"></div>
-                                <div class="box-title-price">
-                                    <span class="title-price">Price :</span>
-                                    <div class="caption-price">
-                                        <div>
-                                            <span>$</span>
-                                            <span id="slider-range-value1" class=""></span>
+
+                                <div class="box-title-price mt_15">
+                                    <div class="title-wrapper mb_10">
+                                        <span class="title-price fw-6 ">Range</span>
+                                    </div>
+                                    <div class="caption-price  mt_10">
+                                        <div class="price-box">
+                                            <label for="min-price">start ($)</label>
+                                            <input type="number" id="min-price" class="price-input" />
                                         </div>
-                                        <span>-</span>
-                                        <div>
-                                            <span>$</span>
-                                            <span id="slider-range-value2" class=""></span>
+                                        <div class="price-box">
+                                            <label for="max-price" class="">end ($)</label>
+                                            <input type="number" id="max-price" class="price-input">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <button id="filter" class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn w-100" >
+                        <span>APPLY FILTER</span></button>
+
                 </form>    
             </div>
             

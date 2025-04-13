@@ -11426,25 +11426,46 @@ blockquote .text {
 .widget-price {
   margin-top: 24px;
   margin-bottom: 35px;
+  align-items: center;
+
 }
 .widget-price .box-title-price {
-  margin-top: 30px;
   display: flex;
-  align-items: center;
   gap: 10px;
 }
+.box-title-price {
+  flex-direction: column;
+  align-items: flex-start; /* or center for center alignment */
+}
+.price-input {
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 6px 10px;
+  font-size: 14px;
+  width: 100%;
+}
+.title-wrapper {
+  width: 100%;
+  text-align: left; /* use center if needed */
+}
+
+#slider-range {
+  margin: 20px 0;
+}
+.price-box {
+  display: flex;
+  flex-direction: column;
+  min-width: 100px;
+}
+
 .widget-price .caption-price {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 30px;
 }
 .widget-price .caption-price div {
-  width: 68px;
   display: flex;
   justify-content: space-between;
-  padding: 8px 10px;
-  border: 1px solid var(--line);
-  border-radius: 5px;
 }
 
 .btn-sidebar-mobile {

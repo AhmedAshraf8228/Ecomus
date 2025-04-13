@@ -785,3 +785,20 @@
     new WOW().init();
   });
 })(jQuery);
+
+document.addEventListener("DOMContentLoaded", () => {
+  const wrapper = document.getElementById("wrapper");
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+      if (mutation.attributeName === "aria-hidden") {
+        if (wrapper.getAttribute("aria-hidden") === "true") {
+          wrapper.removeAttribute("aria-hidden");
+        }
+      }
+    });
+  });
+
+  if (wrapper) {
+    observer.observe(wrapper, { attributes: true });
+  }
+});
