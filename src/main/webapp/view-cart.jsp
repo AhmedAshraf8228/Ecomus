@@ -168,10 +168,10 @@
                                 I agree with the <a href="terms-conditions.html">terms and conditions</a>
                             </label>
                         </div>
-                        <div class="cart-checkout-btn">
-                            <button class="tf-btn w-100 btn-fill animate-hover-btn radius-3 justify-content-center">
-                                <span>Check out</span>
-                            </button>
+                        <div class="tf-action-btn">
+                            <a href="${pageContext.request.contextPath}/checkout" class="tf-btn radius-3 btn-fill btn-icon animate-hover-btn">
+                                Proceed to Checkout
+                            </a>
                         </div>
                         <div class="tf-page-cart_imgtrust">
                             <p class="text-center fw-6">Guarantee Safe Checkout</p>

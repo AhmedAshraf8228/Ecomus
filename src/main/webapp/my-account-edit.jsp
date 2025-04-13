@@ -45,11 +45,11 @@
                     <div class="col-lg-3">
                         <ul class="my-account-nav">
                             <li><a href="${pageContext.request.contextPath}/accountDetails" class="my-account-nav-item ">Account Details</a></li>
-                            <li><a href="my-account-orders.jsp" class="my-account-nav-item">Orders</a></li>
+                            <li><a href="${pageContext.request.contextPath}/my-orders" class="my-account-nav-item">Orders</a></li>
                             <li><a href="my-account-address.jsp" class="my-account-nav-item">Addresses</a></li>
                             <li><span class="my-account-nav-item active">Account Update</span></li>
                             <li><a href="my-account-wishlist.jsp" class="my-account-nav-item">Wishlist</a></li>
-                            <li><a href="login.jsp" class="my-account-nav-item">Logout</a></li>
+                            <li><a href="${pageContext.request.contextPath}/logout" class="my-account-nav-item">Logout</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-9">
