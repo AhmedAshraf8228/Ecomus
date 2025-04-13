@@ -4,14 +4,14 @@
         }
 
         // Load home.jsp by default
-        loadPage("home.jsp");
+        loadPage("admin/view/home.jsp");
 
         $(".menu-item").click(function() {
         $(".menu-item").removeClass("active");
         $(this).addClass("active");
 
         var pageId = $(this).attr("id");
-        var pageUrl =  pageId + ".jsp";
+        var pageUrl = "admin/view/"+ pageId + ".jsp";
 
         loadPage(pageUrl);
     });

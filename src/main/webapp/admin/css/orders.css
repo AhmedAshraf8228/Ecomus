@@ -31,3 +31,37 @@
 .fulfillment.processed {
     background: orange;
 }
+
+.status-button {
+    padding: 6px 12px;
+    margin: 2px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    color: #fff;
+}
+
+.complete-btn {
+    background-color: #28a745; /* Green */
+}
+
+.complete-btn:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+.cancel-btn {
+    background-color: #dc3545; /* Red */
+}
+
+.cancel-btn:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+}
+
+.no-action {
+    color: #999;
+    font-style: italic;
+}

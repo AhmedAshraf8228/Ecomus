@@ -8,8 +8,13 @@
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/MindMaze/admin/css/products.css">
     <link rel="stylesheet" href="/MindMaze/admin/css/general.css">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/MindMaze/admin/js/products.js"></script>
+
 
 </head>
 <body>
@@ -50,8 +55,8 @@
                 <h3>Add Product Info</h3>
                 <input type="text" id="product-name" placeholder="Product Name" name="name" required>
                 <input type="text" id="product-description" placeholder="Product Description" name="description" required>
-                <input type="number" id="product-quantity" placeholder="Product Quantity" name="quantity" required>
-                <input type="number" id="product-price" placeholder="Product Price" name="price" required>
+                <input type="number" min="1" id="product-quantity" placeholder="Product Quantity" name="quantity" required>
+                <input type="number" min="1" id="product-price" placeholder="Product Price" name="price" required>
                 <h3>Categories</h3>
                 <div class="categories-container">
 

@@ -127,6 +127,7 @@ function loadCategories() {
         type: "GET",
         dataType: "json",
         success: function (categories) {
+            console.log(categories);
             let container = $(".categories-container");
             container.empty();
 
@@ -147,11 +148,36 @@ function loadCategories() {
 }
 
 function addProductInfo() {
+    // Get values
+    let productName = $("#product-name").val().trim();
+    let description = $("#product-description").val().trim();
+    let quantity = $("#product-quantity").val().trim();
+    let price = $("#product-price").val().trim();
+    let selectedCategories = $(".categories-container input[type='checkbox']:checked");
+    let files = $("#product-images")[0].files;
+
+    // === VALIDATIONS ===
+    let errors = [];
+
+    if (!productName) errors.push("Product name is required.");
+    if (!description) errors.push("Description is required.");
+    if (!quantity) errors.push("Quantity is required.");
+    if (!price) errors.push("Price is required.");
+    if (selectedCategories.length === 0) errors.push("At least one category must be selected.");
+    if (files.length < 2) errors.push("At least two images must be uploaded.");
+
+    if (errors.length > 0) {
+        let errorMessage = errors.join("<br>");
+        toastr.error(errorMessage);
+        return;
+    }
+
+    // === Proceed if valid ===
     let formData = {
-        productName: $("#product-name").val(),
-        description: $("#product-description").val(),
-        quantity: parseInt($("#product-quantity").val(), 10),
-        price: parseInt($("#product-price").val()),
+        productName: productName,
+        description: description,
+        quantity: parseInt(quantity, 10),
+        price: parseInt(price, 10),
     };
 
     $.ajax({
@@ -164,26 +190,23 @@ function addProductInfo() {
             let insertedProductId = response.productId;
             console.log("insertedProductId:", insertedProductId);
 
-
-            //CATEGORIES
+            // === CATEGORIES ===
             let catData = {
                 id: insertedProductId,
                 categories: []
             };
 
-            $(".categories-container input[type='checkbox']:checked").each(function () {
-                console.log("Selected category:", $(this).val());
+            selectedCategories.each(function () {
                 catData.categories.push($(this).val());
             });
 
-            console.log("cat data:" , catData);
             $.ajax({
                 url: "/MindMaze/admin/productCategory",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(catData),
                 success: function(response) {
-                    alert("Product is assigned to Categories successfully!");
+                    alert("Product assigned to categories successfully!");
                     $(".categories-container input[type='checkbox']").prop("checked", false);
                 },
                 error: function(xhr, status, error) {
@@ -192,31 +215,28 @@ function addProductInfo() {
                 }
             });
 
-
-            // IMAGES
-            let files = $("#product-images")[0].files;
-            if (files.length > 0) {
-                let imageData = new FormData();
-                for (let i = 0; i < files.length; i++) {
-                    imageData.append("images", files[i]);
-                }
-
-                $.ajax({
-                    url: "/MindMaze/admin/uploadProductImages?productId=" + insertedProductId,
-                    type: "POST",
-                    data: imageData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        alert("Images uploaded successfully!");
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error uploading images:", error);
-                        alert("Failed to upload images.");
-                    }
-                });
+            // === IMAGES ===
+            let imageData = new FormData();
+            for (let i = 0; i < files.length; i++) {
+                imageData.append("images", files[i]);
             }
 
+            $.ajax({
+                url: "/MindMaze/admin/uploadProductImages?productId=" + insertedProductId,
+                type: "POST",
+                data: imageData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    alert("Images uploaded successfully!");
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error uploading images:", error);
+                    alert("Failed to upload images.");
+                }
+            });
+
+            // === RESET FORM ===
             $("#product-name").val("");
             $("#product-description").val("");
             $("#product-quantity").val("");
@@ -230,6 +250,7 @@ function addProductInfo() {
         }
     });
 }
+
 
 
 
