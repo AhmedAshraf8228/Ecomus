@@ -69,7 +69,43 @@
 <body class="preload-wrapper">
     
     <div id="wrapper">
- 
+
+        <!-- header -->
+        <header id="header" class="header-default">
+            <div class="px_15 lg-px_40">
+                <div class="row wrapper-header align-items-center">
+                    <div class="col-xl-3 col-md-3 col-3">
+                        <a href="${pageContext.request.contextPath}/home" class="logo-header">
+                            <img src="images/logo/BordMaster.svg" alt="logo" class="logo">
+                        </a>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-6">
+                    </div>
+                    <div class="col-xl-3 col-md-3 col-3">
+                        <ul class="nav-icon d-flex justify-content-end align-items-center gap-20">
+                            <li class="nav-search">
+                                <a href="#search" class="nav-icon-item text-decoration-none search-box search icon">
+                                    <i class="icon icon-search"></i>
+                                </a>
+                            </li>
+                            <% Integer cartSize = (Integer) session.getAttribute("cart-size"); %>
+                            <li class="nav-account"><a href="${pageContext.request.contextPath}/accountDetails" class="nav-icon-item"><i class="icon icon-account"></i></a></li>
+                            <li class="nav-wishlist"><a href="my-account-wishlist.html" class="nav-icon-item"><i class="icon icon-heart"></i><span class="count-box">0</span></a></li>
+                            <li class="nav-cart"><a href="${pageContext.request.contextPath}/cart" class="nav-icon-item"><i class="icon icon-bag"></i><span class="count-box"><%= cartSize != null ? cartSize : 0 %></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Search Form -->
+        <div id="search" class="">
+            <span class="close">X</span>
+            <form role="search" id="searchform" method="get">
+                <input value="" name="q" type="search" placeholder="Type to Search">
+            </form>
+        </div>
+
         <!-- page-title -->
         <div class="tf-page-title">
             <div class="container-full">
@@ -86,7 +122,6 @@
                         <ul class="my-account-nav">
                             <li><span class="my-account-nav-item active">Account Details</span></li>
                             <li><a href="${pageContext.request.contextPath}/my-orders" class="my-account-nav-item">Orders</a></li>
-                            <li><a href="my-account-address.html" class="my-account-nav-item">Addresses</a></li>
                             <li><a href="${pageContext.request.contextPath}/profile" class="my-account-nav-item">Update Account</a></li>
                             <li><a href="my-account-wishlist.html" class="my-account-nav-item">Wishlist</a></li>
                             <li><a href="${pageContext.request.contextPath}/logout" class="my-account-nav-item">Logout</a></li>
