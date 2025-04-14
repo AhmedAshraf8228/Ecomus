@@ -34,40 +34,41 @@
     <!-- /preload -->
     <div id="wrapper">
         <!-- header -->
-        <header id="header" class="header-default">
-            <div class="px_15 lg-px_40">
-                <div class="row wrapper-header align-items-center">
-                    <div class="col-xl-3 col-md-3 col-3">
-                        <a href="home.jsp" class="logo-header">
-                            <img src="images/logo/BordMaster.svg" alt="logo" class="logo">
-                        </a>
-                    </div>
-                    <div class="col-xl-6 col-md-6 col-6">
-                    </div>
-                    <div class="col-xl-3 col-md-3 col-3">
-                        <ul class="nav-icon d-flex justify-content-end align-items-center gap-20">
-                            <li class="nav-search">
-                                <a href="#search" class="nav-icon-item text-decoration-none search-box search icon">
-                                    <i class="icon icon-search"></i>
-                                </a>
-                            </li>
-                            <li class="nav-account"><a href="login.jsp" class="nav-icon-item"><i class="icon icon-account"></i></a></li>
-                            <li class="nav-wishlist"><a href="wishlist.html" class="nav-icon-item"><i class="icon icon-heart"></i><span class="count-box">0</span></a></li>
-                            <li class="nav-cart"><a href="shoppingCart.html" class="nav-icon-item"><i class="icon icon-bag"></i><span class="count-box">0</span></a></li>
-                        </ul>
-                    </div>
-                </div>
+ <header id="header" class="header-default">
+    <div class="px_15 lg-px_40">
+        <div class="row wrapper-header align-items-center">
+            <div class="col-xl-3 col-md-3 col-3">
+                <a href="home.jsp" class="logo-header">
+                    <img src="images/logo/BordMaster.svg" alt="logo" class="logo">
+                </a>
             </div>
-        </header>
-
-        <!-- Search Form -->
-        <div id="search" class="">
-            <span class="close">X</span>
-            <form role="search" id="searchform" method="get">
-                <input value="" name="q" type="search" placeholder="Type to Search">
-            </form>
+            <div class="col-xl-6 col-md-6 col-6">
+            </div>
+            <div class="col-xl-3 col-md-3 col-3">
+                <ul class="nav-icon d-flex justify-content-end align-items-center gap-20">
+                    <li class="nav-search">
+                        <a href="#search" class="nav-icon-item text-decoration-none search-box search icon">
+                            <i class="icon icon-search"></i>
+                        </a>
+                    </li>
+                    <% Integer cartSize = (Integer) session.getAttribute("cart-size"); %>
+                    <li class="nav-account"><a href="${pageContext.request.contextPath}/accountDetails" class="nav-icon-item"><i class="icon icon-account"></i></a></li>
+                    <li class="nav-wishlist"><a href="my-account-wishlist.html" class="nav-icon-item"><i class="icon icon-heart"></i><span class="count-box">0</span></a></li>
+                    <li class="nav-cart"><a href="${pageContext.request.contextPath}/cart" class="nav-icon-item"><i class="icon icon-bag"></i><span class="count-box"><%= cartSize != null ? cartSize : 0 %></span></a></li>
+                </ul>
+            </div>
         </div>
-        <!-- /header -->
+    </div>
+</header>
+
+<!-- Search Form -->
+<div id="search" class="">
+    <span class="close">X</span>
+    <form role="search" id="searchform" method="get">
+        <input value="" name="q" type="search" placeholder="Type to Search">
+    </form>
+</div>
+<!-- /header -->
     <!-- page-title -->
     <div class="tf-page-title">
         <div class="container-full">

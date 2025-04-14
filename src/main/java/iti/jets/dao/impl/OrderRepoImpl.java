@@ -2,7 +2,6 @@ package iti.jets.dao.impl;
 
 import java.util.List;
 
-import iti.jets.entity.Cart;
 import iti.jets.entity.Order;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -44,5 +43,14 @@ public class OrderRepoImpl extends GenericRepoImpl<Order, Integer> {
             e.printStackTrace();
             return false;
         }
+
+    
     }
+    // @Override
+    // public Order insert(Order order){
+    //     entityManager.getTransaction().begin();
+    // entityManager.persist(order);
+    //     entityManager.getTransaction().commit();
+    //     return order;
+    // }
 }

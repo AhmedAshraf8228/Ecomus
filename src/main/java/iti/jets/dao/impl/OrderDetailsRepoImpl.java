@@ -45,4 +45,12 @@ public class OrderDetailsRepoImpl extends GenericRepoImpl<OrderDetails, Integer>
             return false;
         }
     }
+
+    // @Override
+    // public OrderDetails insert(OrderDetails orderdetails){
+    //     // entityManager.getTransaction().begin();
+    //   entityManager.persist(orderdetails);
+    //     // entityManager.getTransaction().commit();
+    //     return orderdetails;
+    // }
 }

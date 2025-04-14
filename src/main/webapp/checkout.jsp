@@ -97,7 +97,7 @@
                                     <div class="tf-page-cart-item">
                                         <fieldset class="fieldset">
                                             <label for="last-name">Name</label>
-                                            <input type="text" id="last-name" name="customerName" value="${user.userName}" required>
+                                            <input type="text" id="last-name" name="customerName" value="${user.userName}" required readonly>
                                         </fieldset>
                                         
                                         <fieldset class="box fieldset">
@@ -120,7 +120,7 @@
                                         </div>
                                         <fieldset class="box fieldset">
                                             <label for="phone">Phone Number</label>
-                                            <input type="number" id="phone" name="phone" value="${user.phone}" required>
+                                            <input type="number" id="phone" name="phone" value="${user.phone}" required readonly>
                                         </fieldset>
                                     </div>
                                 </div>
