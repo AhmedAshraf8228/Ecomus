@@ -96,4 +96,13 @@ public class CartRepoImpl extends GenericRepoImpl<Cart, Integer> {
         return cart;
 
     }
+
+    @Override
+    public Cart update(Cart cart) {
+        entityManager.getTransaction().begin();
+        cart = entityManager.merge(cart);
+        entityManager.flush();
+        entityManager.getTransaction().commit();
+        return cart;
+    }
 }
