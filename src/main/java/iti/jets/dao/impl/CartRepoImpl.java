@@ -90,8 +90,9 @@ public class CartRepoImpl extends GenericRepoImpl<Cart, Integer> {
     public Cart insert(Cart cart){
         entityManager.getTransaction().begin();
         entityManager.persist(cart);
-        //entityManager.flush();
+        entityManager.flush();
         entityManager.getTransaction().commit();
+
         return cart;
 
     }

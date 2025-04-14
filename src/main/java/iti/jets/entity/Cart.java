@@ -25,7 +25,7 @@ public class Cart implements Serializable {
     @JoinColumn(name = "productId", insertable = false, updatable = false)
     private Product product;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId", insertable = false, updatable = false)
     private User user;
 

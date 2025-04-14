@@ -54,7 +54,10 @@ public class GenericRepoImpl<T,ID> implements GenericRepo<T,ID> {
 
     @Override
     public T update(T t) {
-        return entityManager.merge(t);
+        entityManager.getTransaction().begin();
+        t = entityManager.merge(t);
+        entityManager.getTransaction().commit();
+        return t ;
     }
 
     @Override
