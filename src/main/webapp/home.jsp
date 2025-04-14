@@ -40,11 +40,13 @@
     <!-- /preload -->
     <div id="wrapper" >
         <!-- header -->
+
+        <!-- header -->
         <header id="header" class="header-default">
             <div class="px_15 lg-px_40">
                 <div class="row wrapper-header align-items-center">
                     <div class="col-xl-3 col-md-3 col-3">
-                        <a href="home.jsp" class="logo-header">
+                        <a href="${pageContext.request.contextPath}/home" class="logo-header">
                             <img src="images/logo/BordMaster.svg" alt="logo" class="logo">
                         </a>
                     </div>
@@ -58,9 +60,9 @@
                                 </a>
                             </li>
                             <% Integer cartSize = (Integer) session.getAttribute("cart-size"); %>
-                            <li class="nav-account"><a href="login.jsp" class="nav-icon-item"><i class="icon icon-account"></i></a></li>
+                            <li class="nav-account"><a href="${pageContext.request.contextPath}/accountDetails" class="nav-icon-item"><i class="icon icon-account"></i></a></li>
                             <li class="nav-wishlist"><a href="my-account-wishlist.html" class="nav-icon-item"><i class="icon icon-heart"></i><span class="count-box">0</span></a></li>
-                            <li class="nav-cart"><a href="view-cart.jsp" class="nav-icon-item"><i class="icon icon-bag"></i><span class="count-box"><%= cartSize != null ? cartSize : 0 %></span></a></li>
+                            <li class="nav-cart"><a href="${pageContext.request.contextPath}/cart" class="nav-icon-item"><i class="icon icon-bag"></i><span class="count-box"><%= cartSize != null ? cartSize : 0 %></span></a></li>
                         </ul>
                     </div>
                 </div>
@@ -74,7 +76,7 @@
                 <input value="" name="q" type="search" placeholder="Type to Search">
             </form>
         </div>
-        <!-- /header -->
+
 
         <!-- page-title -->
         <div class="tf-page-title">
