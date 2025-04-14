@@ -2015,6 +2015,28 @@ label {
 .nav-ul-mb .nav-mb-item:not(:last-child) {
   border-bottom: 1px solid rgb(238, 238, 238);
 }
+.out-of-stock {
+  opacity: 0.5;
+  pointer-events: none; /* Optional: disables click */
+  position: relative;
+}
+
+.out-of-stock::after {
+  content: "Out of Stock";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: red;
+  color: white;
+  padding: 2px 6px;
+  font-size: 12px;
+  border-radius: 3px;
+  z-index: 10;
+}
+
+.product-img.out-of-stock {
+  opacity: 0.5;
+}
 .nav-ul-mb .nav-mb-item .mb-menu-link {
   min-height: 40px;
   font-weight: 500;
@@ -5409,7 +5431,7 @@ header.header-bg {
 }
 
 .modal {
-  cursor: url("../images/item/cursor-close.svg"), auto;
+  cursor: url("../images/cursor-close.svg"), auto;
 }
 .modal.show .modal-dialog {
   transform: none;
@@ -15230,6 +15252,10 @@ blockquote .text {
   .card-product.lg .card-product-info .price .old-price {
     opacity: 0.5;
   }
+
+
+
+
   .card-product.lg .tf-countdown-v2 .countdown__item .countdown__value {
     font-size: 26px;
   }

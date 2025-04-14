@@ -6,10 +6,11 @@ import jakarta.persistence.EntityManager;
 import java.util.List;
 
 
-public class CategoryRepoImpl extends GenericRepoImpl{
-
+public class CategoryRepoImpl extends GenericRepoImpl<Category,Integer>{
+    EntityManager em;
     public CategoryRepoImpl() {
         super(Category.class);
+        em = getEntityManager();
     }
 
     public CategoryRepoImpl(EntityManager entityManager){
@@ -17,7 +18,7 @@ public class CategoryRepoImpl extends GenericRepoImpl{
     }
 
     public List<Integer> getCategoryIdByName(List<String>names){
-       return getEntityManager().createQuery(
+       return em.createQuery(
                         "SELECT c.categoryId FROM Category c WHERE c.categoryName IN :names", Integer.class)
                 .setParameter("names", names)
                 .getResultList();

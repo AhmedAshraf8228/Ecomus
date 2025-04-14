@@ -8,7 +8,6 @@ import java.util.*;
 public class ProductRepoImpl extends GenericRepoImpl<Product , Integer> {
     EntityManager em;
     public ProductRepoImpl() {
-
         super(Product.class);
         em = getEntityManager();
     }

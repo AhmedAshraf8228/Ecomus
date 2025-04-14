@@ -21,6 +21,15 @@ public class CartRepoImpl extends GenericRepoImpl<Cart, Integer> {
 
     }
 
+    public int getTotalQuantityByUserId(int userId) {
+        TypedQuery<Long> query = entityManager.createQuery(
+                "SELECT SUM(c.quantity) FROM Cart c WHERE c.user.userId = :userId", Long.class);
+        query.setParameter("userId", userId);
+
+        Long result = query.getSingleResult();
+        return result != null ? result.intValue() : 0;
+    }
+
     public List<Cart> getCartItemsByUserId(int userId) {
         TypedQuery<Cart> query = entityManager.createQuery(
             "SELECT c FROM Cart c WHERE c.user.userId = :userId", Cart.class);

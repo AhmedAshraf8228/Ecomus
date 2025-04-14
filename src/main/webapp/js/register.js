@@ -187,7 +187,7 @@ function validatePhone(flag) {
     let phoneRegex = /^01([5201])\d{8}$/;
 
     // Check if the phone number matches the regex
-    if (phone <= 0 || phoneRegex.test(phone)) {
+    if (phoneRegex.test(phone)) {
         return updateValid(phoneField); // Mark as valid if it matches the pattern
     } else {
         return updateUnValid(phoneField, flag); // Mark as invalid if it doesn't match

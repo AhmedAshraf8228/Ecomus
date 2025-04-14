@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
@@ -93,6 +94,7 @@
                 <div class="tf-shop-control grid-3 align-items-center">
                     <div class="tf-control-filter">
                         <a href="#filterShop" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft" class="tf-btn-filter"><span class="icon icon-filter"></span><span class="text">Filter</span></a>
+
                     </div>
                     <ul class="tf-control-layout d-flex justify-content-center">
                         <li class="tf-view-layout-switch sw-layout-2" data-value-grid="grid-2">
@@ -111,48 +113,11 @@
                             <div class="item"><span class="icon icon-grid-6"></span></div>
                         </li>
                     </ul>
+                    <div class="filter-summary text-center mt_10">
+                        <span id="filter-count" class="badge bg_primary fs-14 fw-6 px-3 py-1 radius-5 " >0 Filters Applied</span>
+                    </div>
                 </div>
-                <div class="grid-layout wrapper-shop" data-grid="grid-4">
-                    <c:forEach var="product" items="${products}">
-
-                        <div class="card-product style-4">
-                            <div class="card-product-wrapper">
-                                <a href="productDetail.html" class="product-img">
-                                    <img class="lazyload img-product" data-src="images/products/${product.productId}/${productsImages.get(product.productId)[0]}" src="images/products/${product.productId}/${productsImages.get(product.productId)[0]}" alt="${product.productName}">
-                                    <img class="lazyload img-hover" data-src="images/products/${product.productId}/${productsImages.get(product.productId)[1]}" src="images/products/${product.productId}/${productsImages.get(product.productId)[1]}" alt="${product.productName}">
-                                </a>
-                                <div class="list-product-btn column-right">
-                                    <a href="javascript:void(0);" class="box-icon wishlist bg_white round btn-icon-action">
-                                        <span class="icon icon-heart"></span>
-                                        <span class="tooltip">Add to Wishlist</span>
-                                        <span class="icon icon-delete"></span>
-                                    </a>
-                                    <a href="#quick_view"
-                                       data-bs-toggle="modal"
-                                       class="box-icon quickview bg_white round tf-btn-loading"
-                                       data-product-id="${product.productId}"
-                                       data-product-name="${product.productName}"
-                                       data-product-price="${product.price}"
-                                       data-product-description="${product.description}"
-                                    >
-                                        <span class="icon icon-view"></span>
-                                        <span class="tooltip">Quick View</span>
-                                    </a>
-                                </div>
-                                <a href="#quick_add" data-bs-toggle="modal"
-                                   class="btn-quick-add quick-add"
-                                   data-product-id="${product.productId}"
-                                   data-product-name="${product.productName}"
-                                   data-product-price="${product.price}"
-                                >QUICK ADD</a>
-                            </div>
-                            <div class="card-product-info">
-                                <a href="productDetail.html" class="title link">${product.productName}</a>
-                                <span class="price">${product.price}</span>
-                            </div>
-                        </div>
-
-                    </c:forEach>
+                <div id="product-list" class="grid-layout wrapper-shop" data-grid="grid-4">
                 </div>
             </div>
         </section>
@@ -205,6 +170,7 @@
                 <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
             </header>
             <div class="canvas-body">
+                <form action="#" id="facet-filter-form" class="facet-filter-form">
                 <div class="widget-facet wd-categories">
                     <div class="facet-title" data-bs-target="#categories" data-bs-toggle="collapse" aria-expanded="true" aria-controls="categories">
                         <span>Product categories</span>
@@ -212,15 +178,19 @@
                     </div>
                     <div id="categories" class="collapse show">
                         <ul class="list-categoris current-scrollbar mb_36">
-                            <li class="cate-item current"><a href="shop-default.html"><span>Fashion</span></a></li>
-                            <li class="cate-item"><a href="shop-default.html"><span>Men</span></a></li>
-                            <li class="cate-item"><a href="shop-default.html"><span>Women</span></a></li>
-                            <li class="cate-item"><a href="shop-default.html"><span>Denim</span></a></li>
-                            <li class="cate-item"><a href="shop-default.html"><span>Dress</span></a></li>
+                            <jsp:useBean id="categories" scope="request" type="java.util.List"/>
+
+                            <c:forEach var="cat" items="${categories}">
+                            <li class="list-item d-flex gap-12 align-items-center">
+                                <input type="checkbox" name="categoryIds" class="tf-check" id="${cat.categoryId}" value="${cat.categoryName}">
+                                <label for="${cat.categoryId}" class="label"><span>${cat.categoryName}</span></label>
+                            </li>
+                            </c:forEach>
+
                         </ul>
                     </div>
                 </div>
-                <form action="#" id="facet-filter-form" class="facet-filter-form">
+
                     <div class="widget-facet">
                         <div class="facet-title" data-bs-target="#availability" data-bs-toggle="collapse" aria-expanded="true" aria-controls="availability">
                             <span>Availability</span>
@@ -229,12 +199,12 @@
                         <div id="availability" class="collapse show">
                             <ul class="tf-filter-group current-scrollbar mb_36">
                                 <li class="list-item d-flex gap-12 align-items-center">
-                                    <input type="checkbox" name="availability" class="tf-check" id="availability-1">
-                                    <label for="availability-1" class="label"><span>In stock</span>&nbsp;<span>(14)</span></label>
+                                    <input type="checkbox" name="availability" class="tf-check" id="availability-1" value="in">
+                                    <label for="availability-1" class="label"><span>In stock</span></label>
                                 </li>
                                 <li class="list-item d-flex gap-12 align-items-center">
-                                    <input type="checkbox" name="availability" class="tf-check" id="availability-2">
-                                    <label for="availability-2" class="label"><span>Out of stock</span>&nbsp;<span>(2)</span></label>
+                                    <input type="checkbox" name="availability" class="tf-check" id="availability-2" value="out">
+                                    <label for="availability-2" class="label"><span>Out of stock</span></label>
                                 </li>
                             </ul>
                         </div>
@@ -269,7 +239,11 @@
                         </div>
                     </div>
                     <button id="filter" class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn w-100" >
-                        <span>APPLY FILTER</span></button>
+                        <span>APPLY FILTER</span>
+                    </button><br>
+                    <button type="button" id="clear-filters" class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn w-100 ">
+                        <span>CLEAR ALL FILTERS</span>
+                    </button>
 
                 </form>    
             </div>
@@ -279,10 +253,10 @@
     <!-- End Filter -->
     
     <!-- modal quick_add -->
-    <div class="modal fade modalDemo" id="quick_add">
+    <div class="modal fade modalDemo quickModal" id="quick_add">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <input id="quick-add-product-id" type="hidden">
+                <input id="quick-add-product-id " class="quick-product-id" type="hidden">
                 <div class="header">
                     <span class="icon-close icon-close-popup" data-bs-dismiss="modal"></span>
                 </div>
@@ -292,9 +266,9 @@
                             <img id="quick-add-image" src="" alt="">
                         </div>
                         <div class="content">
-                            <a id="quick-add-name" href="productDetail.html">name</a>
+                            <a id="quick-add-name" class="quick-product-name" href="productDetail.html">name</a>
                             <div class="tf-product-info-price">
-                                <div id="quick-add-price" class="price">$price</div>
+                                <div id="quick-add-price" class="price quick-product-price">$price</div>
                             </div>
                         </div>
                     </div>
@@ -302,14 +276,14 @@
                         <div class="quantity-title fw-6">Quantity</div>
                         <div class="wg-quantity">
                             <span class="btn-quantity minus-btn quick-add-btn">-</span>
-                            <input id="quick-add-quantity" type="text" name="number" value="1" disabled>
+                            <input id="quick-add-quantity" class="quick-product-quantity" type="text" name="number" value="1" disabled>
                             <span class="btn-quantity plus-btn quick-add-btn">+</span>
                         </div>
                     </div>
                     <div class="tf-product-info-buy-button">
                         <form class="">
-                            <button id="quick-add-addToCart" class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn ">
-                                <span>Add to cart -&nbsp;</span><span id="quick-add-total" class="tf-qty-price">$total</span></button>
+                            <button id="quick-add-addToCart" class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn quick-product-addToCart">
+                                <span>Add to cart -&nbsp;</span><span id="quick-add-total" class="tf-qty-price quick-product-total">$total</span></button>
                             <div class="tf-product-btn-wishlist btn-icon-action">
                                 <i class="icon-heart"></i>
                                 <i class="icon-delete"></i>
@@ -324,10 +298,10 @@
     <!-- /modal quick_add -->
 
     <!-- modal quick_view -->
-    <div class="modal fade modalDemo" id="quick_view">
+    <div class="modal fade modalDemo quickModal" id="quick_view">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <input type="hidden" id="quick-view-product-id" />
+                <input type="hidden" id="quick-view-product-id"  class="quick-product-id"/>
                 <div class="header">
                     <span class="icon-close icon-close-popup" data-bs-dismiss="modal"></span>
                 </div>
@@ -344,26 +318,26 @@
                     <div class="tf-product-info-wrap position-relative">
                         <div class="tf-product-info-list">
                             <div class="tf-product-info-title">
-                                <h5><a id="quick-view-name" class="link" href="productDetail.html">product name</a></h5>
+                                <h5><a id="quick-view-name" class="link quick-product-name" href="productDetail.html">product name</a></h5>
                             </div>
                             <div class="tf-product-info-price">
-                                <div id="quick-view-price" class="price">$prise</div>
+                                <div id="quick-view-price" class="price quick-product-price">$prise</div>
                             </div>
                             <div class="tf-product-description">
-                                <p id="quick-view-description">description</p>
+                                <p id="quick-view-description" class="quick-product-description">description</p>
                             </div>
                             <div class="tf-product-info-quantity">
                                 <div class="quantity-title fw-6">Quantity</div>
                                 <div class="wg-quantity">
                                     <span class="btn-quantity minus-btn quick-view-btn" >-</span>
-                                    <input id="quick-view-quantity" type="text" name="number" value="1" disabled>
+                                    <input id="quick-view-quantity" type="text" name="number"  class="quick-product-quantity" value="1" disabled>
                                     <span class="btn-quantity plus-btn quick-view-btn">+</span>
                                 </div>
                             </div>
                             <div class="tf-product-info-buy-button">
                                 <form class="">
-                                    <button id="quick-view-addToCart" class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn " >
-                                        <span>Add to cart -&nbsp;</span><span id="quick-view-total" class="tf-qty-price">$total</span></button>
+                                    <button id="quick-view-addToCart" class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn quick-product-addToCart" >
+                                        <span>Add to cart -&nbsp;</span><span id="quick-view-total" class="tf-qty-price quick-product-total">$total</span></button>
                                     <a href="javascript:void(0);" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action">
                                         <span class="icon icon-heart"></span>
                                         <span class="tooltip">Add to Wishlist</span>
@@ -400,7 +374,27 @@
 
 
     <script>
+        window.products = [];
+        <c:forEach var="product" items="${products}">
+        window.products.push({
+            id: ${product.productId},
+            name: "${product.productName}",
+            price: ${product.price},
+            quantity: ${product.quantity},
+            description: "${product.description}",
+            categories: [
+                <c:forEach var="cat" items="${product.categories}">
+                "${cat.categoryName}",
+                </c:forEach>
+            ]
+        });
+        </c:forEach>
+    </script>
+
+
+    <script>
         window.isLoggedIn = '${login}'; // sets a JS global from the session
+
         window.productsImages = {};
         <c:forEach var="entry" items="${productsImages}">
         window.productsImages['${entry.key}'] = [
@@ -409,6 +403,7 @@
             </c:forEach>
         ];
         </c:forEach>
+
     </script>
 
 

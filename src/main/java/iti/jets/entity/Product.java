@@ -1,6 +1,7 @@
 package iti.jets.entity;
 
 import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -25,8 +26,14 @@ public class Product implements Serializable {
     @Column(name = "price", nullable = false)
     private int price;
 
-    @Transient
-    private List<String> categories;
+    //    @Transient
+    @ManyToMany
+    @JoinTable(
+            name = "productcategory",
+            joinColumns = @JoinColumn(name = "productId"),
+            inverseJoinColumns = @JoinColumn(name = "categoryId")
+    )
+    private List<Category> categories;
 
     public Product() {
     }
@@ -80,11 +87,11 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    public List<String> getCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<String> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 }
