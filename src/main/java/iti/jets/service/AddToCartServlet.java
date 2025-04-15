@@ -52,6 +52,8 @@ public class AddToCartServlet extends HttpServlet {
                 flag = true;
             }
             if (flag) {
+                int oldCart = (int) session.getAttribute("cart-size");
+                session.setAttribute("cart-size", oldCart + quantity);
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().write("{\"message\":\"Item added to cart\"}");
                 System.out.println("Add to cart successfully : user:" + userId + " productId:" + productId + " quantity:" + quantity);

@@ -94,4 +94,15 @@ public class Product implements Serializable {
     public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", description='" + description + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                '}';
+    }
 }

@@ -19,7 +19,6 @@ if ($(".thumbs-slider").length > 0) {
         },
         1150: {
           direction: "vertical",
-          direction: direction,
         },
       },
       450: {

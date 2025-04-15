@@ -25,7 +25,7 @@ $(document).ready(function () {
             let imgTag = `<div class="swiper-slide"><div class="item"><img src="images/products/${productId}/${img}" alt=""></div></div>`;
             imageContainer.append(imgTag);
         });
-        $('#modal-detail-link').attr('href', `productDetail.jsp?id=${productId}`);
+
 
         $('#quick-view-addToCart').off('click').on('click', function (e) {
             e.preventDefault();
@@ -59,8 +59,9 @@ $(document).ready(function () {
 
 });
 
-function quickProduct(product ,m){
+function quickProduct(product){
     if (!product) return;
+    $('.link-product-details').attr('href', `productDetail?id=${product.id}`);
     $('.quick-product-id').val(product.id);
     $('.quick-product-name').text(product.name);
     $('#quick-view-description').text(product.description);
@@ -115,7 +116,6 @@ function addToCart(productId, type) {
 
 function successAddToCart(res) {
     toastr.success("Item added to cart!✅");
-
 }
 
 function errorAddToCart(xhr) {
@@ -192,7 +192,7 @@ function renderProducts(products) {
         const $html = $(`
         <div class="card-product style-4">
             <div class="card-product-wrapper">
-                <a href="productDetail.html" class="product-img ${outOfStock}">
+                <a href="productDetail?id=${p.id}" class="product-img ${outOfStock}">
                     <img class="lazyload img-product"
                          data-src="images/products/${p.id}/${img1}"
                          src="images/products/${p.id}/${img1}" 
@@ -227,7 +227,7 @@ function renderProducts(products) {
                 `}
             </div>
             <div class="card-product-info">
-                <a href="productDetail.html" class="title link">${p.name}</a>
+                <a href="productDetail?id=${p.id}" class="title link">${p.name}</a>
                 <span class="price">$${p.price}</span>
             </div>
         </div>

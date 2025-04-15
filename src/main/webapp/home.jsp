@@ -6,7 +6,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
 
 
-<!-- Mirrored from themesflat.co/html/ecomus/product-style-04.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 02 Sep 2024 12:26:40 GMT -->
 <head>
     <meta charset="utf-8">
     <title>Ecomus - Ultimate HTML</title>
@@ -26,7 +25,10 @@
     <!-- Favicon and Touch Icons  -->
     <link rel="shortcut icon" href="images/logo/favicon.png">
     <link rel="apple-touch-icon-precomposed" href="images/logo/favicon.png">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.24/dist/sweetalert2.min.css" rel="stylesheet">
+
 
 </head>
 
@@ -44,7 +46,7 @@
             <div class="px_15 lg-px_40">
                 <div class="row wrapper-header align-items-center">
                     <div class="col-xl-3 col-md-3 col-3">
-                        <a href="home.jsp" class="logo-header">
+                        <a href="home" class="logo-header">
                             <img src="images/logo/BordMaster.svg" alt="logo" class="logo">
                         </a>
                     </div>
@@ -60,7 +62,7 @@
                             <% Integer cartSize = (Integer) session.getAttribute("cart-size"); %>
                             <li class="nav-account"><a href="login.jsp" class="nav-icon-item"><i class="icon icon-account"></i></a></li>
                             <li class="nav-wishlist"><a href="my-account-wishlist.html" class="nav-icon-item"><i class="icon icon-heart"></i><span class="count-box">0</span></a></li>
-                            <li class="nav-cart"><a href="view-cart.jsp" class="nav-icon-item"><i class="icon icon-bag"></i><span class="count-box"><%= cartSize != null ? cartSize : 0 %></span></a></li>
+                            <li class="nav-cart"><a href="cart" class="nav-icon-item"><i class="icon icon-bag"></i><span class="count-box"><%= cartSize != null ? cartSize : 0 %></span></a></li>
                         </ul>
                     </div>
                 </div>
@@ -266,7 +268,7 @@
                             <img id="quick-add-image" src="" alt="">
                         </div>
                         <div class="content">
-                            <a id="quick-add-name" class="quick-product-name" href="productDetail.html">name</a>
+                            <a id="quick-add-name" class="quick-product-name link-product-details" >name</a>
                             <div class="tf-product-info-price">
                                 <div id="quick-add-price" class="price quick-product-price">$price</div>
                             </div>
@@ -318,7 +320,7 @@
                     <div class="tf-product-info-wrap position-relative">
                         <div class="tf-product-info-list">
                             <div class="tf-product-info-title">
-                                <h5><a id="quick-view-name" class="link quick-product-name" href="productDetail.html">product name</a></h5>
+                                <h5><a id="quick-view-name" class="link quick-product-name link-product-details " >product name</a></h5>
                             </div>
                             <div class="tf-product-info-price">
                                 <div id="quick-view-price" class="price quick-product-price">$prise</div>
@@ -346,7 +348,7 @@
                                 </form>
                             </div>
                             <div>
-                                <a href="productDetail.html" class="tf-btn fw-6 btn-line">View full details<i class="icon icon-arrow1-top-left"></i></a>
+                                <a   class="link-product-details tf-btn fw-6 btn-line">View full details<i class="icon icon-arrow1-top-left"></i></a>
                             </div>
                         </div>
                     </div>
