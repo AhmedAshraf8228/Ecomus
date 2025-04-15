@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html" xml:lang="en-US" lang="en-US">
 
 
 <!-- Mirrored from themesflat.co/html/ecomus/my-account-wishlist.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 02 Sep 2024 12:32:59 GMT -->
@@ -24,17 +24,19 @@
     <link rel="shortcut icon" href="images/logo/favicon.png">
     <link rel="apple-touch-icon-precomposed" href="images/logo/favicon.png">
 
+
 </head>
 
 <body class="preload-wrapper">
     
     <div id="wrapper">
-        <!-- header -->
+
+
         <header id="header" class="header-default">
             <div class="px_15 lg-px_40">
                 <div class="row wrapper-header align-items-center">
                     <div class="col-xl-3 col-md-3 col-3">
-                        <a href="${pageContext.request.contextPath}/home" class="logo-header">
+                        <a href="home" class="logo-header">
                             <img src="images/logo/BordMaster.svg" alt="logo" class="logo">
                         </a>
                     </div>
@@ -47,23 +49,24 @@
                                     <i class="icon icon-search"></i>
                                 </a>
                             </li>
-                            <% Integer cartSize = (Integer) session.getAttribute("cart-size"); %>
                             <li class="nav-account"><a href="${pageContext.request.contextPath}/accountDetails" class="nav-icon-item"><i class="icon icon-account"></i></a></li>
                             <li class="nav-wishlist"><a href="my-account-wishlist.html" class="nav-icon-item"><i class="icon icon-heart"></i><span class="count-box">0</span></a></li>
-                            <li class="nav-cart"><a href="${pageContext.request.contextPath}/cart" class="nav-icon-item"><i class="icon icon-bag"></i><span class="count-box"><%= cartSize != null ? cartSize : 0 %></span></a></li>
+                            <li class="nav-cart"><a href="cart" class="nav-icon-item"><i class="icon icon-bag"></i><span class="count-box"></span></a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </header>
 
+        <!-- /header -->
+
         <!-- Search Form -->
-        <div id="search" class="">
-            <span class="close">X</span>
-            <form role="search" id="searchform" method="get">
-                <input value="" name="q" type="search" placeholder="Type to Search">
-            </form>
-        </div>
+<!--        <div id="search" class="">-->
+<!--            <span class="close">X</span>-->
+<!--            <form role="search" id="searchform" method="get">-->
+<!--                <input value="" name="q" type="search" placeholder="Type to Search">-->
+<!--            </form>-->
+<!--        </div>-->
 
 
 
@@ -424,9 +427,10 @@
     <script type="text/javascript" src="js/lazysize.min.js"></script>
     <script type="text/javascript" src="js/count-down.js"></script>   
     <script type="text/javascript" src="js/wow.min.js"></script>   
-    <script type="text/javascript" src="js/wow.min.js"></script>
     <script type="text/javascript" src="js/multiple-modal.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/search.js"></script>
+
 </body>
 
 

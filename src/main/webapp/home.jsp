@@ -43,7 +43,7 @@
     <div id="wrapper" >
         <!-- header -->
 
-        <!-- header -->
+
         <header id="header" class="header-default">
             <div class="px_15 lg-px_40">
                 <div class="row wrapper-header align-items-center">
@@ -71,11 +71,14 @@
             </div>
         </header>
 
+        <!-- /header -->
+
         <!-- Search Form -->
         <div id="search" class="">
             <span class="close">X</span>
-            <form role="search" id="searchform" method="get">
-                <input value="" name="q" type="search" placeholder="Type to Search">
+            <form id="searchform" role="search">
+                <input id="search-input" value="" name="q" type="search" placeholder="Type to Search">
+                <button type="submit"><i class="icon icon-search search-icon" ></i></button>
             </form>
         </div>
 
@@ -397,8 +400,8 @@
 
 
     <script>
-        window.isLoggedIn = '${login}'; // sets a JS global from the session
-
+        window.isLoggedIn = '${login}';
+        window.path = '${pageContext.request.contextPath}';
         window.productsImages = {};
         <c:forEach var="entry" items="${productsImages}">
         window.productsImages['${entry.key}'] = [

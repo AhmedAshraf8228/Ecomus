@@ -8857,10 +8857,13 @@ header.header-bg {
   display: flex;
   width: 100%;
   height: 100%;
+  object-fit: fill;
   position: relative;
   align-items: stretch;
 }
 .card-product .card-product-wrapper {
+  height: 80% ;
+  width: 100% ;
   position: relative;
   border-radius: 10px;
   overflow: hidden;
@@ -8908,7 +8911,7 @@ header.header-bg {
   display: block;
   height: 100%;
   width: 100%;
-  object-fit: cover;
+  object-fit: fill;
   object-position: center;
   transition: opacity 0.5s ease, transform 2s cubic-bezier(0, 0, 0.44, 1.18);
 }
@@ -17784,5 +17787,17 @@ blockquote .text {
   cursor: pointer;
   text-shadow: none;
 }
+
+#search .search-icon {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  color: white;
+  margin-top: -20px;
+  margin-left: 80%;
+  outline: none;
+  padding: 10px;
+}
+
 
 

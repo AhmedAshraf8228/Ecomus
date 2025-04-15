@@ -1,3 +1,4 @@
+const imageUrl = window.path + "/../../products";
 $(document).ready(function () {
     renderProducts(window.products);
     updateFilterCount([], [], '', '');
@@ -22,7 +23,7 @@ $(document).ready(function () {
         imageContainer.empty();
         let productImages = window.productsImages[productId] || [];
         productImages.forEach(img => {
-            let imgTag = `<div class="swiper-slide"><div class="item"><img src="images/products/${productId}/${img}" alt=""></div></div>`;
+            let imgTag = `<div class="swiper-slide"><div class="item"><img src="${imageUrl}/${productId}/${img}" alt=""></div></div>`;
             imageContainer.append(imgTag);
         });
 
@@ -39,7 +40,7 @@ $(document).ready(function () {
         const product = window.products.find(p => p.id === productId);
         quickProduct(product);
         const images = window.productsImages[productId] || [];
-        $('#quick-add-image').attr('src', `images/products/${productId}/${images.at(0)}`);
+        $('#quick-add-image').attr('src', `${imageUrl}/${productId}/${images.at(0)}`);
 
         $('#quick-add-addToCart').off('click').on('click', function (e) {
             e.preventDefault();
@@ -55,6 +56,21 @@ $(document).ready(function () {
     $('#clear-filters').on('click', function () {
         resetInputs();
         applyFilters();
+    });
+
+    $('#searchform').on('submit', function (e) {
+        e.preventDefault();
+        const query = $('#search-input').val().toLowerCase().trim();
+        if (query) {
+            const filteredProducts = window.products.filter(product => {
+                return product.name.toLowerCase().includes(query) ||
+                    product.description.toLowerCase().includes(query);
+            });
+            renderProducts(filteredProducts);
+        } else {
+            renderProducts(window.products);
+        }
+        $('#search').removeClass();
     });
 
 });
@@ -183,7 +199,7 @@ function renderProducts(products) {
         $container.append('<p>No products found.</p>');
         return;
     }
-
+    console.log(products.length);
     products.forEach(function (p) {
         const img1 = window.productsImages?.[p.id]?.[0] || 'fallback.jpg';
         const img2 = window.productsImages?.[p.id]?.[1] || img1;
@@ -194,12 +210,12 @@ function renderProducts(products) {
             <div class="card-product-wrapper">
                 <a href="productDetail?id=${p.id}" class="product-img ${outOfStock}">
                     <img class="lazyload img-product"
-                         data-src="images/products/${p.id}/${img1}"
-                         src="images/products/${p.id}/${img1}" 
+                         data-src="${imageUrl}/${p.id}/${img1}"
+                         src="${imageUrl}/${p.id}/${img1}" 
                          alt="${p.name}" >
                     <img class="lazyload img-hover"
-                         data-src="images/products/${p.id}/${img2}"
-                         src="images/products/${p.id}/${img2}" 
+                         data-src="${imageUrl}/${p.id}/${img2}"
+                         src="${imageUrl}/${p.id}/${img2}" 
                         src="images/placeholder.jpg"
                          alt="${p.name}">                   
                 </a>

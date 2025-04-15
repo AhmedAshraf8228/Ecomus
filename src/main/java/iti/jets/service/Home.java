@@ -47,7 +47,8 @@ public class Home extends HttpServlet {
 
     private Map<Integer, List<String>> loadProductImages(List<Product> products, ServletContext context) {
         Map<Integer, List<String>> imagesMap = new HashMap<>();
-        String imageBasePath = context.getRealPath("/images/products/");
+        String imageBasePath = getServletContext().getRealPath("");
+        imageBasePath += File.separator + ".." + File.separator + "products" + File.separator  ;
 
         for (Product product : products) {
             File imageDir = new File(imageBasePath, String.valueOf(product.getProductId()));

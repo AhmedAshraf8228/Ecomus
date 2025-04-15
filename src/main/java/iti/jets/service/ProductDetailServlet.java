@@ -31,7 +31,8 @@ public class ProductDetailServlet extends HttpServlet {
     }
 
     private List<String> loadProductImages(String productId , ServletContext context) {
-        String imageBasePath = context.getRealPath("/images/products/");
+        String imageBasePath = getServletContext().getRealPath("");
+        imageBasePath += File.separator + ".." + File.separator + "products" + File.separator  ;
         File imageDir = new File(imageBasePath, productId);
         List<String> imagesList = new ArrayList<>();
         if (imageDir.exists() && imageDir.isDirectory()) {

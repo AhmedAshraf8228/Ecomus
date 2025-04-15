@@ -98,7 +98,8 @@
                                             <c:forEach var="img" items="${imgList}">
                                                 <div class="swiper-slide stagger-item">
                                                     <div class="item">
-                                                        <img class="lazyload" data-src="images/products/${product.productId}/${img}" src="images/products/${product.productId}/${img}" alt="${product.productName} image">
+
+                                                        <img class="lazyload" data-src="${pageContext.request.contextPath}/../products/${product.productId}/${img}" src="${pageContext.request.contextPath}/../products/${product.productId}/${img}" alt="${product.productName} image">
                                                     </div>
                                                 </div>
                                             </c:forEach>
@@ -108,8 +109,8 @@
                                         <div class="swiper-wrapper" >
                                             <c:forEach var="img" items="${imgList}">
                                                 <div class="swiper-slide">
-                                                    <a href="images/products/${product.productId}/${img}" target="_blank" class="item" data-pswp-width="770px" data-pswp-height="1075px">
-                                                        <img class="tf-image-zoom lazyload" data-zoom="images/products/${product.productId}/${img}" data-src="images/products/${product.productId}/${img}" src="images/products/${product.productId}/${img}" alt="">
+                                                    <a href="${pageContext.request.contextPath}/../products/${product.productId}/${img}" target="_blank" class="item" data-pswp-width="770px" data-pswp-height="1075px">
+                                                        <img class="tf-image-zoom lazyload" data-zoom="${pageContext.request.contextPath}/../products/${product.productId}/${img}" data-src="${pageContext.request.contextPath}/../products/${product.productId}/${img}" src="${pageContext.request.contextPath}/../products/${product.productId}/${img}" alt="${product.productName}">
                                                     </a>
                                                 </div>
                                             </c:forEach>
@@ -141,9 +142,18 @@
                                     </div>
                                     <div class="tf-product-info-buy-button">
                                         <form id="form-1" class="" >
-                                        <button type="submit" class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn ">
-                                            <span>Add to cart -&nbsp;</span><span id="total-price" class="tf-qty-price">$${product.price}</span>
-                                        </button>
+                                        <c:choose>
+                                            <c:when test="${product.quantity>0}">
+                                                <button type="submit" class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn ">
+                                                    <span>Add to cart -&nbsp;</span><span id="total-price" class="tf-qty-price">$${product.price}</span>
+                                                </button>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a class="tf-btn btns-sold-out cursor-not-allowed btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn ">
+                                                    <span>Sold out -&nbsp;</span><span class="tf-qty-price">$${product.price}</span>
+                                                </a>
+                                            </c:otherwise>
+                                        </c:choose>
                                         <a href="javascript:void(0);" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action">
                                             <span class="icon icon-heart"></span>
                                             <span class="tooltip">Add to Wishlist</span>
@@ -195,7 +205,21 @@
                     <div class="tf-height-observer w-100 d-flex align-items-center">
                         <div class="tf-sticky-atc-product d-flex align-items-center">
                             <div class="tf-sticky-atc-img">
-                                <img class="lazyloaded" data-src="images/products/${product.productId}/${imgList.size() > 0 ? imgList.get(0) : ""}" alt="${product.productName} image" src="images/products/${imgList.size() > 0 ? imgList.get(0) : ""}">
+                                <img class="lazyloaded"
+                                <c:choose>
+                                    <c:when test="${not empty imgList}">
+                                        <img class="lazyloaded"
+                                             data-src="${pageContext.request.contextPath}/../products/${product.productId}/${imgList[0]}"
+                                             src="${pageContext.request.contextPath}/../products/${product.productId}/${imgList[0]}"
+                                             alt="${product.productName} image">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img class="lazyloaded"
+                                             data-src="${pageContext.request.contextPath}/../products/${product.productId}/1.jpg"
+                                             src="${pageContext.request.contextPath}/../products/${product.productId}/1.jpg"
+                                             alt="${product.productName} image">
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                             <div class="tf-sticky-atc-title fw-5 d-xl-block d-none">${product.productName}</div>
                         </div>
@@ -203,6 +227,8 @@
                             <form id = "form-2" class="" action="addtocart" method="POST">
                                 <input type="hidden" name="productId" value="${product.productId}" />
                                 <div class="tf-sticky-atc-btns">
+                                    <c:choose>
+                                        <c:when test="${product.quantity>0}">
                                     <div class="tf-product-info-quantity">
                                         <div class="wg-quantity">
                                             <span class="btn-quantity minus-btn">-</span>
@@ -210,7 +236,18 @@
                                             <span class="btn-quantity plus-btn">+</span>
                                         </div>
                                     </div>
-                                    <button type="submit" class="tf-btn btn-fill radius-3 justify-content-center fw-6 fs-14 flex-grow-1 animate-hover-btn "><span>Add to cart</span></button>
+
+                                            <button type="submit"
+                                                    class="tf-btn btn-fill radius-3 justify-content-center fw-6 fs-14 flex-grow-1 animate-hover-btn ">
+                                                <span>Add to cart</span>
+                                            </button>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a class="tf-btn btns-sold-out cursor-not-allowed btn-fill radius-3 justify-content-center fw-6 fs-14 flex-grow-1 animate-hover-btn ">
+                                                <span>Sold out</span>
+                                            </a>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                             </form>
                         </div>
