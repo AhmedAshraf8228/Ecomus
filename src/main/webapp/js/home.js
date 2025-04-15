@@ -201,7 +201,7 @@ function renderProducts(products) {
     }
     console.log(products.length);
     products.forEach(function (p) {
-        const img1 = window.productsImages?.[p.id]?.[0] || 'fallback.jpg';
+        const img1 = window.productsImages?.[p.id]?.[0] || '../fallback.jpg';
         const img2 = window.productsImages?.[p.id]?.[1] || img1;
 
         const outOfStock = p.quantity === 0 ? 'out-of-stock' : '';
