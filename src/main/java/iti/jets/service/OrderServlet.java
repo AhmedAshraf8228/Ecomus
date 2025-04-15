@@ -4,8 +4,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import iti.jets.dao.impl.GenericRepoImpl;
+import iti.jets.dao.impl.OrderDetailsRepoImpl;
 import iti.jets.dao.impl.OrderRepoImpl;
+import iti.jets.dao.impl.ProductRepoImpl;
 import iti.jets.entity.Order;
+import iti.jets.entity.OrderDetails;
+import iti.jets.entity.Product;
 import iti.jets.enums.OrderStatus;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -60,15 +64,40 @@ public class OrderServlet extends HttpServlet {
         int orderId = (int) requestData.get("orderId");
         String newStatus = (String) requestData.get("status");
 
-        OrderRepoImpl orderRepo = new OrderRepoImpl();
+        EntityManager em = GenericRepoImpl.getEntityManagerFactory().createEntityManager();
+        OrderRepoImpl orderRepo = new OrderRepoImpl(em);
+        OrderDetailsRepoImpl orderDetailsRepo = new OrderDetailsRepoImpl(em);
+        ProductRepoImpl productRepo = new ProductRepoImpl(em);
 
         try {
+            em.getTransaction().begin();
+
             Order order = orderRepo.findById(orderId);
 
             if (order == null) {
                 resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 resp.getWriter().write("{\"message\": \"Order not found.\"}");
                 return;
+            }
+            List<OrderDetails> orderDetails = orderDetailsRepo.getOrderDetailsByOrderId(orderId);
+
+            for(OrderDetails od : orderDetails){
+                int productId = od.getProduct().getProductId();
+                int quantity = od.getQuantity();
+                Product product = productRepo.findById(productId);
+                if(product==null){
+                    resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    resp.getWriter().write("{\"message\": \"Product not found.\"}");
+                    return;
+                }
+                if("COMPLETED".equalsIgnoreCase(newStatus)){
+                    product.setQuantity(product.getQuantity()-quantity);
+                }else if ("CANCELED".equalsIgnoreCase(newStatus)){
+                    product.setQuantity(product.getQuantity()+quantity);
+                }
+
+                productRepo.insert(product);
+
             }
 
             if ("COMPLETED".equalsIgnoreCase(newStatus)) {
@@ -82,21 +111,25 @@ public class OrderServlet extends HttpServlet {
             }
 
             Order updatedOrder = orderRepo.update(order);
+            em.getTransaction().commit();
             if (updatedOrder != null) {
                 resp.setStatus(HttpServletResponse.SC_OK);
                 resp.getWriter().write("{\"message\": \"Order status updated successfully.\"}");
-            } else {
+            }
+            else {
                 resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 resp.getWriter().write("{\"message\": \"Order update failed.\"}");
             }
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             resp.getWriter().write("{\"message\": \"Server error while updating order status.\"}");
-        } finally {
-            if (orderRepo.getEntityManager() != null && orderRepo.getEntityManager().isOpen()) {
-                orderRepo.getEntityManager().close();
+        }
+        finally {
+            if (em != null && em.isOpen()) {
+                em.close();
             }
         }
     }

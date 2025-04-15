@@ -15,6 +15,7 @@ public class CategoryRepoImpl extends GenericRepoImpl<Category,Integer>{
 
     public CategoryRepoImpl(EntityManager entityManager){
         super(Category.class , entityManager);
+        this.em=entityManager;
     }
 
     public List<Integer> getCategoryIdByName(List<String>names){
@@ -24,4 +25,16 @@ public class CategoryRepoImpl extends GenericRepoImpl<Category,Integer>{
                 .getResultList();
 
     }
+
+    public Category getCategoryByName(String name) {
+        try {
+            return em.createQuery(
+                            "SELECT c FROM Category c WHERE c.categoryName = :name", Category.class)
+                    .setParameter("name", name)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null; // Or handle it as needed
+        }
+    }
+
 }

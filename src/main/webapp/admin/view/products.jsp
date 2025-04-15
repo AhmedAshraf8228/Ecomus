@@ -64,7 +64,8 @@
                 <h3>Choose Images</h3>
                 <input type="file" id="product-images" accept="image/*" multiple>
                 <div id="image-preview-box" class="image-preview-box"></div>
-                <button type="button" onclick="addProductInfo()">Save Product Info</button>
+                <button type="button" id="add-product-btn" onclick="addProductInfo()" >Save Product Info</button>
+                <button type="button" id="edit-product-btn" onclick="updateProductInfo()" disabled>Edit Product Info</button>
             </form>
 
     </div>

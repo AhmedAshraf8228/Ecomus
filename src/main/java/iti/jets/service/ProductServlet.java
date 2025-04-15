@@ -15,10 +15,11 @@ import jakarta.transaction.Transactional;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@WebServlet("/admin/products")
+@WebServlet("/admin/products/*")
 
 public class ProductServlet extends HttpServlet {
     @Override
@@ -29,22 +30,41 @@ public class ProductServlet extends HttpServlet {
         ProductRepoImpl productRepo = new ProductRepoImpl();
         EntityManager entityManager = productRepo.getEntityManager();
 
-
         try {
-            entityManager.getTransaction().begin();
-            List<Product> products = productRepo.findAll();
-            entityManager.getTransaction().commit();
-
+            String pathInfo = req.getPathInfo();
             Gson gson = new Gson();
-            String json = gson.toJson(products);
 
-            response.getWriter().write(json);
+            if (pathInfo != null && pathInfo.length() > 1) {
+                //Retern a product with specific ID
+                int productId = Integer.parseInt(pathInfo.substring(1));
+
+                entityManager.getTransaction().begin();
+                Product product = productRepo.findById(productId);
+                entityManager.getTransaction().commit();
+
+                if (product != null) {
+                    String json = gson.toJson(product);
+                    response.getWriter().write(json);
+                } else {
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    response.getWriter().write("{\"error\": \"Product not found\"}");
+                }
+            } else {
+                // Return all products
+                entityManager.getTransaction().begin();
+                List<Product> products = productRepo.findAll();
+                entityManager.getTransaction().commit();
+
+                String json = gson.toJson(products);
+                response.getWriter().write(json);
+            }
+
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("{\"error\": \"An error occurred\"}");
             e.printStackTrace();
         } finally {
-            if(entityManager.isOpen()) {
+            if (entityManager.isOpen()) {
                 entityManager.close();
             }
         }
@@ -132,4 +152,66 @@ public class ProductServlet extends HttpServlet {
         }
 
     }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        EntityManager em = GenericRepoImpl.getEntityManagerFactory().createEntityManager();
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductRepoImpl productRepo = new ProductRepoImpl(em);
+        CategoryRepoImpl categoryRepo = new CategoryRepoImpl(em);
+
+        try {
+            Product updatedProduct = objectMapper.readValue(request.getReader(), Product.class);
+
+            em.getTransaction().begin();
+            Product existingProduct = productRepo.findById(updatedProduct.getProductId());
+
+            if (existingProduct == null) {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.getWriter().write("{\"error\": \"Product not found\"}");
+                return;
+            }
+
+            // Update fields
+            existingProduct.setProductName(updatedProduct.getProductName());
+            existingProduct.setDescription(updatedProduct.getDescription());
+            existingProduct.setQuantity(updatedProduct.getQuantity());
+            existingProduct.setPrice(updatedProduct.getPrice());
+
+            // Get and set managed categories
+            List<Category> managedCategories = new ArrayList<>();
+            for (Category cat : updatedProduct.getCategories()) {
+                Category managedCat = categoryRepo.getCategoryByName(cat.getCategoryName());
+                if (managedCat != null) {
+                    managedCategories.add(managedCat);
+                } else {
+                    throw new IllegalArgumentException("Category not found: " + cat.getCategoryName());
+                }
+            }
+            existingProduct.setCategories(managedCategories);
+
+            productRepo.update(existingProduct);
+            em.getTransaction().commit();
+
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().write("{\"message\": \"Product updated successfully\"}");
+        }
+        catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"error\": \"Failed to update product\"}");
+            e.printStackTrace();
+        }
+        finally {
+            if (em.isOpen()) {
+                em.close();
+            }
+        }
+    }
+
 }
