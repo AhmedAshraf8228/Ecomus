@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="iti.jets.entity.Order" %>
+<%@ page import="iti.jets.enums.OrderStatus" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.text.DecimalFormat" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
@@ -25,6 +25,29 @@
     <!-- Favicon and Touch Icons  -->
     <link rel="shortcut icon" href="images/logo/favicon.png">
     <link rel="apple-touch-icon-precomposed" href="images/logo/favicon.png">
+    
+    <style>
+        .cancel-btn {
+            background: none;
+            border: none;
+            color: #FF4444;
+            cursor: pointer;
+            padding: 5px;
+            transition: all 0.3s ease;
+        }
+        .cancel-btn:hover {
+            transform: scale(1.2);
+        }
+        .PROCESSING {
+            color: #FFA500;
+        }
+        .COMPLETED {
+            color: #4CAF50;
+        }
+        .CANCELED {
+            color: #FF4444;
+        }
+    </style>
 </head>
 
 <body class="preload-wrapper">
@@ -33,7 +56,6 @@
         List<Order> userOrders = (List<Order>) request.getAttribute("userOrders");
         
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy");
-        DecimalFormat priceFormat = new DecimalFormat("$#,##0.00");
         
         // Check if user is logged in (redundant as servlet already checked, but good practice)
         Boolean isLoggedIn = (Boolean) session.getAttribute("login");
@@ -115,11 +137,12 @@
                                             <th class="fw-6">Total</th>
                                             <th class="fw-6">Address</th>
                                             <th class="fw-6">Payment</th>
+                                            <th class="fw-6">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <% for (Order order : userOrders) { %>
-                                        <tr class="tf-order-item">
+                                        <tr class="tf-order-item" id="order-<%= order.getOrderId() %>">
                                             <td>
                                                 #<%= order.getOrderId() %>
                                             </td>
@@ -127,16 +150,28 @@
                                                 <%= dateFormat.format(order.getDate()) %>
                                             </td>
                                             <td>
-                                                <%= order.getStatus() %>
+                                                <span class="order-status <%= order.getStatus() %>">
+                                                    <%= order.getStatus() %>
+                                                </span>
                                             </td>
                                             <td>
-                                                <%= priceFormat.format(order.getPrice()) %>
+                                                <%= order.getPrice() %>
                                             </td>
                                             <td>
                                                 <%= order.getAddress() %>
                                             </td>
                                             <td>
                                                 <%= order.getPayType() %>
+                                            </td>
+                                            <td>
+                                                <% if (OrderStatus.PROCESSING.equals(order.getStatus())) { %>
+                                                    <form method="post" action="${pageContext.request.contextPath}/cancel-order" style="display:inline;">
+                                                        <input type="hidden" name="orderId" value="<%= order.getOrderId() %>">
+                                                        <button type="submit" class="cancel-btn">
+                                                            <span style="color: #FF4444;">✕</span>
+                                                        </button>
+                                                    </form>
+                                                <% } %>
                                             </td>
                                         </tr>
                                         <% } %>
@@ -157,8 +192,8 @@
     </div>
 
     <!-- Javascript -->
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/swiper-bundle.min.js"></script>
     <script type="text/javascript" src="js/carousel.js"></script>
     <script type="text/javascript" src="js/bootstrap-select.min.js"></script>

@@ -2,7 +2,7 @@ package iti.jets.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
-
+// @Embeddable
 public class CartPK implements Serializable {
 
     private int userId;

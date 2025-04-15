@@ -1,15 +1,26 @@
 package iti.jets.entity;
 
-import jakarta.persistence.*;
 import java.io.Serializable;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 // todo --> add @Getter , @Setter , @NoArgsCon
 // todo --> alter FK in DB
 @Entity
 @Table(name = "cart")
 @IdClass(CartPK.class)
-public class Cart implements Serializable {
 
+public class Cart implements Serializable {
+    
+  
     @Id
     @Column(name = "userId")
     private int userId;

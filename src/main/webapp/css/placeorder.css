@@ -1,0 +1,169 @@
+.tf-cart-footer-inner {
+    padding: 24px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* Free shipping progress bar */
+.tf-free-shipping-bar {
+    margin-bottom: 20px;
+}
+
+.tf-progress-bar {
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.tf-progress-bar span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(to right, #4CAF50, #8BC34A);
+    border-radius: 4px;
+    position: relative;
+}
+
+.progress-car {
+    position: absolute;
+    right: -10px;
+    top: -9px;
+    color: #333;
+}
+
+.shipping-progress-text {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    margin: 8px 0;
+}
+
+/* Cart totals */
+.tf-cart-totals-discounts {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
+}
+
+.tf-cart-totals-discounts h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.price-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+}
+
+/* Tax and shipping text */
+.tf-cart-tax {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.link-styled {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.link-styled:hover {
+    color: #2E7D32;
+    text-decoration: underline;
+}
+
+/* Checkbox styling */
+.cart-checkbox {
+    margin: 15px 0 5px;
+    display: flex;
+    align-items: center;
+}
+
+.tf-check {
+    margin-right: 10px;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    accent-color: #4CAF50;
+}
+
+/* Error message styling */
+.checkbox-error-message {
+    color: #d32f2f;
+    font-size: 14px;
+    margin: 5px 0 10px;
+    padding-left: 28px; /* Align with checkbox text */
+    font-weight: 500;
+}
+
+/* Checkout button */
+.tf-action-btn {
+    margin: 20px 0;
+}
+
+.tf-btn {
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    background-color: #000000;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.tf-btn:hover {
+    background-color: #e6b6d5;
+}
+
+/* Payment methods section */
+.tf-page-cart_imgtrust {
+    margin-top: 25px;
+}
+
+.tf-page-cart_imgtrust p {
+    margin-bottom: 15px;
+    color: #555;
+    font-size: 14px;
+}
+
+.cart-list-social {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.payment-item {
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.payment-item:hover {
+    opacity: 1;
+}
+
+/* Animation for error message */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}

@@ -243,49 +243,133 @@
     <script type="text/javascript" src="js/wow.min.js"></script>   
     <script type="text/javascript" src="js/multiple-modal.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
+
     
-    <!-- SweetAlert2 JS -->
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
-    <!-- AJAX Form Submission Script -->
-    <script type="text/javascript">
+    <script>
     $(document).ready(function() {
-        $("#checkoutForm").submit(function(e) {
-            e.preventDefault();
-            
-            $.ajax({
-                type: "POST",
-                url: $(this).attr("action"),
-                data: $(this).serialize(),
-                dataType: "json",
-                success: function(response) {
-                    if (response.success) {
-                   
+    $("#checkoutForm").submit(function(e) {
+        e.preventDefault();
+        
+      
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/checkInventory",
+            dataType: "json",
+            success: function(response) {
+                if (response.success) {
+                    if (response.hasInventoryIssues) {
+                
+                        let message = "The following products have insufficient inventory:<br><br>";
+                        let issueTable = "<table class='table'><thead><tr><th>Product</th><th>Requested</th><th>Available</th></tr></thead><tbody>";
+                        
+                        response.inventoryIssues.forEach(function(issue) {
+                            issueTable += "<tr><td>" + issue.productName + "</td><td>" + 
+                                        issue.requestedQuantity + "</td><td>" + 
+                                        issue.availableQuantity + "</td></tr>";
+                        });
+                        
+                        issueTable += "</tbody></table>";
+                        
                         Swal.fire({
-                            icon: 'success',
-                            title: 'Thank you for your purchase!',
-                            text: 'Your order has been received. Order ID: #' + response.orderId,
-                            confirmButtonText: 'Continue Shopping',
+                            icon: 'warning',
+                            title: 'Inventory Issues',
+                            html: message + issueTable + "<br>Would you like to proceed with the available quantities?",
+                            showCancelButton: true,
+                            confirmButtonText: 'Yes, proceed',
+                            cancelButtonText: 'No, cancel',
                             allowOutsideClick: false
                         }).then((result) => {
-                          
-                            window.location.href = "${pageContext.request.contextPath}/home";
+                            if (result.isConfirmed) {
+                                processCheckout(true);
+                            }
                         });
+                    } else {
+                        processCheckout(false);
                     }
-                },
-                error: function(xhr, status, error) {
-              
+                } else {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Oops...',
-                        text: 'Something went wrong! Please try again later.',
+                        title: 'Error',
+                        text: response.error || 'Something went wrong checking inventory.',
                         confirmButtonText: 'OK'
                     });
-                    console.error("Error processing order: " + error);
                 }
-            });
+            },
+            error: function(xhr, status, error) {
+                console.error("Error checking inventory: " + error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to check inventory: ' + error,
+                    confirmButtonText: 'OK'
+                });
+            }
         });
     });
-    </script>
+    
+    function processCheckout(acceptReducedQuantity) {
+        let formData = $("#checkoutForm").serialize();
+        if (acceptReducedQuantity) {
+            formData += "&acceptReducedQuantity=true";
+        }
+        
+        $("#checkoutForm button[type='submit']").prop('disabled', true);
+        
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/processCheckout",
+            data: formData,
+            dataType: "json",
+            success: function(response) {
+                $("#checkoutForm button[type='submit']").prop('disabled', false);
+                
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thank you for your purchase!',
+                        text: 'Your order has been received. Order ID: #' + response.orderId,
+                        showConfirmButton: true,
+                        confirmButtonText: 'Continue Shopping',
+                        allowOutsideClick: false
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "${pageContext.request.contextPath}/home";
+                        }
+                    });
+                } else if (response.inventoryIssue) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Inventory Issue',
+                        text: response.message,
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.error || 'Failed to process order.',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                $("#checkoutForm button[type='submit']").prop('disabled', false);
+                console.error("Error processing order: " + error);
+                
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong! Please try again later.',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    }
+});
+ </script>
+
 </body>
 </html>

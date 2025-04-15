@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="css/swiper-bundle.min.css">
     <link rel="stylesheet" href="css/animate.css">
     <link rel="stylesheet" type="text/css" href="css/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="css/placeorder.css"/>
 
     <!-- Favicon and Touch Icons  -->
     <link rel="shortcut icon" href="images/logo/favicon.png">
@@ -143,38 +144,39 @@
                         </form>
                 </div>
                 <div class="tf-page-cart-footer">
-                    <div class="tf-cart-footer-inner">
-                        <div class="tf-free-shipping-bar">
-                            <div class="tf-progress-bar">
-                                <span style="width: 50%;">
-                                    <div class="progress-car">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="14" viewBox="0 0 21 14" fill="currentColor">
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0.875C0 0.391751 0.391751 0 0.875 0H13.5625C14.0457 0 14.4375 0.391751 14.4375 0.875V3.0625H17.3125C17.5867 3.0625 17.845 3.19101 18.0104 3.40969L20.8229 7.12844C20.9378 7.2804 21 7.46572 21 7.65625V11.375C21 11.8582 20.6082 12.25 20.125 12.25H17.7881C17.4278 13.2695 16.4554 14 15.3125 14C14.1696 14 13.1972 13.2695 12.8369 12.25H7.72563C7.36527 13.2695 6.39293 14 5.25 14C4.10706 14 3.13473 13.2695 2.77437 12.25H0.875C0.391751 12.25 0 11.8582 0 11.375V0.875ZM2.77437 10.5C3.13473 9.48047 4.10706 8.75 5.25 8.75C6.39293 8.75 7.36527 9.48046 7.72563 10.5H12.6875V1.75H1.75V10.5H2.77437ZM14.4375 8.89937V4.8125H16.8772L19.25 7.94987V10.5H17.7881C17.4278 9.48046 16.4554 8.75 15.3125 8.75C15.0057 8.75 14.7112 8.80264 14.4375 8.89937ZM5.25 10.5C4.76676 10.5 4.375 10.8918 4.375 11.375C4.375 11.8582 4.76676 12.25 5.25 12.25C5.73323 12.25 6.125 11.8582 6.125 11.375C6.125 10.8918 5.73323 10.5 5.25 10.5ZM15.3125 10.5C14.8293 10.5 14.4375 10.8918 14.4375 11.375C14.4375 11.8582 14.8293 12.25 15.3125 12.25C15.7957 12.25 16.1875 11.8582 16.1875 11.375C16.1875 10.8918 15.7957 10.5 15.3125 10.5Z"></path>
-                                        </svg>
-                                    </div>
-                                </span>
-                            </div>
-                        </div>
-                
+                   
+                        <!-- Cart Totals -->
                         <div class="tf-cart-totals-discounts">
                             <h3>Subtotal</h3>
-                            <span id="cart-total">$${total} USD</span>
+                            <span id="cart-total" class="price-value">$${total} USD</span>
                         </div>
                         
+                        <!-- Shipping Info -->
                         <p class="tf-cart-tax">
-                            Taxes and <a href="shipping-delivery.html">shipping</a> calculated at checkout
+                            Taxes and <a href="shipping-delivery.html" class="link-styled">shipping</a> calculated at checkout
                         </p>
+                    
+                        <!-- Terms Agreement - With Error Message -->
                         <div class="cart-checkbox">
-                            <input type="checkbox" class="tf-check" id="check-agree">
+                            <input type="checkbox" class="tf-check" id="check-agree" required>
                             <label for="check-agree" class="fw-4">
-                                I agree with the <a href="terms-conditions.html">terms and conditions</a>
+                                I agree with the terms and conditions
                             </label>
                         </div>
+                        <!-- Error message will appear here -->
+                        <div id="checkbox-error" class="checkbox-error-message" style="display: none;">
+                            You must agree  before proceeding
+                        </div>
+                      
+                    
+                        <!-- Checkout Button -->
                         <div class="tf-action-btn">
-                            <a href="${pageContext.request.contextPath}/checkout" class="tf-btn radius-3 btn-fill btn-icon animate-hover-btn">
+                            <a href="javascript:void(0)" id="checkout-button" class="tf-btn radius-3 btn-fill btn-icon animate-hover-btn">
                                 Proceed to Checkout
                             </a>
                         </div>
+                    
+                        <!-- Payment Methods -->
                         <div class="tf-page-cart_imgtrust">
                             <p class="text-center fw-6">Guarantee Safe Checkout</p>
                             <div class="cart-list-social">
@@ -242,27 +244,20 @@
     <script type="text/javascript" src="js/main.js"></script>
 
      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-     <script type="text/javascript" src="js/updateCart.js">
-     
-     </script>
+     <script type="text/javascript" src="js/updateCart.js"></script>
+
+
+
      <script>
  document.addEventListener('DOMContentLoaded', function() {
-    // Add click event to all remove buttons
     const removeButtons = document.querySelectorAll('.productRemove');
     
     removeButtons.forEach(button => {
         button.addEventListener('click', function() {
-            // Get the product ID from the data attribute
             const productId = this.getAttribute('data-product-id');
-            
-            // Find the cart item row to remove later
             const cartItemRow = this.closest('.tf-cart-item');
-            
-            // Create the form data
             const formData = new URLSearchParams();
-            formData.append('productId', productId);
-            
-            // Send the AJAX request
+            formData.append('productId', productId);            
             fetch('removeCartItem', {
                 method: 'POST',
                 headers: {
@@ -279,15 +274,12 @@
             })
             .then(data => {
                 if (data.success) {
-                    // Remove the item from the page with animation
+
                     cartItemRow.style.opacity = '0';
                     setTimeout(() => {
                         cartItemRow.remove();
-                        
-                        // Update the total
                         document.getElementById('cart-total').textContent = '$' + data.newTotal + ' USD';
                         
-                        // Check if cart is empty and update UI
                         checkIfCartEmpty();
                     }, 300);
                 } else {
@@ -296,9 +288,7 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                
-                // Since the backend operation might have succeeded despite the error,
-                // let's remove the item from the UI anyway
+        
                 cartItemRow.style.opacity = '0';
                 setTimeout(() => {
                     cartItemRow.remove();
@@ -308,18 +298,17 @@
         });
     });
     
-    // Function to check if cart is empty
+
     function checkIfCartEmpty() {
         const remainingItems = document.querySelectorAll('.tf-cart-item');
         if (remainingItems.length === 0) {
-            // Get the main container
+    
             const cartContainer = document.querySelector('.tf-page-cart-item');
             
             if (cartContainer) {
-                // Remove existing content (table and footer)
+     
                 cartContainer.innerHTML = '';
-                
-                // Add empty cart message
+           
                 const emptyMessage = document.createElement('div');
                 emptyMessage.className = 'empty-cart-message';
                 emptyMessage.style.textAlign = 'center';
@@ -336,63 +325,44 @@
     }
 });
      </script>
-<!--     
-  <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Add click event to all remove buttons
-    const removeButtons = document.querySelectorAll('.productRemove');
-    
-    removeButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Get the product ID from the data attribute
-            const productId = this.getAttribute('data-product-id');
+
+
+
+
+     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkoutButton = document.getElementById('checkout-button');
+            const checkbox = document.getElementById('check-agree');
+            const errorMessage = document.getElementById('checkbox-error');
             
-            // Find the cart item row to remove later
-            const cartItemRow = this.closest('.tf-cart-item');
+         
+            const checkoutUrl = "${pageContext.request.contextPath}/checkout";
             
-            // Create the form data
-            const formData = new URLSearchParams();
-            formData.append('productId', productId);
-            
-            // Send the AJAX request
-            fetch('removeCartItem', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: formData.toString()
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    // Remove the item from the page
-                    cartItemRow.remove();
-                    
-                    // Update the total - using the correct ID from your HTML
-                    document.getElementById('cart-total').textContent = '$' + data.newTotal + ' USD';
-                    
-                    // Check if cart is empty and update UI if needed
-                    const remainingItems = document.querySelectorAll('.tf-cart-item');
-                    if (remainingItems.length === 0) {
-                        document.querySelector('.tf-cart-wrap').innerHTML = '<p>Your cart is empty</p>';
-                    }
+            checkoutButton.addEventListener('click', function(e) {
+         
+                if (!checkbox.checked) {
+                    e.preventDefault();
+                    errorMessage.style.display = 'block';
+                    checkbox.parentElement.classList.add('shake');
+             
+                    setTimeout(function() {
+                        checkbox.parentElement.classList.remove('shake');
+                    }, 500);
                 } else {
-                    alert('Failed to remove item: ' + data.message);
+                
+                    window.location.href = checkoutUrl;
                 }
-            })
-            // .catch(error => {
-            //     console.error('Error:', error);
-            //     alert('An error occurred while removing the item.');
-            // });
+            });
+            
+           
+            checkbox.addEventListener('change', function() {
+                if (checkbox.checked) {
+                    errorMessage.style.display = 'none';
+                }
+            });
         });
-    });
-});
- </script>  -->
+        </script>
+
 
 
 </div>
