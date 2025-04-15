@@ -1,10 +1,10 @@
 package iti.jets.dao.impl;
 
-import iti.jets.entity.User;
-import iti.jets.service.PasswordUtils;
-import jakarta.persistence.*;
-
 import java.util.List;
+
+import iti.jets.entity.User;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 
 public class UserRepoImpl extends GenericRepoImpl<User, Integer>{
     EntityManager em;
@@ -41,6 +41,7 @@ public class UserRepoImpl extends GenericRepoImpl<User, Integer>{
         }
     }
 
+  
     @Override
     public User insert(User user){
         em.getTransaction().begin();
