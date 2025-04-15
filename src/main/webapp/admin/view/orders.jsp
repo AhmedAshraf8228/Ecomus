@@ -33,6 +33,7 @@
             <th>Payment</th>
             <th>Status</th>
             <th>Total</th>
+            <th>Change Status</th>
         </tr>
         </thead>
         <tbody id="order-tbody">

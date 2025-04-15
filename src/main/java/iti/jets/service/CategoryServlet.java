@@ -1,14 +1,11 @@
 package iti.jets.service;
 
 import com.google.gson.Gson;
+import iti.jets.dao.impl.CategoryRepoImpl;
 import iti.jets.dao.impl.GenericRepoImpl;
+import iti.jets.dao.impl.ProductCategoryRepoImpl;
 import iti.jets.entity.Category;
-import iti.jets.entity.Order;
-import iti.jets.entity.Product;
-import iti.jets.entity.ProductCategory;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,7 +14,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/admin/category")
 public class CategoryServlet extends HttpServlet {
@@ -27,32 +27,56 @@ public class CategoryServlet extends HttpServlet {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
 
-        GenericRepoImpl<Category, Integer> repo = new GenericRepoImpl<>(Category.class);
+        CategoryRepoImpl categoryRepo = new CategoryRepoImpl();
+        ProductCategoryRepoImpl productCategoryRepo = new ProductCategoryRepoImpl();
         Gson gson = new Gson();
 
         String categoryIdParam = req.getParameter("id");
+        String includeCountsParam = req.getParameter("includeCounts");
+
         try {
+
             if (categoryIdParam != null) {
                 int categoryId = Integer.parseInt(categoryIdParam);
                 System.out.println("\n\n\t"+categoryId+"\n\n\t");
-                Category category = repo.findById(categoryId);
+                Category category = (Category) categoryRepo.findById(categoryId);
 
                 if (category != null) {
                     resp.getWriter().write(gson.toJson(category));
                 } else {
                     resp.getWriter().write("{\"error\": \"Category not found\"}");
                 }
-            }else{
-                List<Category> cats = repo.findAll();
+            }
+            else if("true".equalsIgnoreCase(includeCountsParam)) {
+
+                List<Category> cats = categoryRepo.findAll();
+
+                List<Integer> productCounts = new ArrayList<>();
+                for (Category cat : cats) {
+                    int catId = cat.getCategoryId();
+                    productCounts.add(productCategoryRepo.countProductsInCategory(catId));
+                }
+
+                Map<String, Object> responseMap = new HashMap<>();
+                responseMap.put("categories", cats);
+                responseMap.put("productCounts", productCounts);
+
+                String jsonResponse = gson.toJson(responseMap);
+                resp.getWriter().write(jsonResponse);
+
+            }
+            else{
+                List<Category> cats = categoryRepo.findAll();
                 resp.getWriter().write(gson.toJson(cats));
+
             }
 
         }catch (Exception e) {
             resp.getWriter().write("{\"error\": \"An error occurred in Category Servlet\"}");
             e.printStackTrace();
         }finally {
-            if (repo.getEntityManager().isOpen()) {
-                repo.getEntityManager().close();
+            if (categoryRepo.getEntityManager().isOpen()) {
+                categoryRepo.getEntityManager().close();
             }
         }
     }

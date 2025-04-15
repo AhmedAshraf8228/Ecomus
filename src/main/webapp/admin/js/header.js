@@ -11,7 +11,7 @@
         $(this).addClass("active");
 
         var pageId = $(this).attr("id");
-        var pageUrl =  pageId + ".jsp";
+        var pageUrl = pageId + ".jsp";
 
         loadPage(pageUrl);
     });

@@ -73,6 +73,43 @@
     </div>
     <!-- /preload -->
     <div id="wrapper">
+
+        <!-- header -->
+        <header id="header" class="header-default">
+            <div class="px_15 lg-px_40">
+                <div class="row wrapper-header align-items-center">
+                    <div class="col-xl-3 col-md-3 col-3">
+                        <a href="${pageContext.request.contextPath}/home" class="logo-header">
+                            <img src="images/logo/BordMaster.svg" alt="logo" class="logo">
+                        </a>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-6">
+                    </div>
+                    <div class="col-xl-3 col-md-3 col-3">
+                        <ul class="nav-icon d-flex justify-content-end align-items-center gap-20">
+                            <li class="nav-search">
+                                <a href="#search" class="nav-icon-item text-decoration-none search-box search icon">
+                                    <i class="icon icon-search"></i>
+                                </a>
+                            </li>
+                            <% Integer cartSize = (Integer) session.getAttribute("cart-size"); %>
+                            <li class="nav-account"><a href="${pageContext.request.contextPath}/accountDetails" class="nav-icon-item"><i class="icon icon-account"></i></a></li>
+                            <li class="nav-wishlist"><a href="my-account-wishlist.html" class="nav-icon-item"><i class="icon icon-heart"></i><span class="count-box">0</span></a></li>
+                            <li class="nav-cart"><a href="${pageContext.request.contextPath}/cart" class="nav-icon-item"><i class="icon icon-bag"></i><span class="count-box"><%= cartSize != null ? cartSize : 0 %></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Search Form -->
+        <div id="search" class="">
+            <span class="close">X</span>
+            <form role="search" id="searchform" method="get">
+                <input value="" name="q" type="search" placeholder="Type to Search">
+            </form>
+        </div>
+        <!-- /header -->
       
         <!-- page-title -->
         <div class="tf-page-title">
@@ -97,7 +134,7 @@
                                     <div class="tf-page-cart-item">
                                         <fieldset class="fieldset">
                                             <label for="last-name">Name</label>
-                                            <input type="text" id="last-name" name="customerName" value="${user.userName}" required>
+                                            <input type="text" id="last-name" name="customerName" value="${user.userName}" readonly>
                                         </fieldset>
                                         
                                         <fieldset class="box fieldset">
@@ -120,7 +157,7 @@
                                         </div>
                                         <fieldset class="box fieldset">
                                             <label for="phone">Phone Number</label>
-                                            <input type="number" id="phone" name="phone" value="${user.phone}" required>
+                                            <input type="number" id="phone" name="phone" value="${user.phone}" readonly>
                                         </fieldset>
                                     </div>
                                 </div>
@@ -206,49 +243,133 @@
     <script type="text/javascript" src="js/wow.min.js"></script>   
     <script type="text/javascript" src="js/multiple-modal.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
+
     
-    <!-- SweetAlert2 JS -->
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
-    <!-- AJAX Form Submission Script -->
-    <script type="text/javascript">
+    <script>
     $(document).ready(function() {
-        $("#checkoutForm").submit(function(e) {
-            e.preventDefault();
-            
-            $.ajax({
-                type: "POST",
-                url: $(this).attr("action"),
-                data: $(this).serialize(),
-                dataType: "json",
-                success: function(response) {
-                    if (response.success) {
-                   
+    $("#checkoutForm").submit(function(e) {
+        e.preventDefault();
+        
+      
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/checkInventory",
+            dataType: "json",
+            success: function(response) {
+                if (response.success) {
+                    if (response.hasInventoryIssues) {
+                
+                        let message = "The following products have insufficient inventory:<br><br>";
+                        let issueTable = "<table class='table'><thead><tr><th>Product</th><th>Requested</th><th>Available</th></tr></thead><tbody>";
+                        
+                        response.inventoryIssues.forEach(function(issue) {
+                            issueTable += "<tr><td>" + issue.productName + "</td><td>" + 
+                                        issue.requestedQuantity + "</td><td>" + 
+                                        issue.availableQuantity + "</td></tr>";
+                        });
+                        
+                        issueTable += "</tbody></table>";
+                        
                         Swal.fire({
-                            icon: 'success',
-                            title: 'Thank you for your purchase!',
-                            text: 'Your order has been received. Order ID: #' + response.orderId,
-                            confirmButtonText: 'Continue Shopping',
+                            icon: 'warning',
+                            title: 'Inventory Issues',
+                            html: message + issueTable + "<br>Would you like to proceed with the available quantities?",
+                            showCancelButton: true,
+                            confirmButtonText: 'Yes, proceed',
+                            cancelButtonText: 'No, cancel',
                             allowOutsideClick: false
                         }).then((result) => {
-                          
-                            window.location.href = "${pageContext.request.contextPath}/home";
+                            if (result.isConfirmed) {
+                                processCheckout(true);
+                            }
                         });
+                    } else {
+                        processCheckout(false);
                     }
-                },
-                error: function(xhr, status, error) {
-              
+                } else {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Oops...',
-                        text: 'Something went wrong! Please try again later.',
+                        title: 'Error',
+                        text: response.error || 'Something went wrong checking inventory.',
                         confirmButtonText: 'OK'
                     });
-                    console.error("Error processing order: " + error);
                 }
-            });
+            },
+            error: function(xhr, status, error) {
+                console.error("Error checking inventory: " + error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to check inventory: ' + error,
+                    confirmButtonText: 'OK'
+                });
+            }
         });
     });
-    </script>
+    
+    function processCheckout(acceptReducedQuantity) {
+        let formData = $("#checkoutForm").serialize();
+        if (acceptReducedQuantity) {
+            formData += "&acceptReducedQuantity=true";
+        }
+        
+        $("#checkoutForm button[type='submit']").prop('disabled', true);
+        
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/processCheckout",
+            data: formData,
+            dataType: "json",
+            success: function(response) {
+                $("#checkoutForm button[type='submit']").prop('disabled', false);
+                
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thank you for your purchase!',
+                        text: 'Your order has been received. Order ID: #' + response.orderId,
+                        showConfirmButton: true,
+                        confirmButtonText: 'Continue Shopping',
+                        allowOutsideClick: false
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "${pageContext.request.contextPath}/home";
+                        }
+                    });
+                } else if (response.inventoryIssue) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Inventory Issue',
+                        text: response.message,
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.error || 'Failed to process order.',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                $("#checkoutForm button[type='submit']").prop('disabled', false);
+                console.error("Error processing order: " + error);
+                
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong! Please try again later.',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    }
+});
+ </script>
+
 </body>
 </html>

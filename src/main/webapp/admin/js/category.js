@@ -27,35 +27,40 @@ $(document).ready(
 
 function loadCategories(){
     $.ajax({
-        url: "/MindMaze/admin/category",
+        url: "/MindMaze/admin/category?includeCounts=true",
         type: "GET",
         dataType: "json",
-        success: function (categories) {
+        success: function (response) {
+            console.log("Received response:", response);
+
+            let categories = response.categories;
+            let productCounts = response.productCounts;
+
             let tableBody = $("#category-tbody");
             tableBody.empty();
 
-            categories.forEach(cat => {
+            categories.forEach((cat, index) => {
+                let count = productCounts[index] || 0;
                 let row = `
-                <tr>
-                    <td>${cat.categoryId}</td>
-                    <td>${cat.categoryName}</td>
-                    <td>0</td>
-                    <td>
-                        <button class="edit-button" onclick="loadDataToEdit(${cat.categoryId})">Edit</button>
-                        <button class="delete-button" onclick="deleteCategory(${cat.categoryId})">Delete</button>
-                    </td>
-                </tr>
-    `;
+                    <tr>
+                        <td>${cat.categoryId}</td>
+                        <td>${cat.categoryName}</td>
+                        <td>${count}</td>
+                        <td>
+                            <button class="edit-button" onclick="loadDataToEdit(${cat.categoryId})">Edit</button>
+                            <button class="delete-button" onclick="deleteCategory(${cat.categoryId})">Delete</button>
+                        </td>
+                    </tr>
+                `;
                 tableBody.append(row);
             });
-
         },
         error: function (xhr, status, error) {
             console.error("Error:", error);
         }
     });
-
 }
+
 
 function addCategory() {
     let categoryName = $("#category-name").val().trim();
@@ -97,21 +102,6 @@ function deleteCategory(categoryId) {
     }
 }
 
-// function loadDataToEdit(categoryId){
-//
-//     $.ajax({
-//         url: `/MindMaze/api/category?id=${categoryId}`,
-//         type: "GET",
-//         dataType: "json",
-//         success: function (category) {
-//             $("#edit-category-name").val(category.categoryName); // وضع الاسم داخل الإدخال
-//             $("#edit-category").attr("data-id", categoryId); // تخزين الـ ID لاستخدامه عند التعديل
-//         },
-//         error: function (xhr, status, error) {
-//            alert("Error loading category:");
-//         }
-//     });
-// }
 $(document).ready(function () {
     let originalCategoryName = "";
 
