@@ -80,7 +80,7 @@ public class ProductCategoryServlet extends HttpServlet {
 
                 if (!categories.isEmpty()) {
                     List<Integer> catIDs = categoryRepo.getCategoryIdByName(categories);
-
+                    List<Category> cats = new ArrayList<>();
 //                    em.getTransaction().begin();
                     for (int catId : catIDs) {
                         Category category = em.find(Category.class, catId);
@@ -91,21 +91,26 @@ public class ProductCategoryServlet extends HttpServlet {
                         }
                         em.refresh(category);
 
-                            ProductCategory productCategory = new ProductCategory(product, category);
-                            productCategoryRepo.insert(productCategory);
+
+                        cats.add(category);
+                        ProductCategory productCategory = new ProductCategory(product, category);
+                        productCategoryRepo.insert(productCategory);
 
 
                     }
+                    product.setCategories(cats);
                     em.getTransaction().commit();
 
                     response.setStatus(HttpServletResponse.SC_OK);
                     response.getWriter().write("{\"message\": \"Product categories assigned successfully\"}");
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 e.printStackTrace();
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("{\"error\": \"Invalid request format\"}");
-            } finally {
+            }
+            finally {
                 if (em.isOpen()) {
                     em.close();
                 }

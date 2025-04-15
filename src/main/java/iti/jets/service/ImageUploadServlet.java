@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 @WebServlet("/admin/uploadProductImages")
 @MultipartConfig
@@ -36,11 +37,13 @@ public class ImageUploadServlet extends HttpServlet {
         int imageIndex = 1;
         for (Part part : req.getParts()) {
             if (part.getName().equals("images") && part.getSize() > 0) {
-                String fileName = imageIndex + ".jpg"; // Can add logic to detect extension if needed
+                String fileName = imageIndex + ".jpg";
                 File file = new File(uploadDir, fileName);
 
                 try (InputStream input = part.getInputStream()) {
-                    Files.copy(input, file.toPath());
+//                    Files.copy(input, file.toPath());
+                    Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
                 }
 
                 imageIndex++;

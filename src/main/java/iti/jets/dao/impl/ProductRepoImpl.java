@@ -12,6 +12,12 @@ public class ProductRepoImpl extends GenericRepoImpl<Product , Integer> {
         em = getEntityManager();
     }
 
+    public ProductRepoImpl(EntityManager em) {
+        super(Product.class, em);
+        this.em=em;
+    }
+
+
     public List<Product> getInStock(){
         List<Product> resultList = null;
         try {
@@ -28,8 +34,5 @@ public class ProductRepoImpl extends GenericRepoImpl<Product , Integer> {
         return resultList ;
     }
 
-    public ProductRepoImpl(EntityManager em) {
-        super(Product.class, em);
-    }
 
 }

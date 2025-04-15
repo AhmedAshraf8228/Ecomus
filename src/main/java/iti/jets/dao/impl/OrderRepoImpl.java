@@ -48,9 +48,9 @@ public class OrderRepoImpl extends GenericRepoImpl<Order, Integer> {
 
     @Override
     public Order update(Order order) {
-        entityManager.getTransaction().begin();
+//        entityManager.getTransaction().begin();
         order = entityManager.merge(order);
-        entityManager.getTransaction().commit();
+//        entityManager.getTransaction().commit();
         return order;
     }
 }
