@@ -132,14 +132,19 @@
                                     <div class="tf-product-info-price">
                                         <div id = "price"class="price">$${product.price}</div>
                                     </div>
-                                    <div class="tf-product-info-quantity">
-                                        <div class="quantity-title fw-6">Quantity</div>
-                                        <div class="wg-quantity">
-                                        <span class="btn-quantity minus-btn">-</span>
-                                        <input id ="quantity-1" type="number" name="quantity" value="1" disabled>
-                                        <span class="btn-quantity plus-btn">+</span>
-                                    </div>
-                                    </div>
+
+                                    <c:choose>
+                                        <c:when test="${product.quantity>0}">
+                                            <div class="tf-product-info-quantity">
+                                                <div class="quantity-title fw-6">Quantity</div>
+                                                <div class="wg-quantity">
+                                                    <span class="btn-quantity minus-btn">-</span>
+                                                    <input id ="quantity-1" type="number" name="quantity" value="1" disabled>
+                                                    <span class="btn-quantity plus-btn">+</span>
+                                                </div>
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                     <div class="tf-product-info-buy-button">
                                         <form id="form-1" class="" >
                                         <c:choose>
