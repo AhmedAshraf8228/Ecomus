@@ -74,7 +74,7 @@ function loadProducts() {
 
 
     $.ajax({
-        url: "/MindMaze/admin/products",
+        url: "../../admin/products",
         type: "GET",
         dataType: "json",
         success: function (products) {
@@ -82,12 +82,13 @@ function loadProducts() {
             tableBody.empty();
 
             products.forEach(product => {
-                var imageUrl = contextPath + "/products/" + product.productId + "/1.jpg";
+                var imageUrl = path + "/../../products/30/1.jpg";
+
 
                 let row = `
                     <tr>
                         <td>${product.productId}</td>
-                        <td><img src="MindMaze/admin/images/1.jpeg"></td> 
+                        <td><img src="${imageUrl}" alt="can't find it"></td> 
                         <td>${product.productName}</td>
                         <td>${product.quantity}</td>
                         <td>${product.price}</td>

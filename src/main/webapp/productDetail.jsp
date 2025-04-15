@@ -195,7 +195,7 @@
                     <div class="tf-height-observer w-100 d-flex align-items-center">
                         <div class="tf-sticky-atc-product d-flex align-items-center">
                             <div class="tf-sticky-atc-img">
-                                <img class="lazyloaded" data-src="images/products/${product.productId}/${imgList.get(0)}" alt="${product.productName} image" src="images/products/${product.productId}/${imgList.get(0)}">
+                                <img class="lazyloaded" data-src="images/products/${product.productId}/${imgList.size() > 0 ? imgList.get(0) : ""}" alt="${product.productName} image" src="images/products/${imgList.size() > 0 ? imgList.get(0) : ""}">
                             </div>
                             <div class="tf-sticky-atc-title fw-5 d-xl-block d-none">${product.productName}</div>
                         </div>

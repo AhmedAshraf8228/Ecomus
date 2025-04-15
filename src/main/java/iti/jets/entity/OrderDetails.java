@@ -77,5 +77,14 @@ public class OrderDetails implements Serializable {
     public void setPrice(int price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "OrderDetails{" +
+                "orderDetailsId=" + orderDetailsId +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                '}';
+    }
 }
 

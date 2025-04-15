@@ -3,6 +3,8 @@ package iti.jets.service;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
+import iti.jets.dao.impl.GenericRepoImpl;
+import iti.jets.entity.Product;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebListener;
 
@@ -13,6 +15,7 @@ public class AppContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         // You can add any initialization code here if needed
         System.out.println("Application Initialized.");
+        new GenericRepoImpl(Product.class);
     }
 
     @Override

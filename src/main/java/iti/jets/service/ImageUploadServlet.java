@@ -27,7 +27,8 @@ public class ImageUploadServlet extends HttpServlet {
         }
 
         // 2. Define upload directory
-        String uploadPath = getServletContext().getRealPath("/products/" + productId);
+        String uploadPath = getServletContext().getRealPath("");
+        uploadPath += File.separator + ".." + File.separator + "products" + File.separator +productId ;
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
             uploadDir.mkdirs();

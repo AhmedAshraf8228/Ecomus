@@ -106,14 +106,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <jsp:useBean id="cartItems" scope="request" type="java.util.List<iti.jets.entity.Cart>"/>
                                     <c:forEach var="cartItem" items="${cartItems}">
                                         <tr class="tf-cart-item file-delete">
                                             <td class="tf-cart-item_product">
-                                                <a href="product-detail.html" class="img-box">
-                                                    <img src="images/products/7/1.jpg" alt="${cartItem.product.productName}">
+                                                <a href="productDetail.jsp?id=${cartItem.productId}" class="img-box">
+                                                    <img src="${pageContext.request.contextPath}/../products/${cartItem.productId}/1.jpg" alt="${pageContext.request.contextPath}/../products/1.jpg">
                                                 </a>
                                                 <div class="cart-info">
-                                                    <a href="product-detail.html" class="cart-title link">${cartItem.product.productName}</a>
+                                                    <a href="productDetail.jsp?id=${cartItem.productId}" class="cart-title link">${cartItem.product.productName}</a>
                                                     <span class="productRemove" data-product-id="${cartItem.productId}" style="cursor: pointer; color: red;">Remove</span>
                                                 </div>
                                             </td>
@@ -153,7 +154,7 @@
                         
                         <!-- Shipping Info -->
                         <p class="tf-cart-tax">
-                            Taxes and <a href="shipping-delivery.html" class="link-styled">shipping</a> calculated at checkout
+                            Taxes and <a class="link-styled">shipping</a> calculated at checkout
                         </p>
                     
                         <!-- Terms Agreement - With Error Message -->
@@ -165,7 +166,7 @@
                         </div>
                         <!-- Error message will appear here -->
                         <div id="checkbox-error" class="checkbox-error-message" style="display: none;">
-                            You must agree  before proceeding
+                            You must agree before proceeding
                         </div>
                       
                     

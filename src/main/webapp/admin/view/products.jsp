@@ -71,5 +71,9 @@
     </div>
 
 </div>
+
+<script type="text/javascript">
+    window.path = '${pageContext.request.contextPath}'; // sets a JS global from the session
+</script>
 </body>
 </html>
