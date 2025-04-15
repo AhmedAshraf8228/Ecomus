@@ -14,19 +14,26 @@ $(document).ready(function () {
             $('#quick-view-addToCart').prop('disabled', false)
                 .html(`<span>Add to cart -&nbsp;</span><span id="quick-view-total" class="tf-qty-price quick-product-total">$total</span>`);
         }
-
-
         quickProduct(product);
-
-
         let imageContainer = $('#quick-view-images');
         imageContainer.empty();
         let productImages = window.productsImages[productId] || [];
-        productImages.forEach(img => {
-            let imgTag = `<div class="swiper-slide"><div class="item"><img src="${imageUrl}/${productId}/${img}" alt=""></div></div>`;
+        if(productImages.length > 0){
+            productImages.forEach(img => {
+                let imgTag = `<div class="swiper-slide">
+                                      <div class="item">
+                                        <img data-src="${imageUrl}/${productId}/${img}" 
+                                            src="${imageUrl}/${productId}/${img}" alt="${productId.name}">
+                                      </div></div>`;
+                imageContainer.append(imgTag);
+            });
+        }else {
+            let imgTag = `<div class="swiper-slide"> <div class="item">
+                                    <img class="lazyload img-product" data-src="${imageUrl}/no-image.jpg" 
+                                        src="${imageUrl}/no-image.jpg" alt="${productId.name}" >
+                                 </div></div>`;
             imageContainer.append(imgTag);
-        });
-
+        }
 
         $('#quick-view-addToCart').off('click').on('click', function (e) {
             e.preventDefault();
@@ -40,8 +47,11 @@ $(document).ready(function () {
         const product = window.products.find(p => p.id === productId);
         quickProduct(product);
         const images = window.productsImages[productId] || [];
-        $('#quick-add-image').attr('src', `${imageUrl}/${productId}/${images.at(0)}`);
-
+        if(images.length > 0) {
+            $('#quick-add-image').attr('src', `${imageUrl}/${productId}/${images.at(0)}`);
+        }else {
+            $('#quick-add-image').attr('src', `${imageUrl}/no-image.jpg`);
+        }
         $('#quick-add-addToCart').off('click').on('click', function (e) {
             e.preventDefault();
             addToCart(productId , "add");
@@ -201,21 +211,24 @@ function renderProducts(products) {
     }
     console.log(products.length);
     products.forEach(function (p) {
-        const img1 = window.productsImages?.[p.id]?.[0] || '../fallback.jpg';
-        const img2 = window.productsImages?.[p.id]?.[1] || img1;
-
+        const img1 = window.productsImages?.[p.id] && window.productsImages[p.id].length > 0
+            ? `${p.id}/${window.productsImages[p.id][0]}`
+            : 'no-image.jpg';
+        const img2 = window.productsImages?.[p.id] && window.productsImages[p.id].length > 1
+            ? `${p.id}/${window.productsImages[p.id][1]}`
+            : img1;
         const outOfStock = p.quantity === 0 ? 'out-of-stock' : '';
         const $html = $(`
         <div class="card-product style-4">
             <div class="card-product-wrapper">
                 <a href="productDetail?id=${p.id}" class="product-img ${outOfStock}">
                     <img class="lazyload img-product"
-                         data-src="${imageUrl}/${p.id}/${img1}"
-                         src="${imageUrl}/${p.id}/${img1}" 
+                         data-src="${imageUrl}/${img1}"
+                         src="${imageUrl}/${img1}" 
                          alt="${p.name}" >
                     <img class="lazyload img-hover"
-                         data-src="${imageUrl}/${p.id}/${img2}"
-                         src="${imageUrl}/${p.id}/${img2}" 
+                         data-src="${imageUrl}/${img2}"
+                         src="${imageUrl}/${img2}" 
                         src="images/placeholder.jpg"
                          alt="${p.name}">                   
                 </a>

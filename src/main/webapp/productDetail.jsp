@@ -98,7 +98,6 @@
                                             <c:forEach var="img" items="${imgList}">
                                                 <div class="swiper-slide stagger-item">
                                                     <div class="item">
-
                                                         <img class="lazyload" data-src="${pageContext.request.contextPath}/../products/${product.productId}/${img}" src="${pageContext.request.contextPath}/../products/${product.productId}/${img}" alt="${product.productName} image">
                                                     </div>
                                                 </div>
