@@ -82,13 +82,14 @@ function loadProducts() {
             tableBody.empty();
 
             products.forEach(product => {
-                var imageUrl = path + "/../../products/30/1.jpg";
+
+                var imageUrl = `${path}/../../products/${product.productId}/1.jpg`;
 
 
                 let row = `
                     <tr>
                         <td>${product.productId}</td>
-                        <td><img src="${imageUrl}" alt="can't find it"></td> 
+                        <td><img src="${imageUrl}" alt="Not Found "></td> 
                         <td>${product.productName}</td>
                         <td>${product.quantity}</td>
                         <td>${product.price}</td>
@@ -102,15 +103,21 @@ function loadProducts() {
             });
         },
         error: function () {
-            alert("Failed to load customers.");
+            toastr.error("Failed to load customers.");
         }
     });
 }
 
 function editProduct(productId) {
+
+
     document.getElementById("edit-product-btn").disabled = false;
     document.getElementById("add-product-btn").disabled = true;
 
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
 
     $.ajax({
         url: `/MindMaze/admin/products/${productId}`,
@@ -138,13 +145,9 @@ function editProduct(productId) {
                 });
             }
 
-            // // Scroll to form
-            // $('html, body').animate({
-            //     scrollTop: $(".add-product-container").offset().top
-            // }, 500);
         },
         error: function() {
-            alert("Failed to load product details.");
+            toastr.error("Failed to load product details.");
         }
     });
 }
@@ -209,7 +212,13 @@ function updateProductInfo() {
         contentType: "application/json",
         data: JSON.stringify(updatedProduct),
         success: function () {
-            alert("Product updated successfully!");
+            Swal.fire({
+                title: 'Product',
+                text: ' Product updated successfully! ',
+                icon: 'info',
+                confirmButtonText: 'OK'
+            });
+            //alert("Product updated successfully!");
             loadProducts();
             $("#edit-product-btn").prop("disabled", false);
             $("#add-product-btn").prop("disabled", false);
@@ -257,7 +266,7 @@ function deleteProduct(productId) {
                 loadProducts();
             },
             error: function () {
-                alert("Failed to delete the product.");
+                toastr.error("Failed to delete the product.");
             }
         });
     }
@@ -291,9 +300,24 @@ function loadCategories() {
             });
         },
         error: function (xhr, status, error) {
-            alert("Error fetching categories");
+            toastr.error("Error fetching categories");
         }
     });
+}
+
+let completedSteps = 0;
+let totalSteps = 3;
+
+function checkAllDone() {
+    if (completedSteps === totalSteps) {
+        let infoMessage = info.join("\n");
+        Swal.fire({
+            title: 'Product',
+            text: infoMessage,
+            icon: 'info',
+            confirmButtonText: 'OK'
+        });
+    }
 }
 
 function addProductInfo() {
@@ -308,6 +332,7 @@ function addProductInfo() {
 
     // === VALIDATIONS ===
     let errors = [];
+    let info =[];
 
     if (!productName) errors.push("Product name is required.");
     if (!description) errors.push("Description is required.");
@@ -339,7 +364,11 @@ function addProductInfo() {
         contentType: "application/json",
         data: JSON.stringify(formData),
         success: function(response) {
-            alert("Product info saved successfully!");
+            info.push("Product info saved successfully!");
+            completedSteps++;
+            checkAllDone();
+
+            //alert("Product info saved successfully!");
             let insertedProductId = response.productId;
             console.log("insertedProductId:", insertedProductId);
 
@@ -359,12 +388,16 @@ function addProductInfo() {
                 contentType: "application/json",
                 data: JSON.stringify(catData),
                 success: function(response) {
-                    alert("Product assigned to categories successfully!");
+                    info.push("Product assigned to categories successfully!");
+                    completedSteps++;
+                    checkAllDone();
+
+                    ////alert("Product assigned to categories successfully!");
                     $(".categories-container input[type='checkbox']").prop("checked", false);
                 },
                 error: function(xhr, status, error) {
                     console.error("Error saving category info:", error);
-                    alert("Failed to save category info.");
+                    toastr.error("Failed to save category info.");
                 }
             });
 
@@ -381,13 +414,27 @@ function addProductInfo() {
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    alert("Images uploaded successfully!");
+                    info.push("Images uploaded successfully!");
+                    completedSteps++;
+                    checkAllDone();
+
+                    //alert("Images uploaded successfully!");
                 },
                 error: function(xhr, status, error) {
                     console.error("Error uploading images:", error);
-                    alert("Failed to upload images.");
+                    toastr.error("Failed to upload images.");
                 }
             });
+
+            if(info.length>0){
+                let infoMessage = info.join("<br>");
+                Swal.fire({
+                    title: 'Product',
+                    text: ` ${infoMessage} `,
+                    icon: 'info',
+                    confirmButtonText: 'OK'
+                });
+            }
 
             // === RESET FORM ===
             $("#product-name").val("");
@@ -399,7 +446,7 @@ function addProductInfo() {
         },
         error: function(xhr, status, error) {
             console.error("Error saving product info:", error);
-            alert("Failed to save product info.");
+            toastr.error("Failed to save product info.");
         }
     });
 }

@@ -56,7 +56,7 @@ function loadCategories(){
             });
         },
         error: function (xhr, status, error) {
-            console.error("Error:", error);
+            toastr.error("Error: loading Categories");
         }
     });
 }
@@ -66,7 +66,7 @@ function addCategory() {
     let categoryName = $("#category-name").val().trim();
 
     if (categoryName === "") {
-        alert("Category name cannot be empty!");
+        toastr.error("Category name cannot be empty!");
         return;
     }
 
@@ -76,12 +76,17 @@ function addCategory() {
         contentType: "application/json",
         data: JSON.stringify({ categoryName: categoryName }),
         success: function (response) {
-            alert("Category added successfully!");
+            Swal.fire({
+                title: 'Category',
+                text: ' Category added successfully! ',
+                icon: 'info',
+                confirmButtonText: 'OK'
+            });
             $("#category-name").val("");
             loadCategories();
         },
         error: function () {
-            alert("Failed to add category.");
+            toastr.error("Failed to add category.");
         }
     });
 }
@@ -96,7 +101,7 @@ function deleteCategory(categoryId) {
                 loadCategories();
             },
             error: function () {
-                alert("Failed to delete the category.");
+                toastr.error("Failed to delete the category.");
             }
         });
     }
@@ -118,7 +123,7 @@ $(document).ready(function () {
                 console.log("Loaded category ID:", categoryId);
             },
             error: function (xhr, status, error) {
-                alert("Error loading category: " + error);
+                toastr.error("Error loading category: " + error);
             }
         });
     }
@@ -135,25 +140,25 @@ $(document).ready(function () {
             $("#save-edit-btn").prop("disabled", false);
         } else {
             $("#save-edit-btn").prop("disabled", true);
+            toastr.error("Please enter a valid category name.");
+
         }
     });
 
-    // عند الضغط على زر التعديل، يتم إرسال الطلب إلى السيرفر
     function editCategory() {
         let categoryId = $("#edit-category").attr("data-id");
         let updatedName = $("#edit-category-name").val().trim();
 
         console.log("Category ID on edit:", categoryId);
-        // التحقق من القيم قبل إرسال الطلب
         if (!categoryId) {
-            alert("Error: Category ID not found.");
+            toastr.error("Error: Category ID not found.");
             return;
         }
 
-        if (updatedName.length === 0) {
-            alert("Please enter a valid category name.");
-            return;
-        }
+        // if (updatedName.length === 0) {
+        //     toastr.error("Please enter a valid category name.");
+        //     return;
+        // }
 
         console.log("Updating category:", { categoryId, updatedName });
 
@@ -166,13 +171,18 @@ $(document).ready(function () {
                 categoryName: updatedName
             }),
             success: function (response) {
-                alert("Category updated successfully!");
+                Swal.fire({
+                    title: 'Category',
+                    text: ' Category updated successfully! ',
+                    icon: 'info',
+                    confirmButtonText: 'OK'
+                });
                 $("#edit-category-name").val("");
                 loadCategories();
                 $("#save-edit-btn").prop("disabled", true);
             },
             error: function (xhr, status, error) {
-                alert("Error updating category: " + error);
+                toastr.error("Error updating category: " + error);
             }
         });
     }
