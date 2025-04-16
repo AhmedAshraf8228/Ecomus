@@ -42,7 +42,6 @@ public class ProcessCheckoutServlet extends HttpServlet {
         ProductRepoImpl productRepo = new ProductRepoImpl(entityManager);
         
         try {
-            int odq=0;
             entityManager.getTransaction().begin();
             if (session == null || session.getAttribute("login") == null ||
                     !(Boolean) session.getAttribute("login")) {
@@ -64,8 +63,6 @@ public class ProcessCheckoutServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/cart");
                 return;
             }
-
-            // Check if inventory is available for all items
             boolean allInventoryAvailable = true;
             StringBuilder inventoryMessage = new StringBuilder();
 
@@ -78,14 +75,11 @@ public class ProcessCheckoutServlet extends HttpServlet {
                         .append(" has only ").append(product.getQuantity())
                         .append(" items available, but ").append(cartItem.getQuantity())
                         .append(" were requested.\n");
-
-                    odq=product.getQuantity();
-                }else{ // stock >= cart
-                    odq=cartItem.getQuantity();
                 }
             }
 
             if (!allInventoryAvailable && !"true".equals(request.getParameter("acceptReducedQuantity"))) {
+                entityManager.getTransaction().rollback();
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write("{\"success\": false, \"inventoryIssue\": true, \"message\": \"" + 
@@ -94,39 +88,54 @@ public class ProcessCheckoutServlet extends HttpServlet {
             }
 
             int totalPrice = 0;
-
       
             for (Cart cartItem : cartItems) {
                 Product product = productRepo.findById(cartItem.getProduct().getProductId());
                 int finalQuantity = cartItem.getQuantity();
                 
-               
                 if (product.getQuantity() < cartItem.getQuantity() && "true".equals(request.getParameter("acceptReducedQuantity"))) {
                     finalQuantity = product.getQuantity();
-                 
                     cartItem.setQuantity(finalQuantity);
                 }
                 
-            
-                product.setQuantity(product.getQuantity() - finalQuantity);
-                productRepo.update(product);
-                
-             
                 totalPrice += (int) (product.getPrice() * finalQuantity);
             }
+            String paymentMethod = request.getParameter("payment");
+            System.out.println("Payment method: " + paymentMethod);
+            System.out.println("Total price: " + totalPrice);
+            
+            if ("credit".equals(paymentMethod)) {
+                Integer creditLimit = user.getCreditLimit();
+                System.out.println("Credit limit: " + creditLimit);
+                
+                if (creditLimit == null) {
+                    entityManager.getTransaction().rollback();
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write("{\"success\": false, \"creditLimitIssue\": true, \"message\": \"Please update your profile to set your credit card limit.\"}");
+                    return;
+                }
+                if (totalPrice > creditLimit) {
+                    entityManager.getTransaction().rollback();
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write("{\"success\": false, \"creditLimitIssue\": true, \"message\": \"Your order total ($" + totalPrice + ") exceeds your available credit limit ($" + creditLimit + ").\"}");
+                    return;
+                }
+                System.out.println("Deducting from credit limit. Before: " + creditLimit);
+                user.setCreditLimit(creditLimit - totalPrice);
+                System.out.println("After deduction: " + user.getCreditLimit()); 
+            }
 
-    
             String customerName = request.getParameter("customerName");
             String city = request.getParameter("city");
             String area = request.getParameter("area");
             String street = request.getParameter("street");
             String buildingNum = request.getParameter("buildingNum");
             String phone = request.getParameter("phone");
-            String paymentMethod = request.getParameter("payment");
 
             String fullAddress = String.format("%s, %s, %s, Building %s", street, area, city, buildingNum);
 
-      
             Order order = new Order();
             order.setUser(user);
             order.setAddress(fullAddress);
@@ -143,21 +152,20 @@ public class ProcessCheckoutServlet extends HttpServlet {
             order = orderRepo.insert(order);
             System.out.println("Order saved with ID: " + order.getOrderId());
 
-   
             for (Cart cartItem : cartItems) {
                 try {
-             
-                    int finalQuantity = cartItem.getQuantity();
                     Product product = productRepo.findById(cartItem.getProduct().getProductId());
-                    
+                    int finalQuantity;
                     if (product.getQuantity() < cartItem.getQuantity() && "true".equals(request.getParameter("acceptReducedQuantity"))) {
                         finalQuantity = product.getQuantity();
+                    } else {
+                        finalQuantity = cartItem.getQuantity();
                     }
                     
                     OrderDetails orderDetails = new OrderDetails();
                     orderDetails.setOrder(order);
                     orderDetails.setProduct(cartItem.getProduct());
-                    orderDetails.setQuantity(odq);
+                    orderDetails.setQuantity(finalQuantity);
                     orderDetails.setPrice((int) cartItem.getProduct().getPrice());
                     
                     System.out.println("Saving order detail for product: " + 
@@ -166,13 +174,16 @@ public class ProcessCheckoutServlet extends HttpServlet {
                                       
                     orderDetailsRepo.insert(orderDetails);
                     System.out.println("Order detail saved successfully");
+                    product.setQuantity(product.getQuantity() - finalQuantity);
+                    productRepo.update(product);
                 } catch (Exception e) {
                     System.err.println("Error saving order detail: " + e.getMessage());
                     e.printStackTrace();
+                    throw e; 
                 }
             }
 
-     
+            // Clear the cart
             for (Cart cartItem : cartItems) {
                 cartRepo.deleteByUserIdAndProductId(userId, cartItem.getProduct().getProductId());
             }
