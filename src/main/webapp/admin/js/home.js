@@ -10,12 +10,12 @@ $(document).ready(function () {
                 $('#totalCategories').text(data.totalCategories);
                 console.log("Dashboard data loaded successfully!");
             } else {
-                alert('Invalid response data');
+                toastr.error('Invalid response data');
             }
         },
         error: function (xhr, status, error) {
             console.error('AJAX Error:', status, error);
-            alert('Failed to fetch data. Status: ' + xhr.status);
+            toastr.error('Failed to fetch data. Status: ' + xhr.status);
         }
     });
 });

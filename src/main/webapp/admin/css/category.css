@@ -68,3 +68,11 @@
 .add-category-container button:hover {
     background: #218838;
 }
+
+button:disabled {
+    cursor: not-allowed;             /* Show 'not allowed' cursor */
+    opacity: 0.7;                    /* Slightly faded look */
+    border: 1px solid #999;          /* Slight border to match */
+    pointer-events: none;            /* Prevent any click interactions */
+    transition: 0.3s ease;
+}

@@ -31,8 +31,8 @@ function loadCustomers() {
                         <td>${user.userId}</td>
                         <td>${user.userName}</td>
                         <td>${user.email}</td>
-                        <td>${user.phone || "N/A"}</td>
-                        <td>${user.city || "N/A"}, ${user.area || "N/A"}, ${user.street || "N/A"}</td>
+                        <td>${user.phone || "__"}</td>
+                        <td>${user.city }, ${user.area }, ${user.street}</td>
                         <td>
                             <button class="delete-button" onclick="deleteCustomer(${user.userId})">Delete</button>
                         </td>
@@ -42,7 +42,7 @@ function loadCustomers() {
             });
         },
         error: function () {
-            alert("Failed to load customers.");
+            toastr.error("Failed to load customers.");
         }
     });
 }
@@ -53,10 +53,10 @@ function deleteCustomer(userId) {
             url: `/MindMaze/admin/users?userId=${userId}`,
             type: "DELETE",
             success: function () {
-                loadCustomers(); // Reload the table after deletion
+                loadCustomers();
             },
             error: function () {
-                alert("Failed to delete the customer.");
+                toastr.error("Failed to delete the customer.");
             }
         });
     }

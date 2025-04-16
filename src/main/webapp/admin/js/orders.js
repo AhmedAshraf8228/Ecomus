@@ -65,7 +65,7 @@ function loadOrders() {
             });
         },
         error: function (xhr, status, error) {
-            console.error("Error:", error);
+            toastr.error("Error:", error);
         }
     });
 }
@@ -77,12 +77,18 @@ function updateOrderStatus(orderId, newStatus) {
         contentType: "application/json",
         data: JSON.stringify({ orderId: orderId, status: newStatus }),
         success: function(response) {
-            alert("Order status updated!");
+            Swal.fire({
+                title: 'Order',
+                text: ' Order status updated! ',
+                icon: 'info',
+                confirmButtonText: 'OK'
+            });
+           // alert("Order status updated!");
             loadOrders();
         },
         error: function(xhr, status, error) {
             console.error("Failed to update status:", error);
-            alert("Error updating order status.");
+            toastr.error("Error updating order status.");
         }
     });
 }
