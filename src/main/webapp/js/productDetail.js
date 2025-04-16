@@ -13,7 +13,7 @@ $(document).ready(function() {
 
     $('#form-2').on('submit', function (e) {
         e.preventDefault();
-        let quantity = parseInt($('#quantity-1').val(), 10);
+        let quantity = parseInt($('#quantity-2').val(), 10);
         addToCart(quantity );
     });
 
