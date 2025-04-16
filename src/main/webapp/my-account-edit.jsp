@@ -111,6 +111,7 @@
                                     <div class="tf-field style-1 mb_15">
                                         <label for="userName">Username</label>
                                         <input class="tf-field-input tf-input" type="text" id="userName" name="userName" value="${user.userName}">
+                                        <div class="invalid-feedback">Please enter your Name .</div>
 
                                     </div>
                                     <div class="tf-field style-1 mb_15">
@@ -119,13 +120,33 @@
 
                                     </div>
                                     <div class="tf-field style-1 mb_15">
+                                        <label for="street">Old Password</label>
+                                        <input class="tf-field-input tf-input" placeholder="write your old password "  type="password"  id="oldpassword" name="oldpassword"  value="">
+                                        <div class="invalid-feedback">Please enter 6 or more character.</div>
+                                            <div class="invalid-old"  style="color: red;">please if you want to change password enter old one first</div>
+                                    </div>
+                                    <div class="tf-field style-1 mb_15">
+                                        <label for="street">New Password</label>
+                                        <input class="tf-field-input tf-input" placeholder="write password to change if you want"  type="password"  id="password" name="password"  value="">
+                                        <div class="invalid-feedback">Please enter 6 or more character.</div>
+                                    </div>
+                                    <div class="tf-field style-1 mb_15">
+                                        <label for="buildingNo">Confirm Password</label>
+                                        <input class="tf-field-input tf-input"  type="password"  id="confirmPassword" name="confirmPassword"  value="">
+                                        <div class="invalid-feedback">confirmPassword not as password .</div>
+                                    </div>
+                                    <div class="tf-field style-1 mb_15">
                                         <label for="phone">Phone</label>
                                         <input class="tf-field-input tf-input" type="tel" id="phone" name="phone" value="${user.phone}">
-
+                                        <div  class="invalid-feedback">
+                                            Please enter a valid phone number.<br>
+                                            Format: 01[5, 2, 0, 1][8 digits]
+                                        </div>
                                     </div>
                                     <div class="tf-field style-1 mb_15">
                                         <label for="BD">Birth Date</label>
                                         <input class="tf-field-input tf-input" type="date" id="BD" name="BD" value="${user.BD}">
+                                        <div class="invalid-feedback">Please enter valid birthday .</div>
 
                                     </div>
                                     <div class="tf-field style-1 mb_15">
@@ -153,19 +174,22 @@
                                     <div class="tf-field style-1 mb_15">
                                         <label for="buildingNo">Building Number</label>
                                         <input class="tf-field-input tf-input" type="text" id="buildingNo" name="buildingNo" value="${user.buildingNo}">
-
+                                        <div class="invalid-feedback">Please enter a valid building number (positive number).</div>
                                     </div>
+                                  
+                                   
 
                                     <h5>Payment Information</h5><br>
                                     <div class="tf-field style-1 mb_15">
                                         <label for="creditNo">Credit Card Number</label>
                                         <input class="tf-field-input tf-input" type="text" id="creditNo" name="creditNo" value="${user.creditNo}">
-
+                                        <div id="invalidCreditNo" class="invalid-feedback">Please enter a valid credit number <br>
+                                            (format: XXXX XXXX XXXX XXXX or XXXX-XXXX-XXXX-XXXX).</div>
                                     </div>
                                     <div class="tf-field style-1 mb_15">
                                         <label for="creditLimit">Credit Limit</label>
                                         <input class="tf-field-input tf-input" type="number" id="creditLimit" name="creditLimit" value="${user.creditLimit}">
-
+                                        <div class="invalid-feedback">Please enter a valid credit limit (greater than 0).</div>
                                     </div>
 
                                     <div class="mb_20">
@@ -192,5 +216,6 @@
     <script type="text/javascript" src="js/wow.min.js"></script>   
     <script type="text/javascript" src="js/multiple-modal.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/updateProfile.js"></script>
 </body>
 </html>
