@@ -247,7 +247,7 @@ function updateProductInfo() {
         processData: false,
         contentType: false,
         success: function(response) {
-            alert("Images uploaded successfully!");
+            //alert("Images uploaded successfully!");
         },
         error: function(xhr, status, error) {
             console.error("Error uploading images:", error);
