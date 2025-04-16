@@ -170,11 +170,14 @@
                                    
 
                                     <h5>Payment Information</h5><br>
+                                
                                     <div class="tf-field style-1 mb_15">
                                         <label for="creditNo">Credit Card Number</label>
                                         <input class="tf-field-input tf-input" type="text" id="creditNo" name="creditNo" value="${user.creditNo}">
-                                        <div id="invalidCreditNo" class="invalid-feedback">Please enter a valid credit number <br>
-                                            (format: XXXX XXXX XXXX XXXX or XXXX-XXXX-XXXX-XXXX).</div>
+                                        <div id="invalidCreditNo" class="invalid-feedback">
+                                            Credit card number is required when setting a credit limit.<br>
+                                            Format: XXXX XXXX XXXX XXXX or XXXX-XXXX-XXXX-XXXX.
+                                        </div>
                                     </div>
                                     <div class="tf-field style-1 mb_15">
                                         <label for="creditLimit">Credit Limit</label>
