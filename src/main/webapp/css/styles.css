@@ -1761,7 +1761,7 @@ label {
 }
 
 .logo-header img {
-  width: 241px;
+  width: 170px;
 }
 
 .box-nav-ul .menu-item {
@@ -13977,7 +13977,7 @@ blockquote .text {
     line-height: 24px;
   }
   .logo-header img {
-    width: 241px;
+    width: 170px;
   }
   .canvas-mb {
     width: 100% !important;
@@ -15977,7 +15977,7 @@ blockquote .text {
     display: inline-flex;
   }
   .logo-header {
-    width: 241px;
+    width: 170px;
   }
   .mega-menu .row-demo {
     grid-template-columns: repeat(3, 1fr);
@@ -15985,9 +15985,7 @@ blockquote .text {
   .header-style-3 .wrap-header-left {
     justify-content: center;
   }
-  .tf-sticky-btn-atc {
-    bottom: 67px;
-  }
+
   .tf-accordion-wrap {
     gap: 30px;
   }
@@ -16563,9 +16561,7 @@ blockquote .text {
     font-size: 50px;
     line-height: 60px;
   }
-  .tf-sticky-btn-atc {
-    bottom: 67px;
-  }
+
   .tf-toolbar-bottom.type-1024 {
     display: flex;
   }
