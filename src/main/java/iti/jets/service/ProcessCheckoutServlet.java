@@ -42,6 +42,7 @@ public class ProcessCheckoutServlet extends HttpServlet {
         ProductRepoImpl productRepo = new ProductRepoImpl(entityManager);
         
         try {
+            int odq=0;
             entityManager.getTransaction().begin();
             if (session == null || session.getAttribute("login") == null ||
                     !(Boolean) session.getAttribute("login")) {
@@ -70,13 +71,17 @@ public class ProcessCheckoutServlet extends HttpServlet {
 
             for (Cart cartItem : cartItems) {
                 Product product = productRepo.findById(cartItem.getProduct().getProductId());
-                
+
                 if (product.getQuantity() < cartItem.getQuantity()) {
                     allInventoryAvailable = false;
                     inventoryMessage.append("Product ").append(product.getProductName())
                         .append(" has only ").append(product.getQuantity())
                         .append(" items available, but ").append(cartItem.getQuantity())
                         .append(" were requested.\n");
+
+                    odq=product.getQuantity();
+                }else{ // stock >= cart
+                    odq=cartItem.getQuantity();
                 }
             }
 
@@ -152,7 +157,7 @@ public class ProcessCheckoutServlet extends HttpServlet {
                     OrderDetails orderDetails = new OrderDetails();
                     orderDetails.setOrder(order);
                     orderDetails.setProduct(cartItem.getProduct());
-                    orderDetails.setQuantity(finalQuantity);
+                    orderDetails.setQuantity(odq);
                     orderDetails.setPrice((int) cartItem.getProduct().getPrice());
                     
                     System.out.println("Saving order detail for product: " + 

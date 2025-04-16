@@ -90,9 +90,7 @@ public class OrderServlet extends HttpServlet {
                     resp.getWriter().write("{\"message\": \"Product not found.\"}");
                     return;
                 }
-                if("COMPLETED".equalsIgnoreCase(newStatus)){
-                    product.setQuantity(product.getQuantity()-quantity);
-                }else if ("CANCELED".equalsIgnoreCase(newStatus)){
+                if("CANCELED".equalsIgnoreCase(newStatus)){
                     product.setQuantity(product.getQuantity()+quantity);
                 }
 
