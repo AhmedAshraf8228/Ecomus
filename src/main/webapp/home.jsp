@@ -8,7 +8,8 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Ecomus - Ultimate HTML</title>
+    <title>Ecomus - home</title>
+
 
     <meta name="author" content="themesflat.com">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -49,7 +50,7 @@
                 <div class="row wrapper-header align-items-center">
                     <div class="col-xl-3 col-md-3 col-3">
                         <a href="home" class="logo-header">
-                            <img src="images/logo/BordMaster.svg" alt="logo" class="logo">
+                            <img src="images/logo/logo.svg" alt="logo" class="logo">
                         </a>
                     </div>
                     <div class="col-xl-6 col-md-6 col-6">
@@ -63,7 +64,7 @@
                             </li>
                             <% Integer cartSize = (Integer) session.getAttribute("cart-size"); %>
                             <li class="nav-account"><a href="${pageContext.request.contextPath}/accountDetails" class="nav-icon-item"><i class="icon icon-account"></i></a></li>
-                            <li class="nav-wishlist"><a href="my-account-wishlist.html" class="nav-icon-item"><i class="icon icon-heart"></i><span class="count-box">0</span></a></li>
+                            <li class="nav-wishlist"><a href="my-account-wishlist.jsp" class="nav-icon-item"><i class="icon icon-heart"></i><span class="count-box">0</span></a></li>
                             <li class="nav-cart"><a href="cart" class="nav-icon-item"><i class="icon icon-bag"></i><span class="count-box"><%= cartSize != null ? cartSize : 0 %></span></a></li>
                         </ul>
                     </div>

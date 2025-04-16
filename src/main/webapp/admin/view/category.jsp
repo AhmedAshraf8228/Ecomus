@@ -18,6 +18,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/MindMaze/admin/js/category.js"></script>
 
+    <!-- Favicon and Touch Icons  -->
+    <link rel="shortcut icon" href="images/logo/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="images/logo/favicon.png">
+
 </head>
 <body>
 

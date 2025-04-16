@@ -15,7 +15,8 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Ecomus - Ultimate HTML</title>
+    <title>Ecomus - login</title>
+
 
     <meta name="author" content="themesflat.com">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -45,6 +46,26 @@
     </div>
     <!-- /preload -->
     <div id="wrapper">
+
+        <!-- header -->
+        <header id="header" class="header-default">
+            <div class="px_15 lg-px_40">
+                <div class="row wrapper-header align-items-center">
+                    <div class="col-xl-3 col-md-3 col-3">
+                        <a href="${pageContext.request.contextPath}/home" class="logo-header">
+                            <img src="images/logo/logo.svg" alt="logo" class="logo">
+                        </a>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-6">
+                    </div>
+                    <div class="col-xl-3 col-md-3 col-3">
+                        <ul class="nav-icon d-flex justify-content-end align-items-center gap-20">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
 
 
         <!-- page-title -->
