@@ -166,7 +166,7 @@
                                                             <c:forEach items="${cartItems}" var="cartItem">
                                                             <li class="checkout-product-item">
                                                                 <figure class="img-product">
-                                                                    <img src="images/products/7/1.jpg" alt="${cartItem.product.productName}">
+                                                                    <img src="${pageContext.request.contextPath}/../products/${cartItem.productId}/1.jpg" alt="${pageContext.request.contextPath}/../products/1.jpg">
                                                                     <span class="quantity">${cartItem.quantity}</span>
                                                                 </figure>
                                                                 <div class="content">
