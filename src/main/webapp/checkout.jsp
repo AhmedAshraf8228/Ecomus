@@ -347,7 +347,7 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                          
-                            window.location.href = "${pageContext.request.contextPath}/accountDetails";
+                            window.location.href = "${pageContext.request.contextPath}/profile";
                         } else {
                          
                             $('input[name="payment"][value="cash"]').prop('checked', true);
