@@ -2017,7 +2017,6 @@ label {
 }
 .out-of-stock {
   opacity: 0.5;
-  pointer-events: none; /* Optional: disables click */
   position: relative;
 }
 

@@ -1,6 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:useBean id="product" scope="request" type="iti.jets.entity.Product"/>
+<c:set var="imageBasePath" value="${pageContext.request.contextPath}/../products/" />
+
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
 
@@ -87,7 +90,7 @@
                                             <c:forEach var="img" items="${imgList}">
                                                 <div class="swiper-slide stagger-item">
                                                     <div class="item">
-                                                        <img class="lazyload" data-src="${pageContext.request.contextPath}/../products/${product.productId}/${img}" src="${pageContext.request.contextPath}/../products/${product.productId}/${img}" alt="${product.productName} image">
+                                                        <img class="lazyload" data-src="${imageBasePath}${product.productId}/${img}" src="${imageBasePath}${product.productId}/${img}" alt="${product.productName} image">
                                                     </div>
                                                 </div>
                                             </c:forEach>
@@ -95,13 +98,32 @@
                                     </div>
                                     <div class="swiper tf-product-media-main" id="gallery-swiper-started">
                                         <div class="swiper-wrapper" >
-                                            <c:forEach var="img" items="${imgList}">
-                                                <div class="swiper-slide">
-                                                    <a href="${pageContext.request.contextPath}/../products/${product.productId}/${img}" target="_blank" class="item" data-pswp-width="770px" data-pswp-height="1075px">
-                                                        <img class="tf-image-zoom lazyload" data-zoom="${pageContext.request.contextPath}/../products/${product.productId}/${img}" data-src="${pageContext.request.contextPath}/../products/${product.productId}/${img}" src="${pageContext.request.contextPath}/../products/${product.productId}/${img}" alt="${product.productName}">
-                                                    </a>
-                                                </div>
-                                            </c:forEach>
+                                            <c:choose>
+                                                <c:when test="${product.quantity>0}">
+                                                    <c:forEach var="img" items="${imgList}">
+                                                        <div class="swiper-slide">
+                                                            <a href="${imageBasePath}${product.productId}/${img}" target="_blank" class="item" data-pswp-width="770px" data-pswp-height="1075px">
+                                                                <img class="tf-image-zoom lazyload"
+                                                                     data-zoom="${imageBasePath}${product.productId}/${img}"
+                                                                     data-src="${imageBasePath}${product.productId}/${img}"
+                                                                     src="${imageBasePath}${product.productId}/${img}"
+                                                                     alt="${product.productName}">
+                                                            </a>
+                                                        </div>
+                                                    </c:forEach>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <div class="swiper-slide">
+                                                        <a href="${imageBasePath}no-image.jpg" target="_blank" class="item" data-pswp-width="770px" data-pswp-height="1075px">
+                                                            <img class="tf-image-zoom lazyload"
+                                                                 data-zoom="${imageBasePath}no-image.jpg"
+                                                                 data-src="${imageBasePath}no-image.jpg"
+                                                                 src="${imageBasePath}no-image.jpg"
+                                                                 alt="${product.productName}">
+                                                        </a>
+                                                    </div>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
                                         <div class="swiper-button-next button-style-arrow thumbs-next"></div>
                                         <div class="swiper-button-prev button-style-arrow thumbs-prev"></div>
@@ -202,14 +224,14 @@
                                 <c:choose>
                                     <c:when test="${not empty imgList}">
                                         <img class="lazyloaded"
-                                             data-src="${pageContext.request.contextPath}/../products/${product.productId}/${imgList[0]}"
-                                             src="${pageContext.request.contextPath}/../products/${product.productId}/${imgList[0]}"
+                                             data-src="${imageBasePath}${product.productId}/${imgList[0]}"
+                                             src="${imageBasePath}${product.productId}/${imgList[0]}"
                                              alt="${product.productName} image">
                                     </c:when>
                                     <c:otherwise>
                                         <img class="lazyloaded"
-                                             data-src="${pageContext.request.contextPath}/../products/${product.productId}/1.jpg"
-                                             src="${pageContext.request.contextPath}/../products/${product.productId}/1.jpg"
+                                             data-src="${imageBasePath}no-image.jpg"
+                                             src="${imageBasePath}no-image.jpg"
                                              alt="${product.productName} image">
                                     </c:otherwise>
                                 </c:choose>
