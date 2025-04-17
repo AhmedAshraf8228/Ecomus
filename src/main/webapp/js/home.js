@@ -23,7 +23,8 @@ $(document).ready(function () {
                 let imgTag = `<div class="swiper-slide">
                                       <div class="item">
                                         <img data-src="${imageUrl}/${productId}/${img}" 
-                                            src="${imageUrl}/${productId}/${img}" alt="${productId.name}">
+                                            src="${imageUrl}/${productId}/${img}" alt="${productId.name}"
+                                            style="width: 100%; height: 100%; object-fit: cover;">
                                       </div></div>`;
                 imageContainer.append(imgTag);
             });
@@ -91,7 +92,7 @@ function quickProduct(product){
     $('.quick-product-id').val(product.id);
     $('.quick-product-name').text(product.name);
     $('#quick-view-description').text(product.description);
-    $('.quick-product-price').text(product.price);
+    $('.quick-product-price').text(`$${product.price}`);
     $('.quick-product-quantity').val(1);
     $('.quick-product-total').text(`$${(product.price * 1).toFixed(2)}`);
 
@@ -305,8 +306,7 @@ function updateFilterCount(availability, categories, min, max) {
     let count = 0;
     if (availability.length > 0) count++;
     if (categories.length > 0) count++;
-    if (min) count++;
-    if (max) count++;
+    if (min || max) count++;
 
     const $badge = $('#filter-count');
     $badge.text(`${count} Filter${count === 1 ? '' : 's'} Applied`);

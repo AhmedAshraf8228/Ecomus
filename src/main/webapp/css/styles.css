@@ -1667,6 +1667,9 @@ label {
 .header-default .wrapper-header {
   min-height: 64px;
 }
+.header-default{
+  background-color:var(--white);
+}
 .header-default .wrapper-header .nav-icon li:last-child .nav-icon-item {
   margin-right: 10px;
 }

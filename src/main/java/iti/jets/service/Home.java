@@ -24,6 +24,7 @@ public class Home extends HttpServlet {
 
         ProductRepoImpl productRepo = new ProductRepoImpl();
         List<Product> products = productRepo.findAll();
+        Collections.shuffle(products);
 
         request.setAttribute("products", products);
 
