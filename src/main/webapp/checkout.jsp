@@ -237,13 +237,12 @@
     
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
-    <script>
+
+ <script>
     $(document).ready(function() {
     $("#checkoutForm").submit(function(e) {
         e.preventDefault();
         
-      
         $.ajax({
             type: "POST",
             url: "${pageContext.request.contextPath}/checkInventory",
@@ -251,7 +250,6 @@
             success: function(response) {
                 if (response.success) {
                     if (response.hasInventoryIssues) {
-                
                         let message = "The following products have insufficient inventory:<br><br>";
                         let issueTable = "<table class='table'><thead><tr><th>Product</th><th>Requested</th><th>Available</th></tr></thead><tbody>";
                         
@@ -335,6 +333,25 @@
                         title: 'Inventory Issue',
                         text: response.message,
                         confirmButtonText: 'OK'
+                    });
+                } else if (response.creditLimitIssue) {
+                    // Handle credit limit issues
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Credit Limit Issue',
+                        html: response.message + '<br><br>Would you like to update your profile or choose a different payment method?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Update Profile',
+                        cancelButtonText: 'Choose Different Payment',
+                        allowOutsideClick: false
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                         
+                            window.location.href = "${pageContext.request.contextPath}/profile";
+                        } else {
+                         
+                            $('input[name="payment"][value="cash"]').prop('checked', true);
+                        }
                     });
                 } else {
                     Swal.fire({

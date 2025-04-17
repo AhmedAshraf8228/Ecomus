@@ -247,7 +247,7 @@ function updateProductInfo() {
         processData: false,
         contentType: false,
         success: function(response) {
-            alert("Images uploaded successfully!");
+            //alert("Images uploaded successfully!");
         },
         error: function(xhr, status, error) {
             console.error("Error uploading images:", error);
@@ -305,8 +305,13 @@ function loadCategories() {
     });
 }
 
-let completedSteps = 0;
-let totalSteps = 3;
+
+if (typeof completedSteps === 'undefined') {
+    var completedSteps = 0;
+}
+if (typeof totalSteps === 'undefined') {
+    var totalSteps = 3;
+}
 
 function checkAllDone() {
     if (completedSteps === totalSteps) {

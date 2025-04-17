@@ -241,6 +241,34 @@ function validatePhone(flag) {
     }
 }
 
+function validateCreditLimitAndNumber(flag) {
+    let creditLimitField = $('#creditLimit');
+    let creditNoField = $('#creditNo');
+    
+    let creditLimit = creditLimitField.val().trim();
+    let creditNo = creditNoField.val().trim();
+    
+
+    if (creditLimit && creditLimit > 0) {
+        if (!creditNo) {
+            creditNoField.addClass('is-invalid').removeClass('is-valid');
+            creditNoField.siblings('.invalid-feedback').show();
+            creditNoField.siblings('.invalid-old').hide();
+            if (flag) {
+                creditNoField.focus();
+            }
+            return false; // Invalid input - credit card number required
+        }
+    }
+    
+    // Continue with normal credit limit validation
+    if (isNaN(creditLimit) || creditLimit < 0) {
+        return updateUnValid(creditLimitField, flag);
+    } else {
+        return updateValid(creditLimitField);
+    }
+}
+
 // Create an array of validation functions
 const validationFunctions = [
     validateUserName,
@@ -252,6 +280,7 @@ const validationFunctions = [
     validateBuildingNo,
     validateCreditNo,
     validateCreditLimit,
+    validateCreditLimitAndNumber,
     validatePhone
 ];
 
@@ -289,4 +318,9 @@ function addOnBlur() {
         validatePhone(false);  // Pass false to prevent focusing on the field during blur
     });
 
+    $('#creditLimit').on('blur', function () {
+        validateCreditLimitAndNumber(false); 
+    });
+
 }
+
