@@ -56,11 +56,11 @@ public class AddToCartServlet extends HttpServlet {
                 session.setAttribute("cart-size", oldCart + quantity);
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().write("{\"message\":\"Item added to cart\"}");
-                System.out.println("Add to cart successfully : user:" + userId + " productId:" + productId + " quantity:" + quantity);
+                ln("Add to cart successfully : user:" + userId + " productId:" + productId + " quantity:" + quantity);
             } else {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write("{\"error\":\"Failed to insert item to cart\"}");
-                System.out.println("Add to cart faild : user:" + userId + " productId:" + productId + " quantity:" + quantity);
+                ln("Add to cart faild : user:" + userId + " productId:" + productId + " quantity:" + quantity);
 
             }
         } catch (Exception e) {

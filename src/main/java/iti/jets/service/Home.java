@@ -86,7 +86,7 @@ public class Home extends HttpServlet {
             int cartSize = cartRepo.getTotalQuantityByUserId(userId);
 
             session.setAttribute("cart-size", cartSize);
-            System.out.println("✅ [HomeServlet] Cart size updated for user " + userId + ": " + cartSize);
+            ln("✅ [HomeServlet] Cart size updated for user " + userId + ": " + cartSize);
 
             if (cartRepo.getEntityManager().isOpen()) {
                 cartRepo.getEntityManager().close();

@@ -28,11 +28,11 @@ public class AccountDetailsServlet extends HttpServlet {
                 User user = userRepo.findById(userId);
                 
                 if (user != null) {
-                    System.out.println("User found for details view: " + user);
+                    ln("User found for details view: " + user);
                     req.setAttribute("user", user);
                     req.getRequestDispatcher("/my-account.jsp").forward(req, resp);
                 } else {
-                    System.out.println("User not found for ID: " + userId);
+                    ln("User not found for ID: " + userId);
                     resp.getWriter().write("User not found");
                 }
             } catch (Exception e) {

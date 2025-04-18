@@ -101,12 +101,12 @@ public class ProcessCheckoutServlet extends HttpServlet {
                 totalPrice += (int) (product.getPrice() * finalQuantity);
             }
             String paymentMethod = request.getParameter("payment");
-            System.out.println("Payment method: " + paymentMethod);
-            System.out.println("Total price: " + totalPrice);
+            ln("Payment method: " + paymentMethod);
+            ln("Total price: " + totalPrice);
             
             if ("credit".equals(paymentMethod)) {
                 Integer creditLimit = user.getCreditLimit();
-                System.out.println("Credit limit: " + creditLimit);
+                ln("Credit limit: " + creditLimit);
                 
                 if (creditLimit == null) {
                     entityManager.getTransaction().rollback();
@@ -122,9 +122,9 @@ public class ProcessCheckoutServlet extends HttpServlet {
                     response.getWriter().write("{\"success\": false, \"creditLimitIssue\": true, \"message\": \"Your order total ($" + totalPrice + ") exceeds your available credit limit ($" + creditLimit + ").\"}");
                     return;
                 }
-                System.out.println("Deducting from credit limit. Before: " + creditLimit);
+                ln("Deducting from credit limit. Before: " + creditLimit);
                 user.setCreditLimit(creditLimit - totalPrice);
-                System.out.println("After deduction: " + user.getCreditLimit()); 
+                ln("After deduction: " + user.getCreditLimit()); 
             }
 
             String customerName = request.getParameter("customerName");
@@ -150,7 +150,7 @@ public class ProcessCheckoutServlet extends HttpServlet {
             }
         
             order = orderRepo.insert(order);
-            System.out.println("Order saved with ID: " + order.getOrderId());
+            ln("Order saved with ID: " + order.getOrderId());
 
             for (Cart cartItem : cartItems) {
                 try {
@@ -168,12 +168,12 @@ public class ProcessCheckoutServlet extends HttpServlet {
                     orderDetails.setQuantity(finalQuantity);
                     orderDetails.setPrice((int) cartItem.getProduct().getPrice());
                     
-                    System.out.println("Saving order detail for product: " + 
+                    ln("Saving order detail for product: " + 
                                       cartItem.getProduct().getProductName() +
                                       " with quantity: " + finalQuantity);
                                       
                     orderDetailsRepo.insert(orderDetails);
-                    System.out.println("Order detail saved successfully");
+                    ln("Order detail saved successfully");
                     product.setQuantity(product.getQuantity() - finalQuantity);
                     productRepo.update(product);
                 } catch (Exception e) {

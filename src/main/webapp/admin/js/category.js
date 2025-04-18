@@ -31,8 +31,6 @@ function loadCategories(){
         type: "GET",
         dataType: "json",
         success: function (response) {
-            console.log("Received response:", response);
-
             let categories = response.categories;
             let productCounts = response.productCounts;
 
@@ -120,7 +118,6 @@ $(document).ready(function () {
                 originalCategoryName = category.categoryName; // تحديد الاسم الأصلي بعد تعبئة الحقل
                 $("#edit-category").attr("data-id", categoryId);
                 $("#save-edit-btn").prop("disabled", true);
-                console.log("Loaded category ID:", categoryId);
             },
             error: function (xhr, status, error) {
                 toastr.error("Error loading category: " + error);
@@ -149,7 +146,6 @@ $(document).ready(function () {
         let categoryId = $("#edit-category").attr("data-id");
         let updatedName = $("#edit-category-name").val().trim();
 
-        console.log("Category ID on edit:", categoryId);
         if (!categoryId) {
             toastr.error("Error: Category ID not found.");
             return;
@@ -160,7 +156,6 @@ $(document).ready(function () {
         //     return;
         // }
 
-        console.log("Updating category:", { categoryId, updatedName });
 
         $.ajax({
             url: "/MindMaze/admin/category",

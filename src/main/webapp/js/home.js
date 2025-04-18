@@ -123,7 +123,6 @@ function addToCart(productId, type) {
         }else if(type === 'view') {
             quantity = parseInt($('#quick-view-quantity').val(), 10);
         }
-        console.log("productId=  " + productId + ": quantity=" + quantity + "add");
 
         $.ajax({
             url: 'addtocart',
@@ -210,7 +209,6 @@ function renderProducts(products) {
         $container.append('<p>No products found.</p>');
         return;
     }
-    console.log(products.length);
     products.forEach(function (p) {
         const img1 = window.productsImages?.[p.id] && window.productsImages[p.id].length > 0
             ? `${p.id}/${window.productsImages[p.id][0]}`

@@ -29,7 +29,7 @@ public class ProductRepoImpl extends GenericRepoImpl<Product , Integer> {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            System.out.println(e.getMessage());
+            ln(e.getMessage());
         }
         return resultList ;
     }

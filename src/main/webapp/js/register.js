@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $('#register-form').on('submit', async function (event) {
-        console.log("submitted fun");
         event.preventDefault(); // Prevent form submission
         event.stopPropagation(); // Stop propagation of the event
 
@@ -18,7 +17,6 @@ $(document).ready(function () {
         if (isFormValid) {
             $(this).off('submit').submit();
         } else {
-            console.log("Form validation failed.");
         }
     });
 

@@ -99,10 +99,10 @@ public class PasswordUtils {
 
         // Hash the password
         String hashedPassword = hashPassword(password);
-        System.out.println("Hashed Password: " + hashedPassword);
+        ln("Hashed Password: " + hashedPassword);
 
         // Check the password
         boolean isPasswordCorrect = checkPassword(password, hashedPassword);
-        System.out.println("Password valid: " + isPasswordCorrect);
+        ln("Password valid: " + isPasswordCorrect);
     }
 }

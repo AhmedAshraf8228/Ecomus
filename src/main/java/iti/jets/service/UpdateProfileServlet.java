@@ -113,7 +113,7 @@
 //             String userName = req.getParameter("userName");
 //             String email = req.getParameter("email");
 //             String password = req.getParameter("password");
-//             System.out.println("passwoed................."+password);
+//             ln("passwoed................."+password);
 //             String confirmPassword = req.getParameter("confirmPassword");
 //             String phone = req.getParameter("phone");
             

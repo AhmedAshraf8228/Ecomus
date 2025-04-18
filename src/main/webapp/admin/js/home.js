@@ -8,7 +8,6 @@ $(document).ready(function () {
                 $('#totalOrders').text(data.totalOrders);
                 $('#totalCustomers').text(data.totalUsers);
                 $('#totalCategories').text(data.totalCategories);
-                console.log("Dashboard data loaded successfully!");
             } else {
                 toastr.error('Invalid response data');
             }

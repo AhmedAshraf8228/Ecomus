@@ -47,8 +47,7 @@ function updateTotalPrice() {
     const quantity = parseInt($('#quantity-1').val(), 10);
     const total = (p.price * quantity).toFixed(2);  // Calculate total
     $('#total-price').text(`$${total}`);  // Update the total price in the button
-    console.log(quantity);
-    console.log(p.price);
+
 }
 
 function successAddToCart(res) {

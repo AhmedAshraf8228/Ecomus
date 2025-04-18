@@ -19,7 +19,7 @@ public class Login extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        System.out.println(email + " " + password);
+        ln(email + " " + password);
         try {
             User user = userRepo.getUserByEmail(email);
             if(user != null){
@@ -32,7 +32,7 @@ public class Login extends HttpServlet {
                     CartRepoImpl cartRepo = new CartRepoImpl();
                     int size = cartRepo.getCartItemsByUserId(user.getUserId()).size();
                     session.setAttribute("cart-size", size);
-                    System.out.println("cart-size"+ size);
+                    ln("cart-size"+ size);
                     resp.getWriter().write("valid");
                 }else {
                     resp.getWriter().write("invalid");

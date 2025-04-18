@@ -285,7 +285,6 @@ function loadCategories() {
         type: "GET",
         dataType: "json",
         success: function (categories) {
-            console.log(categories);
             let container = $(".categories-container");
             container.empty();
 
@@ -375,7 +374,6 @@ function addProductInfo() {
 
             //alert("Product info saved successfully!");
             let insertedProductId = response.productId;
-            console.log("insertedProductId:", insertedProductId);
 
             // === CATEGORIES ===
             let catData = {

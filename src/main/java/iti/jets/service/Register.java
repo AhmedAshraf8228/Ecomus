@@ -34,8 +34,6 @@ public class Register extends HttpServlet {
                 }
             });
 
-            System.out.println(modifiableParameterMap);
-
             User newUser = new User();
 
             BeanUtils.populate(newUser, modifiableParameterMap);

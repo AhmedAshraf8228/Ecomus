@@ -56,7 +56,7 @@ public class CancelOrderServlet extends HttpServlet {
             em.getTransaction().begin();
             orderRepo = new OrderRepoImpl(em);
             Order order = orderRepo.findById(orderId);
-            System.out.println("order : " + order);
+            ln("order : " + order);
             if (order == null || order.getUser().getUserId() != userId) {
                 resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 return;
@@ -67,7 +67,7 @@ public class CancelOrderServlet extends HttpServlet {
             }
             orderDetailsRepo = new OrderDetailsRepoImpl(em);
             List<OrderDetails> orderDetails = orderDetailsRepo.getOrderDetailsByOrderId(orderId);
-            System.out.println("orderDetails : " + orderDetails);
+            ln("orderDetails : " + orderDetails);
             productRepo = new ProductRepoImpl(em);
             for(OrderDetails od : orderDetails){
                 int productId = od.getProduct().getProductId();

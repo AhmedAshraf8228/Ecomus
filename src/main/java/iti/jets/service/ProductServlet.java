@@ -122,7 +122,7 @@ public class ProductServlet extends HttpServlet {
 
 
             if (insertedProduct != null) {
-                System.out.println("\n\n\tinserted Produt ID :"+insertedProduct.getProductId()+"\n\n\t");
+                ln("\n\n\tinserted Produt ID :"+insertedProduct.getProductId()+"\n\n\t");
                 response.setStatus(HttpServletResponse.SC_OK);
 
                 String jsonResponse = String.format(
@@ -147,7 +147,7 @@ public class ProductServlet extends HttpServlet {
         finally {
             if(em.isOpen()){
                 em.close();
-                System.out.println("\n\n\tem in PS is closed\n\n\t");
+                ln("\n\n\tem in PS is closed\n\n\t");
             }
         }
 

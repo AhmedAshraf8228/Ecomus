@@ -18,7 +18,6 @@ $(document).ready(function () {
                 check(response);
             },
             error: function(data) {
-                console.log(data);
                 alert("There was an error with the request. Please try again later.");
             }
         });
