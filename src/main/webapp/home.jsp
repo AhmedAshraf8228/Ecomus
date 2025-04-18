@@ -248,7 +248,7 @@
                     </div>
                     <button id="filter" class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn w-100" >
                         <span>APPLY FILTER</span>
-                    </button><br>
+                    </button>
                     <button type="button" id="clear-filters" class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn w-100 ">
                         <span>CLEAR ALL FILTERS</span>
                     </button>

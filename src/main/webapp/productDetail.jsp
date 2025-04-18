@@ -99,7 +99,7 @@
                                     <div class="swiper tf-product-media-main" id="gallery-swiper-started">
                                         <div class="swiper-wrapper" >
                                             <c:choose>
-                                                <c:when test="${product.quantity>0}">
+                                                <c:when test="${imgList.size() > 0}">
                                                     <c:forEach var="img" items="${imgList}">
                                                         <div class="swiper-slide">
                                                             <a href="${imageBasePath}${product.productId}/${img}" target="_blank" class="item" data-pswp-width="770px" data-pswp-height="1075px">

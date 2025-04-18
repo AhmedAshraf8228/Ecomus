@@ -3590,6 +3590,7 @@ header.header-bg {
   background-color: var(--main);
   border: 1px solid var(--main);
   color: var(--white);
+  margin-bottom: 10px;
 }
 
 .btn-outline {
