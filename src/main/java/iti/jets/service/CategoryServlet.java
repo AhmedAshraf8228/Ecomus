@@ -38,7 +38,6 @@ public class CategoryServlet extends HttpServlet {
 
             if (categoryIdParam != null) {
                 int categoryId = Integer.parseInt(categoryIdParam);
-                ln("\n\n\t"+categoryId+"\n\n\t");
                 Category category = (Category) categoryRepo.findById(categoryId);
 
                 if (category != null) {

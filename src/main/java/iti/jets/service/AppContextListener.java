@@ -14,7 +14,6 @@ public class AppContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         // You can add any initialization code here if needed
-        ln("Application Initialized.");
         new GenericRepoImpl(Product.class);
     }
 
@@ -24,11 +23,9 @@ public class AppContextListener implements ServletContextListener {
         try {
             // Deregister JDBC drivers
 //            DriverManager.deregisterDriver(DriverManager.getDriver("jdbc:mysql://localhost:3306/mindmaze"));
-//            ln("JDBC Driver unregistered.");
 
             // Stop MySQL's abandoned connection cleanup thread to avoid memory leak
             AbandonedConnectionCleanupThread.uncheckedShutdown();
-            ln("Abandoned connection cleanup thread stopped.");
 
             // If you're using Hibernate, make sure to shut down the session factory or any other resource pools here
 

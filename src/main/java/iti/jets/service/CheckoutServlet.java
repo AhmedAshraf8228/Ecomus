@@ -70,7 +70,6 @@ public class CheckoutServlet extends HttpServlet {
             
         } catch (Exception e) {
        
-            System.err.println("Error in CheckoutServlet: " + e.getMessage());
             e.printStackTrace();
         
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

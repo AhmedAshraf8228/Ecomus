@@ -16,10 +16,8 @@ public class Starter
 ////        String password = "123456";
 ////        try {
 ////            boolean flag = userRepo.getUserByEmail(email, password);
-////            ln(flag);
 ////        }catch (Exception e){
 ////            e.printStackTrace();
-////          ln("Exception");
 ////        }finally {
 ////            em.close();
 ////        }

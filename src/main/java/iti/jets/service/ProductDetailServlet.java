@@ -24,8 +24,6 @@ public class ProductDetailServlet extends HttpServlet {
         List<String> imagesList = loadProductImages(productId, getServletContext());
         request.setAttribute("imgList", imagesList);
 
-        ln(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + product);
-        ln(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + imagesList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/productDetail.jsp");
         dispatcher.forward(request, response);
     }

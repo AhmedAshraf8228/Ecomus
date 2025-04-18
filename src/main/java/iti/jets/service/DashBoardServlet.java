@@ -39,7 +39,6 @@ public class DashBoardServlet extends HttpServlet {
             responseData.put("totalUsers", totalUsers);
             responseData.put("totalCategories", totalCategories);
 
-            ln(responseData);
             String jsonResponse = objectMapper.writeValueAsString(responseData);
 
             response.setContentType("application/json");

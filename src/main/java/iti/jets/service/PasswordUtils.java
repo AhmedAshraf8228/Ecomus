@@ -99,10 +99,8 @@ public class PasswordUtils {
 
         // Hash the password
         String hashedPassword = hashPassword(password);
-        ln("Hashed Password: " + hashedPassword);
 
         // Check the password
         boolean isPasswordCorrect = checkPassword(password, hashedPassword);
-        ln("Password valid: " + isPasswordCorrect);
     }
 }
